@@ -63,3 +63,8 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+.utmp/
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp.csproj
+Packages/manifest.json
+Packages/packages-lock.json
