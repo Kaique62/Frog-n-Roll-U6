@@ -92,8 +92,6 @@ public class PlayerController : MonoBehaviour
 
     void HandleJump()
     {
-        if (isRolling || isAttacking || isCrouching) return;
-
         // Verifica se pode pular usando Coyote Time e Jump Buffer
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
@@ -132,7 +130,7 @@ public class PlayerController : MonoBehaviour
 
     void HandleAttack()
     {
-        if (isRolling || isAttacking) return;
+        if (isRolling) return;
 
         if (isCrouching) ExitCrouch();
 
@@ -164,7 +162,7 @@ public class PlayerController : MonoBehaviour
 
     void HandleRoll()
     {
-        if (isAttacking || isRolling || !isGrounded) return;
+        if (isRolling || !isGrounded) return;
 
         if (Input.GetKeyDown(KeyCode.K))
         {
@@ -266,25 +264,6 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Die");
         rb.linearVelocity = Vector2.zero;
     }
-
-    void CheckGrounded()
-    {
-        // Verifica com Raycast e pequena caixa de overlap para mais precisão
-        float rayLength = 0.1f;
-        RaycastHit2D hit = Physics2D.BoxCast(
-            GetComponent<Collider2D>().bounds.center,
-            GetComponent<Collider2D>().bounds.size * 0.9f,
-            0f,
-            Vector2.down,
-            rayLength,
-            LayerMask.GetMask("Ground")
-        );
-        
-        isGrounded = hit.collider != null;
-        
-        // Opcional: Debug visual
-        Debug.DrawRay(transform.position, Vector2.down * rayLength, isGrounded ? Color.green : Color.red);
-}
 
     void OnCollisionEnter2D(Collision2D collision)
     {
