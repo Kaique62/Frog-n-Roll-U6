@@ -55,16 +55,16 @@ public class PlayerController : MonoBehaviour
         if (isDead) return;
 
         HandleCoyoteTime();
+        HandleCrouch();
         HandleMovement();
         HandleJump();
-        HandleCrouch();
         HandleAttack();
         HandleRoll();
     }
 
     void HandleMovement()
     {
-        if (isRolling || isAttacking || isCrouching) return;
+        if (isRolling || isAttacking) return;
 
         float moveInput = 0f;
         if (Input.GetKey(KeyCode.A)) // Mover para a esquerda
@@ -130,18 +130,18 @@ public class PlayerController : MonoBehaviour
 
     void HandleAttack()
     {
-        if (isRolling) return;
+        if (isAttacking) return;
 
         if (isCrouching) ExitCrouch();
 
-        // Soco para cima (J + W)
-        if (Input.GetKeyDown(KeyCode.I) && isGrounded)
+        // Soco para cima (I)
+        if (Input.GetKeyDown(KeyCode.I))
         {
             StartCoroutine(PerformUppercut());
             animator.SetTrigger("Uppercut");
         }
         // Chute para baixo (S + L no ar)
-        else if (Input.GetKeyDown(KeyCode.L) && Input.GetKey(KeyCode.S) && !isGrounded)
+        else if (!isGrounded && Input.GetKeyDown(KeyCode.L) && Input.GetKey(KeyCode.S)  )
         {
             StartCoroutine(PerformStomp());
             animator.SetTrigger("Stomp");
@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour
 
     void HandleRoll()
     {
-        if (isRolling || !isGrounded) return;
+        if (!isGrounded) return;
 
         if (Input.GetKeyDown(KeyCode.K))
         {
