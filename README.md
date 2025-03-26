@@ -1,6 +1,6 @@
 # Frog'n Roll
 
-![Frog'n Roll Logo](omegaLogo.png =200x200)
+<img src="omegaLogo.png" alt="Frog'n Roll Logo" width="200" height="200">
 
 ## Sobre o Jogo
 Frog'n Roll é um emocionante jogo de plataforma rítmico desenvolvido na Unity 6. Controle um sapo que ama música e sincronize seus movimentos com a batida para superar desafios, derrotar inimigos e enfrentar chefes épicos. O jogo combina ação rítmica e mecânicas clássicas de plataforma para proporcionar uma experiência única e envolvente.
