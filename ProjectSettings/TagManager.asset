@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Rope
+  - Enemy
+  - PlayerAttackHitbox
   layers:
   - Default
   - TransparentFX

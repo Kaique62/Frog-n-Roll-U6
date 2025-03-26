@@ -271,7 +271,13 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
+        
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("derrota");
+        }
     }
+
 
     void OnCollisionExit2D(Collision2D collision)
     {
