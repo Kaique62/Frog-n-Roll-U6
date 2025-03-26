@@ -1,77 +1,341 @@
 using UnityEngine;
+using System.Collections;
 
-public class PlayerSwingHinge : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Player Movement")]
-    public float speed = 5f;
-    public float jumpForce = 7f;
+    public float moveSpeed = 5f;
+    public float jumpForce = 10f;
+    public float rollDistance = 3f;
+    public float rollDuration = 0.5f;
+    public float attackDuration = 0.3f;
+    public float stompFallSpeed = 15f;
+    public float uppercutJumpForce = 7f;
+    public float coyoteTime = 0.15f;  // Tempo que o jogador ainda pode pular depois de sair do chão
+    public float jumpBufferTime = 0.1f;  // Tempo que o input de pulo fica "armazenado" antes de tocar no chão
+    private float coyoteTimeCounter;
+    private float jumpBufferCounter;
+    private bool wasGroundedLastFrame;
     private Rigidbody2D rb;
+    private Animator animator;
     private bool isGrounded;
-    private Vector2 lastVelocity;
+    private bool isRolling;
+    private bool isAttacking;
+    private bool isCrouching;
+    private bool isDead;
 
-    [Header("Swinging Mechanics")]
-    public float swingForceMultiplier = 1.2f; // Apenas para a força na corda
-    public Transform ropeDetectionPoint; // Objeto externo para detecção
-    public float detectionRadius = 0.5f;
-    private HingeJoint2D hingeJoint;
+    // Hitboxes
+    public GameObject punchHitbox;
+    public GameObject kickHitbox;
+    public GameObject uppercutHitbox;
+    public GameObject stompHitbox;
+
+    // Colisor original
+    private Vector2 originalColliderSize;
+    private Vector2 originalColliderOffset;
+
+    // Rope Swing Variables
+    [Header("Rope Swing Settings")]
+    public Transform ropeDetectionPoint;    // Objeto externo para detectar a corda
+    public float detectionRadius = 0.5f;      // Raio de detecção da corda
+    public float swingForceMultiplier = 1.2f; // Multiplicador aplicado à força na corda
     private bool isSwinging = false;
-    private Rigidbody2D connectedRopeSegment;
     private bool canAttach = true;
+    private HingeJoint2D ropeHinge;
+    private Rigidbody2D connectedRopeSegment;
+    private Vector2 lastVelocity; // Guarda o momentum do jogador
 
-    private void Start()
+    void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        hingeJoint = gameObject.AddComponent<HingeJoint2D>();
-        hingeJoint.enabled = false;
+        animator = GetComponent<Animator>();
+        punchHitbox.SetActive(false);
+        kickHitbox.SetActive(false);
+        uppercutHitbox.SetActive(false);
+        stompHitbox.SetActive(false);
+
+        // Salvar o tamanho e offset original do colisor
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        originalColliderSize = collider.size;
+        originalColliderOffset = collider.offset;
+
+        // Cria o hinge joint para rope swing e inicia desativado
+        ropeHinge = gameObject.AddComponent<HingeJoint2D>();
+        ropeHinge.enabled = false;
     }
 
-    private void Update()
+    void Update()
     {
+        if (isDead) return;
+
+        // Se estiver pendurado na corda, apenas permite o desprendimento
         if (isSwinging)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W))
             {
                 DetachFromRope();
             }
+            return;
         }
         else
         {
-            HandleMovement();
-
+            // Tenta se prender à corda se pressionar "E"
             if (Input.GetKeyDown(KeyCode.E) && canAttach)
             {
                 TryAttachToRope();
             }
         }
+
+        HandleCoyoteTime();
+        HandleCrouch();
+        HandleMovement();
+        HandleJump();
+        HandleAttack();
+        HandleRoll();
     }
 
-    private void HandleMovement()
+    void HandleMovement()
     {
-        float move = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector2(move * speed, rb.linearVelocity.y);
+        // Se estiver rolando ou atacando, não movimenta
+        if (isRolling || isAttacking) return;
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        float moveInput = 0f;
+        if (Input.GetKey(KeyCode.A)) // Mover para a esquerda
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            moveInput = -1f;
+        }
+        else if (Input.GetKey(KeyCode.D)) // Mover para a direita
+        {
+            moveInput = 1f;
         }
 
+        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+        animator.SetBool("isRunning", moveInput != 0);
+
+        // Flip do sprite
+        if (moveInput > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (moveInput < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+
+        // Armazena a velocidade atual para usar no rope swing
         lastVelocity = rb.linearVelocity;
     }
 
-    private void TryAttachToRope()
+    void HandleJump()
+    {
+        // Verifica se pode pular usando Coyote Time e Jump Buffer
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
+        {
+            if (isCrouching) ExitCrouch();
+
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            animator.SetTrigger("Jump");
+
+            // Reseta os contadores
+            jumpBufferCounter = 0f;
+            coyoteTimeCounter = 0f;
+        }
+    }
+
+    void HandleCrouch()
+    {
+        if (isRolling || !isGrounded) return;
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            if (!isCrouching)
+            {
+                isCrouching = true;
+                animator.SetBool("isCrouching", true);
+
+                BoxCollider2D collider = GetComponent<BoxCollider2D>();
+                collider.size = new Vector2(originalColliderSize.x, originalColliderSize.y / 2);
+                collider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y - originalColliderSize.y / 4);
+            }
+        }
+        else if (isCrouching)
+        {
+            ExitCrouch();
+        }
+    }
+
+    void HandleAttack()
+    {
+        if (isAttacking) return;
+
+        if (isCrouching) ExitCrouch();
+
+        // Soco para cima (I)
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            StartCoroutine(PerformUppercut());
+            animator.SetTrigger("Uppercut");
+        }
+        // Chute para baixo (S + L no ar)
+        else if (!isGrounded && Input.GetKeyDown(KeyCode.L) && Input.GetKey(KeyCode.S))
+        {
+            StartCoroutine(PerformStomp());
+            animator.SetTrigger("Stomp");
+        }
+        // Soco normal (J)
+        else if (Input.GetKeyDown(KeyCode.J))
+        {
+            StartCoroutine(PerformAttack(punchHitbox));
+            animator.SetTrigger("Punch");
+        }
+        // Chute normal (L)
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            StartCoroutine(PerformAttack(kickHitbox));
+            animator.SetTrigger("Kick");
+        }
+    }
+
+    void HandleRoll()
+    {
+        if (!isGrounded) return;
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (isCrouching) ExitCrouch();
+            StartCoroutine(PerformRoll());
+            animator.SetTrigger("Roll");
+        }
+    }
+
+    void ExitCrouch()
+    {
+        isCrouching = false;
+        animator.SetBool("isCrouching", false);
+
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        collider.size = originalColliderSize;
+        collider.offset = originalColliderOffset;
+    }
+
+    void HandleCoyoteTime()
+    {
+        // Atualiza o Coyote Time
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        // Atualiza o Jump Buffer
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        wasGroundedLastFrame = isGrounded;
+    }
+
+    IEnumerator PerformAttack(GameObject hitbox)
+    {
+        isAttacking = true;
+        hitbox.SetActive(true);
+        yield return new WaitForSeconds(attackDuration);
+        hitbox.SetActive(false);
+        isAttacking = false;
+    }
+
+    IEnumerator PerformUppercut()
+    {
+        isAttacking = true;
+        uppercutHitbox.SetActive(true);
+        yield return new WaitForSeconds(attackDuration);
+        uppercutHitbox.SetActive(false);
+        isAttacking = false;
+    }
+
+    IEnumerator PerformStomp()
+    {
+        isAttacking = true;
+        stompHitbox.SetActive(true);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, -stompFallSpeed);
+        yield return new WaitForSeconds(attackDuration);
+        stompHitbox.SetActive(false);
+        isAttacking = false;
+    }
+
+    IEnumerator PerformRoll()
+    {
+        isRolling = true;
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        collider.size = new Vector2(originalColliderSize.x, originalColliderSize.y / 2);
+        collider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y - originalColliderSize.y / 4);
+
+        float rollSpeed = rollDistance / rollDuration;
+        rb.linearVelocity = new Vector2(transform.localScale.x * rollSpeed, rb.linearVelocity.y);
+        yield return new WaitForSeconds(rollDuration);
+
+        collider.size = originalColliderSize;
+        collider.offset = originalColliderOffset;
+        rb.linearVelocity = Vector2.zero;
+        isRolling = false;
+    }
+
+    public void Die()
+    {
+        isDead = true;
+        animator.SetTrigger("Die");
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("derrota");
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
+
+    // ================= Rope Swing Functions =================
+
+    void TryAttachToRope()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(ropeDetectionPoint.position, detectionRadius);
         foreach (var collider in colliders)
         {
             if (collider.CompareTag("Rope"))
             {
-                AttachToRope(collider.GetComponent<Rigidbody2D>());
-                return;
+                Rigidbody2D ropeRb = collider.GetComponent<Rigidbody2D>();
+                if (ropeRb != null)
+                {
+                    AttachToRope(ropeRb);
+                    return;
+                }
             }
         }
     }
 
-    private void AttachToRope(Rigidbody2D ropeSegment)
+    void AttachToRope(Rigidbody2D ropeSegment)
     {
         if (isSwinging) return;
 
@@ -79,40 +343,26 @@ public class PlayerSwingHinge : MonoBehaviour
         canAttach = false;
         connectedRopeSegment = ropeSegment;
 
-        // Aplicar força na corda com o multiplicador
+        // Aplica o momentum do jogador na corda com o multiplicador (afeta apenas a corda)
         connectedRopeSegment.linearVelocity = lastVelocity * swingForceMultiplier;
 
-        // Conectar ao hinge joint sem modificar a posição do jogador
-        hingeJoint.connectedBody = ropeSegment;
-        hingeJoint.autoConfigureConnectedAnchor = false;
-        hingeJoint.anchor = transform.InverseTransformPoint(ropeSegment.position); // Mantém a posição do jogador
-        hingeJoint.connectedAnchor = Vector2.zero;
-        hingeJoint.enabled = true;
+        // Conecta o hinge joint à corda sem alterar a posição do jogador
+        ropeHinge.connectedBody = ropeSegment;
+        ropeHinge.autoConfigureConnectedAnchor = false;
+        // Define o ponto de conexão na posição de detecção, preservando a posição atual do jogador
+        Vector2 localAnchor = transform.InverseTransformPoint(ropeDetectionPoint.position);
+        ropeHinge.anchor = localAnchor;
+        ropeHinge.connectedAnchor = Vector2.zero;
+        ropeHinge.enabled = true;
     }
 
-    private void DetachFromRope()
+    void DetachFromRope()
     {
         isSwinging = false;
-        hingeJoint.enabled = false;
+        ropeHinge.enabled = false;
         canAttach = true;
 
-        // Transferir momentum ao soltar sem afetar o salto
+        // Transfere o momentum da corda para o jogador
         rb.linearVelocity = connectedRopeSegment.linearVelocity;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
     }
 }

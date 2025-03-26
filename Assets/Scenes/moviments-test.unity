@@ -181,7 +181,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 1.5411687, y: -0.05230516}
+  m_ConnectedAnchor: {x: 1.5411687, y: -0.05230495}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -391,7 +391,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -3.19372, y: 7.7892714}
+  m_ConnectedAnchor: {x: -1.1937201, y: 7.7892714}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -544,7 +544,7 @@ Transform:
   m_GameObject: {fileID: 340426080}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -4.4, z: 0}
+  m_LocalPosition: {x: -16, y: -4.4, z: 0}
   m_LocalScale: {x: 21.798069, y: 1.1997283, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -678,7 +678,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.9322432, y: -0.031634673}
+  m_ConnectedAnchor: {x: 0.9322432, y: -0.031635094}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -1006,11 +1006,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af37a2639d554bd459020934a181de15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  moveSpeed: 5
   jumpForce: 7
-  swingForceMultiplier: 1.2
-  ropeDetectionPoint: {fileID: 0}
+  rollDistance: 3
+  rollDuration: 0.5
+  attackDuration: 0.3
+  stompFallSpeed: 15
+  uppercutJumpForce: 7
+  coyoteTime: 0.15
+  jumpBufferTime: 0.1
+  punchHitbox: {fileID: 252230425}
+  kickHitbox: {fileID: 871501296}
+  uppercutHitbox: {fileID: 1214176066}
+  stompHitbox: {fileID: 2050323258}
+  ropeDetectionPoint: {fileID: 469204062}
   detectionRadius: 0.5
+  swingForceMultiplier: 1.2
 --- !u!95 &941780474
 Animator:
   serializedVersion: 7
@@ -1170,7 +1181,7 @@ Transform:
   m_GameObject: {fileID: 941780472}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.1499996, y: -1.22, z: 0.008982225}
+  m_LocalPosition: {x: -6.1499996, y: 2.78, z: 0.008982225}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1178,7 +1189,6 @@ Transform:
   - {fileID: 1214176068}
   - {fileID: 2050323260}
   - {fileID: 871501297}
-  - {fileID: 1751792263}
   - {fileID: 469204062}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1270,7 +1280,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 1.2752671, y: -0.04328298}
+  m_ConnectedAnchor: {x: 1.2752671, y: -0.043282557}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -1817,7 +1827,7 @@ Transform:
   m_GameObject: {fileID: 1506430533}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.89, y: -3.29, z: 0}
+  m_LocalPosition: {x: 13.89, y: -4.29, z: 0}
   m_LocalScale: {x: 21.798069, y: 1.1997283, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1885,7 +1895,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 1.5601959, y: -0.052952174}
+  m_ConnectedAnchor: {x: 1.5601959, y: -0.052952386}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -2018,7 +2028,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 1.5415237, y: -0.05231965}
+  m_ConnectedAnchor: {x: 1.5415237, y: -0.05231986}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -2089,37 +2099,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
---- !u!1 &1751792262
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1751792263}
-  m_Layer: 0
-  m_Name: ropeAttachmentPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1751792263
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1751792262}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 941780478}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1764874555
 GameObject:
   m_ObjectHideFlags: 0
@@ -2364,7 +2343,7 @@ Transform:
   m_GameObject: {fileID: 1786265196}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.14, y: 4.19, z: 0}
+  m_LocalPosition: {x: -1.1400001, y: 4.19, z: 0}
   m_LocalScale: {x: 0.5644, y: 0.5644, z: 0.5644}
   m_ConstrainProportionsScale: 0
   m_Children:
