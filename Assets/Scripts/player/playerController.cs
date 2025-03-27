@@ -244,10 +244,22 @@ public class PlayerController : MonoBehaviour
         wasGroundedLastFrame = isGrounded;
     }
 
-    IEnumerator PerformAttack(GameObject hitbox)
+   IEnumerator PerformAttack(GameObject hitbox)
     {
         isAttacking = true;
         hitbox.SetActive(true);
+        
+        // Verifica se atingiu um inimigo
+        Collider2D[] hits = Physics2D.OverlapBoxAll(hitbox.transform.position, hitbox.GetComponent<BoxCollider2D>().size, 0);
+        foreach (Collider2D hit in hits)
+        {
+            Debug.Log(hit);
+            if (hit.CompareTag("Enemy"))
+            {
+                hit.GetComponent<EnemyController>().TakeDamage();
+            }
+        }
+        
         yield return new WaitForSeconds(attackDuration);
         hitbox.SetActive(false);
         isAttacking = false;

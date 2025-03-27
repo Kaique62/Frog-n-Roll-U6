@@ -1,40 +1,51 @@
 using UnityEngine;
 
-public class BaseEnemy : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
-    // Variável pública para a vida do inimigo
-    public int health = 1;
+    private bool canTakeDamage = true;
+    private Transform player;
+    private SpriteRenderer spriteRenderer;
 
-    // Start é chamado uma vez antes do primeiro frame
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Update é chamado a cada frame
     void Update()
     {
-        
+        // Verifica a posição do player e vira o sprite
+        if (player.position.x < transform.position.x) // Player está à esquerda
+        {
+            spriteRenderer.flipX = false; // Ou transform.localScale = new Vector3(1, 1, 1);
+        }
+        else // Player está à direita
+        {
+            spriteRenderer.flipX = true; // Ou transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 
-    // Detecta colisões com o inimigo
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(health);
-        // Se colidir com o objeto de ataque do jogador...
-        if (collision.gameObject.CompareTag("PlayerAttackHitbox"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            // Reduz a vida em 1
-            health--;
-
-            // Imprime a vida restante (opcional para debug)
-            Debug.Log("Inimigo atingido! Vida restante: " + health);
-
-            // Se a vida chegar a 0 ou menos, destrói o inimigo
-            if (health <= 0)
+            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+            if (player != null)
             {
-                Destroy(gameObject);
+                //player.Die();
             }
         }
     }
+
+    public void TakeDamage()
+    {
+        if (!canTakeDamage) return;
+        
+        canTakeDamage = false;
+        Invoke("ResetDamage", 0.5f); // 0.5s de cooldown
+        Destroy(gameObject);
+        Debug.Log("Morreu");
+    }
+
+    void ResetDamage() => canTakeDamage = true;
 }
