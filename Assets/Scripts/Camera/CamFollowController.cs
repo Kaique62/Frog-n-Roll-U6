@@ -54,14 +54,16 @@ public class CameraFollowPoints : MonoBehaviour
             CameraPointController targetPoint = cameraPoints[currentPointIndex];
             float speed = targetPoint.moveSpeed;
             Vector3 targetPosition = new Vector3(targetPoint.transform.position.x, targetPoint.transform.position.y, transform.position.z);
-            
+
+            // Aguarda o tempo de espera antes de começar a se mover
+            yield return new WaitForSeconds(targetPoint.waitTime);
+
             while (Vector3.Distance(transform.position, targetPosition) > 0.05f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
                 yield return null;
             }
 
-            yield return new WaitForSeconds(targetPoint.waitTime);
             currentPointIndex++;
         }
     }

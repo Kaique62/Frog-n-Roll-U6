@@ -66,10 +66,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\scenario\moving_platform.cs" />
+    <Compile Include="Assets\Scripts\Camera\CamFollowController.cs" />
     <Compile Include="Assets\Auto Letterbox\Util.cs" />
+    <Compile Include="Assets\Scripts\Level\levelOneController.cs" />
     <Compile Include="Assets\Scripts\player\playerController.cs" />
     <Compile Include="Assets\Auto Letterbox\ForceCameraRatio.cs" />
-    <Compile Include="Assets\Scripts\Camera\CamFollowPoints.cs" />
     <Compile Include="Assets\Scripts\Camera\CamPointSettings.cs" />
     <Compile Include="Assets\Scripts\Enemies\Base\BaseEnemy.cs" />
   </ItemGroup>
