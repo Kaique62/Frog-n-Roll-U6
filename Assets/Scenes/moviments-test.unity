@@ -1101,6 +1101,7 @@ MonoBehaviour:
   ropeDetectionPoint: {fileID: 469204062}
   detectionRadius: 0.5
   swingForceMultiplier: 3
+  releaseJumpBoost: 5
 --- !u!95 &941780474
 Animator:
   serializedVersion: 7

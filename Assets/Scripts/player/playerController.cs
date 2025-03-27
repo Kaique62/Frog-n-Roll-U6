@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public Transform ropeDetectionPoint;    // Objeto externo para detectar a corda
     public float detectionRadius = 0.5f;      // Raio de detecção da corda
     public float swingForceMultiplier = 1.2f; // Multiplicador aplicado à força na corda
+    public float releaseJumpBoost = 5f;
     private bool isSwinging = false;
     private bool canAttach = true;
     private HingeJoint2D ropeHinge;
@@ -362,7 +363,7 @@ public class PlayerController : MonoBehaviour
         ropeHinge.enabled = false;
         canAttach = true;
 
-        // Transfere o momentum da corda para o jogador
         rb.linearVelocity = connectedRopeSegment.linearVelocity;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y + releaseJumpBoost);
     }
 }
