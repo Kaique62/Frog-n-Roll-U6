@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private bool isGrounded;
-    private bool isRolling;
+    public bool isRolling;
     private bool isAttacking;
     private bool isCrouching;
     private bool isDead;
