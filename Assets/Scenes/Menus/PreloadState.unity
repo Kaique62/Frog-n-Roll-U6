@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a4aca93b0665240b33262beb871a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Song: 
+  Song: Demo
 --- !u!4 &1821802110
 Transform:
   m_ObjectHideFlags: 0

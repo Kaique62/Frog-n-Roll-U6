@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\Camera\CamPointSettings.cs" />
     <Compile Include="Assets\Scripts\Enemies\Base\BaseEnemy.cs" />
     <Compile Include="Assets\Packages\Auto Letterbox\Util.cs" />
+    <Compile Include="Assets\Scripts\Level\SmartAutoLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

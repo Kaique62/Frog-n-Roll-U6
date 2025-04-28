@@ -804,6 +804,7 @@ GameObject:
   - component: {fileID: 658214236}
   - component: {fileID: 658214235}
   - component: {fileID: 658214234}
+  - component: {fileID: 658214237}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -872,6 +873,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &658214237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658214233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabd1e032035c54eb60726df2042c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteName: 
+  fallbackSprite: {fileID: 3986868280124698531, guid: 38ec5feed8bda5442874e63cff0844bc, type: 3}
+  useAsyncLoad: 1
 --- !u!1 &736472117
 GameObject:
   m_ObjectHideFlags: 0
@@ -2854,7 +2870,7 @@ SpriteRenderer:
   m_Size: {x: 6.25, y: 15.625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1786265199
