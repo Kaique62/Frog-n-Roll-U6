@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      tamandua_0: -8067739859969224209
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

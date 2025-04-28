@@ -6,103 +6,82 @@ using UnityEngine.SceneManagement;
 public class LevelPreload : MonoBehaviour
 {
     [Header("Preload Settings")]
-    public string Song = "";  // The name of the song, used to determine the folder and the scene to load.
-    
-    private AudioSource audioSource;  // Reference to the AudioSource for playing music
-    private Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();  // Cache for sprites
+    public string Song = "";
 
-    private void Awake()
-    {
-        // Ensure we have an AudioSource component attached to the same GameObject
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            Debug.LogError("[Preloader] No AudioSource component found on this GameObject.");
-        }
-    }
+    // Static cache accessible from anywhere
+    public static Dictionary<string, Sprite> SpriteCache { get; private set; }
+    public static AudioClip MusicClip { get; private set; }
 
     private void Start()
     {
+        SpriteCache = new Dictionary<string, Sprite>();
         StartCoroutine(PreloadFiles());
     }
 
     IEnumerator PreloadFiles()
     {
-        // Define the folder path inside Resources, corresponding to the song
         string spritesFolderPath = "Preload/" + Song;
         string musicFilePath = "Musics/" + Song;
 
-        Debug.Log($"[Preloader] Starting preload from Resources folder: {spritesFolderPath} for sprites and {musicFilePath} for music.");
+        Debug.Log($"[Preloader] Starting preload from: {spritesFolderPath}");
 
-        // Try to load all sprites from Resources/Preload/Song folder
+        // Load Sprites
         var sprites = Resources.LoadAll<Sprite>(spritesFolderPath);
-
-        if (sprites.Length == 0)
+        if (sprites.Length > 0)
         {
-            // If no sprites were found in the folder, log a warning and skip to the next scene
-            Debug.LogWarning($"[Preloader] No assets found in Resources/{spritesFolderPath}. Skipping preload.");
-        }
-        else
-        {
-            // Cache the loaded sprites
             foreach (var sprite in sprites)
             {
-                spriteCache[sprite.name] = sprite;
+                SpriteCache[sprite.name] = sprite;
                 Debug.Log($"[Preloader] Cached sprite: {sprite.name}");
-                yield return null;  // Optional delay, good for visual loading screens
+                yield return null;
             }
-        }
-
-        // Try to load the music from Resources/Musics/Song.mp3
-        AudioClip musicClip = Resources.Load<AudioClip>(musicFilePath);
-
-        if (musicClip != null)
-        {
-            // If the music file is found, load and play it
-            audioSource.clip = musicClip;
-            audioSource.Play();
-            Debug.Log($"[Preloader] Music loaded and playing: {Song}");
         }
         else
         {
-            Debug.LogWarning($"[Preloader] Failed to load music: {musicFilePath}");
+            Debug.LogWarning($"[Preloader] No sprites found at: {spritesFolderPath}");
         }
 
-        Debug.Log("[Preloader] Finished preloading all files!");
+        // Load Music
+        MusicClip = Resources.Load<AudioClip>(musicFilePath);
+        if (MusicClip != null)
+        {
+            Debug.Log($"[Preloader] Music loaded: {MusicClip.name}");
+        }
+        else
+        {
+            Debug.LogWarning($"[Preloader] Failed to load music at: {musicFilePath}");
+        }
 
-        // After preloading finishes, load the next scene
         LoadNextScene();
     }
 
-    // Function to get cached sprite by key
-    public Sprite GetCachedSprite(string key)
-    {
-        if (spriteCache.ContainsKey(key))
-        {
-            return spriteCache[key];
-        }
-        else
-        {
-            Debug.LogWarning($"[Preloader] Sprite with key '{key}' not found in cache.");
-            return null;
-        }
-    }
-
-    // Function to load the next scene based on the Song name
     private void LoadNextScene()
     {
-        string sceneName = "Scenes/Levels/" + Song;  // Assuming the scene name is "Levels/Song"
-        Debug.Log($"[Preloader] Loading next scene: {sceneName}");
-
-        // Check if the scene exists in the build settings
+        string sceneName = "Scenes/Levels/" + Song;
         if (Application.CanStreamedLevelBeLoaded(sceneName))
         {
             SceneManager.LoadScene(sceneName);
-            Debug.Log($"[Preloader] Scene loaded successfully: {sceneName}");
         }
         else
         {
             Debug.LogError($"[Preloader] Scene not found: {sceneName}");
         }
+    }
+
+    // Helper methods for convenience
+    public static Sprite GetSprite(string key)
+    {
+        if (SpriteCache != null && SpriteCache.TryGetValue(key, out var sprite))
+        {
+            return sprite;
+        }
+        Debug.LogWarning($"[Preloader] Sprite '{key}' not found in cache");
+        return null;
+    }
+
+    public static bool TryGetSprite(string key, out Sprite sprite)
+    {
+        sprite = null;
+        return SpriteCache != null && SpriteCache.TryGetValue(key, out sprite);
     }
 }
