@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.J))
         {
             StartCoroutine(PerformAttack(punchHitbox));
-            animator.SetTrigger("Punch");
+            animator.Play("Punch");
         }
         // Chute normal (L)
         else if (Input.GetKeyDown(KeyCode.L))
@@ -263,6 +263,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(attackDuration);
         hitbox.SetActive(false);
         isAttacking = false;
+        
     }
 
     IEnumerator PerformUppercut()
