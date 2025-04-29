@@ -6,10 +6,10 @@ public class UniversalSmartLoader : MonoBehaviour
     public bool processSprites = true;
     public bool processAudio = true;
     public bool destroyInvalidObjects = false;
-    
+
     [Header("Debug")]
     public bool logDetails = true;
-    
+
     private void Start()
     {
         ProcessAllObjects();
@@ -17,33 +17,29 @@ public class UniversalSmartLoader : MonoBehaviour
 
     private void ProcessAllObjects()
     {
-        // Get all root objects in the scene
-        GameObject[] rootObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+        var rootObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
 
         foreach (GameObject rootObj in rootObjects)
         {
-            // Skip the loader's own hierarchy to avoid infinite loops
             if (rootObj.transform == this.transform || rootObj.transform.IsChildOf(this.transform))
                 continue;
 
-            // Process all children recursively
             ProcessObject(rootObj);
         }
     }
 
     private void ProcessObject(GameObject targetObj)
     {
-        // Skip inactive objects
         if (!targetObj.activeInHierarchy)
             return;
 
-        // Process SpriteRenderers
+        // SpriteRenderer logic
         if (processSprites)
         {
-            SpriteRenderer spriteRenderer = targetObj.GetComponent<SpriteRenderer>();
+            var spriteRenderer = targetObj.GetComponent<SpriteRenderer>();
             if (spriteRenderer != null && !string.IsNullOrEmpty(targetObj.name))
             {
-                if (LevelPreload.TryGetSprite(targetObj.name, out Sprite sprite))
+                if (LevelPreload.TryGetSprite(targetObj.name, out var sprite))
                 {
                     spriteRenderer.sprite = sprite;
                     if (logDetails)
@@ -53,25 +49,33 @@ public class UniversalSmartLoader : MonoBehaviour
                 {
                     Debug.LogWarning($"[UniversalLoader] Destroying {targetObj.name} - sprite not found", targetObj);
                     Destroy(targetObj);
-                    return; // Skip further processing if destroyed
+                    return;
                 }
             }
         }
 
-        // Process AudioSources
+        // AudioSource logic
         if (processAudio)
         {
-            AudioSource audioSource = targetObj.GetComponent<AudioSource>();
-            if (audioSource != null && LevelPreload.MusicClip != null)
+            var audioSource = targetObj.GetComponent<AudioSource>();
+            if (audioSource != null && !string.IsNullOrEmpty(targetObj.name))
             {
-                audioSource.clip = LevelPreload.MusicClip;
-                audioSource.Play();
-                if (logDetails)
-                    Debug.Log($"[UniversalLoader] Playing music on {targetObj.name}", targetObj);
+                if (LevelPreload.TryGetAudio(targetObj.name, out var clip))
+                {
+                    audioSource.clip = clip;
+                    if (logDetails)
+                        Debug.Log($"[UniversalLoader] Applied audio '{targetObj.name}' to {targetObj.name}", targetObj);
+                }
+                else if (destroyInvalidObjects)
+                {
+                    Debug.LogWarning($"[UniversalLoader] Destroying {targetObj.name} - audio not found", targetObj);
+                    Destroy(targetObj);
+                    return;
+                }
             }
         }
 
-        // Recursively process children
+        // Recursive processing
         foreach (Transform child in targetObj.transform)
         {
             ProcessObject(child.gameObject);
