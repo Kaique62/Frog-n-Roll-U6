@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public bool isRolling;
     private bool isAttacking;
     private bool isCrouching;
+    private bool isJumping;
     private bool isDead;
 
     // Hitboxes
@@ -135,11 +136,17 @@ public class PlayerController : MonoBehaviour
             if (isCrouching) ExitCrouch();
 
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            animator.SetTrigger("Jump");
+            SetAnimationTrigger("Jump");
+            isJumping = true;
+            animator.SetBool("isJumping", true);
 
             // Reseta os contadores
             jumpBufferCounter = 0f;
             coyoteTimeCounter = 0f;
+        }
+        else if (isJumping) {
+            isJumping = false;
+            animator.SetBool("isJumping", false);
         }
     }
 
@@ -175,25 +182,25 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             StartCoroutine(PerformUppercut());
-            animator.SetTrigger("Uppercut");
+            SetAnimationTrigger("Uppercut");
         }
         // Chute para baixo (S + L no ar)
         else if (!isGrounded && Input.GetKeyDown(KeyCode.L) && Input.GetKey(KeyCode.S))
         {
             StartCoroutine(PerformStomp());
-            animator.SetTrigger("Stomp");
+            SetAnimationTrigger("Stomp");
         }
         // Soco normal (J)
         else if (Input.GetKeyDown(KeyCode.J))
         {
             StartCoroutine(PerformAttack(punchHitbox));
-            animator.Play("Punch");
+            SetAnimationTrigger("Punch");
         }
         // Chute normal (L)
         else if (Input.GetKeyDown(KeyCode.L))
         {
             StartCoroutine(PerformAttack(kickHitbox));
-            animator.SetTrigger("Kick");
+            SetAnimationTrigger("Kick");
         }
     }
 
@@ -205,7 +212,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isCrouching) ExitCrouch();
             StartCoroutine(PerformRoll());
-            animator.SetTrigger("Roll");
+            SetAnimationTrigger("Roll");
         }
     }
 
@@ -242,6 +249,17 @@ public class PlayerController : MonoBehaviour
         }
 
         wasGroundedLastFrame = isGrounded;
+    }
+
+    void SetAnimationTrigger(string trigger)
+    {
+        animator.ResetTrigger("Punch");
+        animator.ResetTrigger("Kick");
+        animator.ResetTrigger("Uppercut");
+        animator.ResetTrigger("Stomp");
+        animator.ResetTrigger("Jump");
+        animator.ResetTrigger("Roll");
+        animator.SetTrigger(trigger);
     }
 
    IEnumerator PerformAttack(GameObject hitbox)
@@ -314,7 +332,7 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         isDead = true;
-        animator.SetTrigger("Die");
+        SetAnimationTrigger("Die");
         rb.linearVelocity = Vector2.zero;
     }
 
