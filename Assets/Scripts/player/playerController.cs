@@ -253,9 +253,18 @@ public class PlayerController : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapBoxAll(hitbox.transform.position, hitbox.GetComponent<BoxCollider2D>().size, 0);
         foreach (Collider2D hit in hits)
         {
-            Debug.Log(hit);
+             Debug.Log(hit);
             if (hit.CompareTag("Enemy"))
             {
+                ActionTimer actionTimer = hit.gameObject.GetComponent<ActionTimer>();
+
+                if (actionTimer != null)
+                {
+                    float delay = actionTimer.Delay;
+                    LevelController.AddScore(delay);
+                    Debug.Log($"[CollisionHandler] Delay of the collided object: {delay:0.00}ms");
+                }       
+
                 hit.GetComponent<EnemyController>().TakeDamage();
             }
         }

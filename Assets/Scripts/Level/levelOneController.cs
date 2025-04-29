@@ -1,63 +1,99 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour
 {
-    public AudioSource musicAudioSource;  // Referência para o AudioSource (música)
-    public float countdownTime = 3f;      // Tempo da contagem regressiva (em segundos)
-    public GameObject countdownUI;       // Referência para a UI da contagem regressiva (se desejar exibir isso)
+    [Header("Audio & Countdown")]
+    public AudioSource musicAudioSource;
+    public float countdownTime = 3f;
+    public GameObject countdownUI;
+
+    [Header("Score System")]
+    public static float score = 0;                          // Current score
+    public static TextMeshPro scoreText;                         // Optional UI Text to display the score
     
+    public static float pointMultiplier = 1;
     void Start()
     {
         StartCoroutine(StartLevel());
+        UpdateScoreUI(); // Initialize score display
     }
 
     IEnumerator StartLevel()
     {
-        // Ativa a UI de contagem regressiva (se necessário)
         if (countdownUI != null)
-        {
             countdownUI.SetActive(true);
-        }
 
-        // Inicia a contagem regressiva
         yield return StartCoroutine(Countdown());
 
-        // Após a contagem regressiva, toca a música
         if (musicAudioSource != null && !musicAudioSource.isPlaying)
         {
             Debug.Log("audioStart");
             musicAudioSource.Play();
         }
 
-        // Aqui você pode chamar funções para iniciar outras ações, como movimentar a câmera
-        // Por exemplo, iniciar a movimentação da câmera ou qualquer outra ação que aconteça após a música começar
-        // StartCoroutine(YourNextActionHere());
+        // You could trigger gameplay start here
     }
 
     IEnumerator Countdown()
     {
         float remainingTime = countdownTime;
 
-        // Exibe a contagem regressiva (opcional)
         while (remainingTime > 0)
         {
             remainingTime -= Time.deltaTime;
 
-            // Atualiza a UI da contagem regressiva (se tiver UI associada)
-            if (countdownUI != null)
-            {
-                // Aqui você pode atualizar a UI de contagem regressiva, por exemplo, usando texto ou barras de progresso
-                // countdownUI.GetComponent<Text>().text = Mathf.Ceil(remainingTime).ToString();
-            }
+            // Optional: update countdown text
+            // if (countdownUI != null) { ... }
 
             yield return null;
         }
 
-        // Desativa a UI de contagem regressiva após o tempo passar (se necessário)
         if (countdownUI != null)
-        {
             countdownUI.SetActive(false);
+    }
+
+    // Call this method to add points to the score
+    public static void AddScore(float delay)
+    {
+        Debug.Log("AddScoreFunctionBeingCalled");
+        float points = 0;
+        if (delay >= 170){ //Perfect
+            points += 1000;
+            pointMultiplier += 0.3f;
+        }
+        else if (delay >= 150 && delay < 170){ // Good
+            points += 700;
+            pointMultiplier += 0.1f;
+        }
+        else if (delay >= 120 && delay < 150){ // Mid
+            points += 500;
+            pointMultiplier = 1;
+        }
+        else {  //Low
+            points += 300;
+            pointMultiplier = 1;
+        }
+        points *= pointMultiplier;
+        score += points;
+        UpdateScoreUI();
+    }
+
+    // Call this to reset the score (if needed)
+    public void ResetScore()
+    {
+        score = 0;
+        UpdateScoreUI();
+    }
+
+    // Updates the UI text (if assigned)
+    public static void UpdateScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score.ToString();
         }
     }
 }
