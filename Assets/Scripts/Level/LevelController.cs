@@ -11,10 +11,11 @@ public class LevelController : MonoBehaviour
     public GameObject countdownUI;
 
     [Header("Score System")]
-    public static float score = 0;                          // Current score
-    public static TextMeshPro scoreText;                         // Optional UI Text to display the score
+    public float score = 0;                          // Current score
+    public TMP_Text scoreText;                         // Optional UI Text to display the score
+    public TMP_Text scoreTextMultiplier;                         // Optional UI Text to display the score
     
-    public static float pointMultiplier = 1;
+    public float pointMultiplier = 1;
     void Start()
     {
         StartCoroutine(StartLevel());
@@ -56,7 +57,7 @@ public class LevelController : MonoBehaviour
     }
 
     // Call this method to add points to the score
-    public static void AddScore(float delay)
+    public void AddScore(float delay)
     {
         Debug.Log("AddScoreFunctionBeingCalled");
         float points = 0;
@@ -78,6 +79,7 @@ public class LevelController : MonoBehaviour
         }
         points *= pointMultiplier;
         score += points;
+        Debug.Log($"[LevelController] Score: {score}");
         UpdateScoreUI();
     }
 
@@ -89,11 +91,12 @@ public class LevelController : MonoBehaviour
     }
 
     // Updates the UI text (if assigned)
-    public static void UpdateScoreUI()
+    public void UpdateScoreUI()
     {
-        if (scoreText != null)
+        if (scoreText != null && scoreTextMultiplier != null)
         {
             scoreText.text = "Score: " + score.ToString();
+            scoreTextMultiplier.text = "Multiplicador: " + pointMultiplier.ToString();
         }
     }
 }
