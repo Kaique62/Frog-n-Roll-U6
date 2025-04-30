@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
 
+    private string currentAnimation = "";
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -82,7 +84,14 @@ public class PlayerController : MonoBehaviour
 
         HandleTimers();
         HandleInputs();
+
+        // Jump animation trigger if in air and not rolling or attacking
+        if (!isGrounded && !isRolling && !isAttacking)
+        {
+            PlayAnimation("Jump");
+        }
     }
+
 
     private void HandleInputs()
     {
@@ -95,17 +104,25 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (isRolling) return;
+        if (isRolling || isAttacking || isSwinging) return;
 
         float moveInput = Input.GetKey(KeyCode.D) ? 1f : Input.GetKey(KeyCode.A) ? -1f : 0f;
         Vector2 velocity = rb.linearVelocity;
         velocity.x = moveInput * moveSpeed;
         rb.linearVelocity = velocity;
 
-        animator.SetBool("isRunning", moveInput != 0);
-
         if (moveInput != 0)
+        {
+            if (isGrounded && !isCrouching)
+                PlayAnimation("Run");
+
             transform.localScale = new Vector3(Mathf.Sign(moveInput), 1, 1);
+        }
+        else
+        {
+            if (isGrounded && !isCrouching && !isAttacking)
+                PlayAnimation("Idle");
+        }
 
         lastVelocity = rb.linearVelocity;
     }
@@ -117,13 +134,11 @@ public class PlayerController : MonoBehaviour
             if (isCrouching) ExitCrouch();
 
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            TriggerAnimation("Jump");
+            PlayAnimation("Jump");
 
             jumpBufferCounter = 0f;
             coyoteTimeCounter = 0f;
         }
-
-        animator.SetBool("isJumping", rb.linearVelocity.y > 0.1f);
     }
 
     private void HandleRoll()
@@ -132,7 +147,6 @@ public class PlayerController : MonoBehaviour
         {
             if (isCrouching) ExitCrouch();
             StartCoroutine(PerformRoll());
-            TriggerAnimation("Roll");
         }
     }
 
@@ -145,41 +159,41 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             StartCoroutine(PerformUppercut());
-            TriggerAnimation("Uppercut");
         }
         else if (!isGrounded && Input.GetKeyDown(KeyCode.L) && Input.GetKey(KeyCode.S))
         {
             StartCoroutine(PerformStomp());
-            TriggerAnimation("Stomp");
         }
         else if (Input.GetKeyDown(KeyCode.J))
         {
-            StartCoroutine(PerformAttack(punchHitbox));
-            TriggerAnimation("Punch");
+            StartCoroutine(PerformAttack(punchHitbox, "Punch"));
         }
         else if (Input.GetKeyDown(KeyCode.L))
         {
-            StartCoroutine(PerformAttack(kickHitbox));
-            TriggerAnimation("Kick");
+            StartCoroutine(PerformAttack(kickHitbox, "Kick"));
         }
     }
 
     private void HandleCrouch()
     {
-        if (isRolling || !isGrounded) return;
+        if (isRolling || isAttacking || !isGrounded) return;
 
-        if (Input.GetKey(KeyCode.S) && !isCrouching)
+        if (Input.GetKey(KeyCode.S))
         {
-            isCrouching = true;
-            animator.SetBool("isCrouching", true);
-            boxCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y / 2);
-            boxCollider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y - originalColliderSize.y / 4);
+            if (!isCrouching)
+            {
+                isCrouching = true;
+                boxCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y / 2);
+                boxCollider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y - originalColliderSize.y / 4);
+                PlayAnimation("Crouch");
+            }
         }
-        else if (!Input.GetKey(KeyCode.S) && isCrouching)
+        else if (isCrouching)
         {
             ExitCrouch();
         }
     }
+
 
     private void HandleTimers()
     {
@@ -195,25 +209,22 @@ public class PlayerController : MonoBehaviour
     private void ExitCrouch()
     {
         isCrouching = false;
-        animator.SetBool("isCrouching", false);
         boxCollider.size = originalColliderSize;
         boxCollider.offset = originalColliderOffset;
+        PlayAnimation("Idle");
     }
 
-    private void TriggerAnimation(string trigger)
+    private void PlayAnimation(string animationName)
     {
-        animator.ResetTrigger("Punch");
-        animator.ResetTrigger("Kick");
-        animator.ResetTrigger("Uppercut");
-        animator.ResetTrigger("Stomp");
-        animator.ResetTrigger("Jump");
-        animator.ResetTrigger("Roll");
-        animator.SetTrigger(trigger);
+        if (currentAnimation == animationName) return;
+        currentAnimation = animationName;
+        animator.Play(animationName);
     }
 
-    IEnumerator PerformAttack(GameObject hitbox)
+    IEnumerator PerformAttack(GameObject hitbox, string animationName)
     {
         isAttacking = true;
+        PlayAnimation(animationName);
         hitbox.SetActive(true);
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(hitbox.transform.position, hitbox.GetComponent<BoxCollider2D>().size, 0);
@@ -237,6 +248,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator PerformUppercut()
     {
         isAttacking = true;
+        PlayAnimation("Punch");
         uppercutHitbox.SetActive(true);
         yield return new WaitForSeconds(attackDuration);
         uppercutHitbox.SetActive(false);
@@ -246,6 +258,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator PerformStomp()
     {
         isAttacking = true;
+        PlayAnimation("DownKick");
         stompHitbox.SetActive(true);
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, -stompFallSpeed);
         yield return new WaitForSeconds(attackDuration);
@@ -256,32 +269,15 @@ public class PlayerController : MonoBehaviour
     IEnumerator PerformRoll()
     {
         isRolling = true;
-        // Enter crouched-collider state
+        PlayAnimation("Roll");
+
         boxCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y / 2);
         boxCollider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y - originalColliderSize.y / 4);
 
-        // Roll movement
         float speed = rollDistance / rollDuration;
         rb.linearVelocity = new Vector2(transform.localScale.x * speed, rb.linearVelocity.y);
         yield return new WaitForSeconds(rollDuration);
 
-        // After roll duration, only extend if something above blocks standing
-        bool blocked;
-        do
-        {
-            blocked = Physics2D.BoxCast(
-                (Vector2)transform.position + boxCollider.offset,
-                originalColliderSize,
-                0f,
-                Vector2.up,
-                0.01f,
-                LayerMask.GetMask("Default")
-            ).collider != null;
-            if (blocked)
-                yield return null;
-        } while (blocked);
-
-        // Restore original collider
         boxCollider.size = originalColliderSize;
         boxCollider.offset = originalColliderOffset;
         rb.linearVelocity = Vector2.zero;
@@ -291,8 +287,8 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         isDead = true;
-        TriggerAnimation("Die");
         rb.linearVelocity = Vector2.zero;
+        PlayAnimation("Die");
     }
 
     void OnCollisionEnter2D(Collision2D col)
