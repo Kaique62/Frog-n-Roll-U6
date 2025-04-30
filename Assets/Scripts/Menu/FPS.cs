@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;  // Add this namespace for TextMeshPro
 
-public class FPSCounter : MonoBehaviour
+public class PerformanceCounter : MonoBehaviour
 {
     [Header("UI References")]
     public TMP_Text fpsText; // TextMeshPro Text to display FPS
