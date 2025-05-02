@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Player Movement")]  
+    [Header("Player Movement")]
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     public float rollDistance = 3f;
@@ -14,13 +14,13 @@ public class PlayerController : MonoBehaviour
     public float coyoteTime = 0.15f;
     public float jumpBufferTime = 0.1f;
 
-    [Header("Rope Swing Settings")]  
+    [Header("Rope Swing Settings")]
     public Transform ropeDetectionPoint;
     public float detectionRadius = 0.5f;
     public float swingForceMultiplier = 1.2f;
     public float releaseJumpBoost = 5f;
 
-    [Header("Hitboxes")]  
+    [Header("Hitboxes")]
     public GameObject punchHitbox;
     public GameObject kickHitbox;
     public GameObject uppercutHitbox;
@@ -85,7 +85,6 @@ public class PlayerController : MonoBehaviour
         HandleTimers();
         HandleInputs();
 
-        // Jump animation trigger if in air and not rolling or attacking
         if (!isGrounded && !isRolling && !isAttacking)
         {
             PlayAnimation("Jump");
@@ -193,7 +192,6 @@ public class PlayerController : MonoBehaviour
             ExitCrouch();
         }
     }
-
 
     private void HandleTimers()
     {
