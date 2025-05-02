@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\UI\PerformanceCounter.cs" />
     <Compile Include="Assets\Packages\Auto Letterbox\ForceCameraRatio.cs" />
     <Compile Include="Assets\Scripts\Scenario\moving_platform.cs" />
+    <Compile Include="Assets\Scripts\Scenario\objetos_quebraveis.cs" />
     <Compile Include="Assets\Scripts\Player\playerController.cs" />
     <Compile Include="Assets\Scripts\Data\LevelData.cs" />
     <Compile Include="Assets\Scripts\Scenario\booster_platform.cs" />
