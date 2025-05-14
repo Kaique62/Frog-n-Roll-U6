@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Scenario\ziplineRider.cs" />
     <Compile Include="Assets\Scripts\Menu\menuPrinciplaManager.cs" />
     <Compile Include="Assets\Scripts\Level\MusicTimer.cs" />
+    <Compile Include="Assets\Scripts\Misc\Controls.cs" />
     <Compile Include="Assets\Scripts\Menu\Limite FPS.cs" />
     <Compile Include="Assets\Scripts\Camera\CamFollowController.cs" />
     <Compile Include="Assets\Scripts\Scenario\zipline.cs" />
