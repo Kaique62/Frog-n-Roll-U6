@@ -95,8 +95,8 @@ public class LevelController : MonoBehaviour
     {
         if (scoreText != null && scoreTextMultiplier != null)
         {
-            scoreText.text = "Score: " + score.ToString();
-            scoreTextMultiplier.text = "Multiplicador: " + pointMultiplier.ToString();
+            scoreText.text = score.ToString();
+            scoreTextMultiplier.text = "X" + pointMultiplier.ToString();
         }
     }
 }
