@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 13dddbeb0a2dff1489039c451db91bff
+guid: ddfe31f7a861b3144afbfe77a248f44e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8067739859969224209
-    second: tamandua_0
+      213: 2268113555672827357
+    second: Design sem nome_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tamandua_0
+      name: Design sem nome_0
       rect:
         serializedVersion: 2
-        x: 61
+        x: 0
         y: 0
-        width: 423
-        height: 510
+        width: 2346
+        height: 372
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fe156429751a90090800000000000000
-      internalID: -8067739859969224209
+      spriteID: dd5802c0345f97f10800000000000000
+      internalID: 2268113555672827357
       vertices: []
       indices: 
       edges: []
@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Design sem nome_0: 2268113555672827357
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

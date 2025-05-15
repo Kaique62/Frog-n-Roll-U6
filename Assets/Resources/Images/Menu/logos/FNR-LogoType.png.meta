@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 13dddbeb0a2dff1489039c451db91bff
+guid: 4eec1652758b1ff4ba6cd7795098801c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8067739859969224209
-    second: tamandua_0
+      213: -95818679707046824
+    second: PLAY 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tamandua_0
+      name: PLAY 1_0
       rect:
         serializedVersion: 2
-        x: 61
+        x: 0
         y: 0
-        width: 423
-        height: 510
+        width: 1647
+        height: 886
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fe156429751a90090800000000000000
-      internalID: -8067739859969224209
+      spriteID: 85ce6312b659baef0800000000000000
+      internalID: -95818679707046824
       vertices: []
       indices: 
       edges: []
@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      PLAY 1_0: -95818679707046824
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
