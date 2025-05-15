@@ -20,13 +20,18 @@ public class MenuPrincipalManager : MonoBehaviour
         painelOpcoes.SetActive(true);
     }
 
+    public void AbrirSubState(string state){
+        SceneManager.LoadScene("KeyBindMenu", LoadSceneMode.Additive);
+        //Time.timeScale = 0f;
+    }
+
     public void FecharOpcoes()
     {
-        // Salvar configurações
+        // Salvar configuraï¿½ï¿½es
         FpsLimiter fpsLimiter = FindObjectOfType<FpsLimiter>();
         if (fpsLimiter != null)
         {
-            fpsLimiter.SalvarTodasAsConfigs(); // chama sua função pública de salvar
+            fpsLimiter.SalvarTodasAsConfigs(); // chama sua funï¿½ï¿½o pï¿½blica de salvar
         }
 
         painelOpcoes.SetActive(false);
