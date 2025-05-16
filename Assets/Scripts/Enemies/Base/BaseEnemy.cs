@@ -214,6 +214,8 @@ public class EnemyController : MonoBehaviour
 
     private void FollowCustomPath()
     {
+        if (gameObject == null) return;
+
         if (customPathPoints == null || customPathPoints.Length == 0) return;
 
         targetPosition = customPathPoints[currentPathIndex].position;

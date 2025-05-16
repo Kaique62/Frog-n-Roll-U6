@@ -289,7 +289,7 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         PlayAnimation("Die");
         Destroy(gameObject);
-        Application.Quit();
+        Time.timeScale = 0;
     }
 
     void OnCollisionEnter2D(Collision2D col)
