@@ -1,41 +1,57 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Newtonsoft.Json;
 
-public static class SaveSystem
+public static class GameData
 {
-    private static string dataPath => Path.Combine(Application.persistentDataPath);
+    private static string dataPath => Application.persistentDataPath;
 
-    public static void Save(Dictionary<dynamic, dynamic> data, string file)
+    // Salva o dicionário em um caminho relativo (ex: "config/KeyBinds.json")
+    public static void Save(Dictionary<string, Dictionary<string, string>> data, string relativePath)
     {
-        string filePath = dataPath + file;
+        string fullPath = Path.Combine(dataPath, relativePath);
+        string dirPath = Path.GetDirectoryName(fullPath);
 
-        string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(filePath, json);
-        Debug.Log("Saved to: " + filePath);
+        if (!Directory.Exists(dirPath))
+            Directory.CreateDirectory(dirPath);
+
+        string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+        File.WriteAllText(fullPath, json);
+
+        Debug.Log("Saved to: " + fullPath);
     }
 
-    public static Dictionary<dynamic, dynamic> Load(string file)
+    // Carrega o dicionário de um caminho relativo (ex: "config/KeyBinds.json")
+    public static Dictionary<string, Dictionary<string, string>> Load(string relativePath)
     {
-        string filePath = dataPath + file;
-        if (File.Exists(filePath))
+        string fullPath = Path.Combine(dataPath, relativePath);
+
+        if (File.Exists(fullPath))
         {
-            string json = File.ReadAllText(filePath);
-            return JsonUtility.FromJson<Dictionary<dynamic, dynamic>>(json);
+            string json = File.ReadAllText(fullPath);
+            return JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(json);
         }
         else
         {
-            Debug.LogWarning("Data Not Found!");
+            Debug.LogWarning("Data Not Found at: " + fullPath);
             return null;
         }
     }
 
-    public static void DeleteData(string file)
+    // Deleta o arquivo no caminho relativo (ex: "config/KeyBinds.json")
+    public static void DeleteData(string relativePath)
     {
-        string filePath = dataPath + file;
-        if (File.Exists(filePath))
-            File.Delete(filePath);
-        
-        Debug.Log("Data Removed!");
+        string fullPath = Path.Combine(dataPath, relativePath);
+
+        if (File.Exists(fullPath))
+        {
+            File.Delete(fullPath);
+            Debug.Log("Data Removed: " + fullPath);
+        }
+        else
+        {
+            Debug.LogWarning("Attempted to delete missing file: " + fullPath);
+        }
     }
 }

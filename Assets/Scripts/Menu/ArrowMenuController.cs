@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class ArrowMenuController : MonoBehaviour
 {
@@ -27,9 +28,12 @@ public class ArrowMenuController : MonoBehaviour
             currentIndex = (currentIndex - 1 + menuButtons.Length) % menuButtons.Length;
             HighlightButton(currentIndex);
         }
-        else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        else if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             menuButtons[currentIndex].onClick.Invoke();
+        }
+        else if (Input.GetKeyDown(KeyCode.Backspace)){
+            SceneManager.UnloadSceneAsync(gameObject.scene);
         }
     }
 

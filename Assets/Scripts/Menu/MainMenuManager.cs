@@ -20,7 +20,8 @@ public class MenuPrincipalManager : MonoBehaviour
         painelOpcoes.SetActive(true);
     }
 
-    public void AbrirSubState(string state){
+    public void AbrirSubState(string state)
+    {
         SceneManager.LoadScene("KeyBindMenu", LoadSceneMode.Additive);
         //Time.timeScale = 0f;
     }

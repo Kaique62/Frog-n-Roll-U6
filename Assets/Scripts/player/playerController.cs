@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
         if (isSwinging)
         {
-            if (Input.GetKeyDown(Controls.Pulo))
+            if (Input.GetKeyDown(Controls.Pulo) || MobileInput.GetHeld("Up"))
                 DetachFromRope();
             return;
         }
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isRolling || isAttacking || isSwinging) return;
 
-        float moveInput = Input.GetKey(Controls.Direita) ? 1f : Input.GetKey(Controls.Esquerda) ? -1f : 0f;
+        float moveInput = (Input.GetKey(Controls.Direita) || MobileInput.GetHeld("Right")) ? 1f : (Input.GetKey(Controls.Esquerda) || MobileInput.GetHeld("Left")) ? -1f : 0f;
         Vector2 velocity = rb.linearVelocity;
         velocity.x = moveInput * moveSpeed;
         rb.linearVelocity = velocity;
@@ -199,7 +199,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded) coyoteTimeCounter = coyoteTime;
         else coyoteTimeCounter -= Time.deltaTime;
 
-        if (Input.GetKeyDown(Controls.Pulo))
+        if (Input.GetKeyDown(Controls.Pulo) ||  MobileInput.GetHeld("Up"))
             jumpBufferCounter = jumpBufferTime;
         else
             jumpBufferCounter -= Time.deltaTime;
