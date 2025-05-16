@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\Menu\LevelPreload.cs" />
     <Compile Include="Assets\Scripts\Menu\FPS.cs" />
     <Compile Include="Assets\Scripts\Level\ActionTimer.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Base\AutoDestroy.cs" />
     <Compile Include="Assets\Scripts\scenario\ziplineRider.cs" />
     <Compile Include="Assets\Scripts\Menu\ArrowMenuController.cs" />
     <Compile Include="Assets\Scripts\Level\LevelController.cs" />

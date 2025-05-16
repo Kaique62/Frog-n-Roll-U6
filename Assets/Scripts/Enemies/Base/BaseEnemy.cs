@@ -21,6 +21,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float patrolDistance = 5f;
     [SerializeField] private float playerDetectionRange = 5f;
     [SerializeField] private float movementCooldown = 1f;
+    [SerializeField] private bool rotateTowardsCustomPath = false;
+    [SerializeField] private bool lookAtCustomPathPoint = false;
+    [SerializeField] private float rotationOffset = 0f;
     [SerializeField] private Transform[] customPathPoints;
 
     [Header("Visual Settings")]
@@ -214,6 +217,34 @@ public class EnemyController : MonoBehaviour
         if (customPathPoints == null || customPathPoints.Length == 0) return;
 
         targetPosition = customPathPoints[currentPathIndex].position;
+        Vector2 direction = (targetPosition - transform.position).normalized;
+
+        // ROTACIONA o objeto em direção ao ponto (útil em 3D ou inimigos que giram de verdade)
+        if (rotateTowardsCustomPath)
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle + rotationOffset);
+        }
+
+        // Apenas "vira o sprite visualmente", sem rotacionar o GameObject
+        else if (lookAtCustomPathPoint)
+        {
+            bool shouldFaceRight = direction.x > 0;
+
+            if (flipUsingScale)
+            {
+                Vector3 newScale = transform.localScale;
+                newScale.x = Mathf.Abs(originalScale.x) * (shouldFaceRight ? 1 : -1);
+                newScale.y = Mathf.Abs(originalScale.y); // Garante que Y NUNCA vire negativo
+                newScale.z = originalScale.z;
+                transform.localScale = newScale;
+            }
+            else if (spriteRenderer != null)
+            {
+                spriteRenderer.flipX = !shouldFaceRight;
+            }
+        }
+
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)

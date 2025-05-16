@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - PlayerAttackHitbox
   - Roof
+  - FireBorder
   layers:
   - Default
   - TransparentFX

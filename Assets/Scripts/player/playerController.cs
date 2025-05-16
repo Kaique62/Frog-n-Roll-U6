@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Threading.Tasks;
 
 public class PlayerController : MonoBehaviour
 {
@@ -69,7 +70,8 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {
+    {   
+        if (boxCollider.gameObject.CompareTag("FireBorder")) Debug.Log("morreu");
         if (isDead) return;
 
         if (isSwinging)
@@ -90,7 +92,6 @@ public class PlayerController : MonoBehaviour
             PlayAnimation("Jump");
         }
     }
-
 
     private void HandleInputs()
     {
@@ -287,12 +288,19 @@ public class PlayerController : MonoBehaviour
         isDead = true;
         rb.linearVelocity = Vector2.zero;
         PlayAnimation("Die");
+        Destroy(gameObject);
+        Application.Quit();
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.CompareTag("Ground"))
             isGrounded = true;
+        if (col.gameObject.CompareTag("FireBorder"))
+        {
+            Debug.Log("morreu");
+            Die();
+        }
     }
 
     void OnCollisionExit2D(Collision2D col)

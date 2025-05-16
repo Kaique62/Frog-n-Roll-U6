@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7416785130761896742}
   - component: {fileID: 4506952195655884445}
   m_Layer: 0
-  m_Name: Tamandua
+  m_Name: Bird
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -8067739859969224209, guid: 13dddbeb0a2dff1489039c451db91bff, type: 3}
+  m_Sprite: {fileID: 1832314689344729677, guid: 9c2ba5801a963204b9027eaf7623a405, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -123,17 +123,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.035190582, y: -0.008796692}
+  m_Offset: {x: -0.00818634, y: -0.010380745}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.23, y: 5.1}
+    oldSize: {x: 5.06, y: 2.22}
     newSize: {x: 3.29, y: 4.86}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.3456573, y: 5.194292}
+  m_Size: {x: 5.116272, y: 2.3062458}
   m_EdgeRadius: 0
 --- !u!114 &4506952195655884445
 MonoBehaviour:
@@ -147,21 +147,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 880854d586846b14a8e204dd32732e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDestructible: 1
+  isDestructible: 0
   damageCooldown: 0.5
   health: 1
-  killsPlayerOnContact: 0
+  killsPlayerOnContact: 1
   ignoreRollingPlayer: 0
-  movementType: 0
+  movementType: 4
   movementTrigger: 1
-  moveSpeed: 1
-  movementDirection: {x: 1, y: 0}
+  moveSpeed: 5
+  movementDirection: {x: -1, y: 0}
   patrolDistance: 5
-  playerDetectionRange: 5
+  playerDetectionRange: 20
   movementCooldown: 1
-  customPathPoints: []
-  flipSpriteBasedOnPlayer: 1
-  flipUsingScale: 1
+  customPathPoints:
+  - {fileID: 0}
+  flipSpriteBasedOnPlayer: 0
+  flipUsingScale: 0
   flipThreshold: 0.1
   spriteRenderer: {fileID: 0}
   enemyCollider: {fileID: 0}
@@ -171,7 +172,19 @@ MonoBehaviour:
       m_Calls: []
   onMovementEnd:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: AutoDestroy, Assembly-CSharp
+        m_MethodName: DestroySelf
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onPlayerDetected:
     m_PersistentCalls:
       m_Calls: []
