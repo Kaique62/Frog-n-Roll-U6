@@ -11,7 +11,12 @@ public class MobileInput : MonoBehaviour
 
     void Awake()
     {
-        string[] keys = { "Left", "Right", "Up", "Down" };
+        string[] keys = {
+            //Movement
+            "Left", "Right", "Up", "Down",
+            //Actions
+            "Punch", "Kick", "Roll", "Uppercut", "Grab"
+        };
         foreach (var key in keys)
         {
             Held[key] = false;

@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(Controls.Agarrar) && canAttach)
+        if ((Input.GetKeyDown(Controls.Agarrar) || MobileInput.GetHeld("Grab")) && canAttach)
             TryAttachToRope();
 
         HandleTimers();
@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRoll()
     {
-        if (isGrounded && Input.GetKeyDown(Controls.Rolar) && !isRolling)
+        if (isGrounded && (Input.GetKeyDown(Controls.Rolar) || MobileInput.GetHeld("Roll"))  && !isRolling)
         {
             if (isCrouching) ExitCrouch();
             StartCoroutine(PerformRoll());
@@ -156,19 +156,19 @@ public class PlayerController : MonoBehaviour
 
         if (isCrouching) ExitCrouch();
 
-        if (Input.GetKeyDown(Controls.Gancho))
+        if (Input.GetKeyDown(Controls.Gancho) || MobileInput.GetHeld("Uppercut"))
         {
             StartCoroutine(PerformUppercut());
         }
-        else if (!isGrounded && Input.GetKeyDown(Controls.Chute) && Input.GetKey(Controls.Agachar))
+        else if (!isGrounded && (Input.GetKeyDown(Controls.Chute) ||MobileInput.GetHeld("Kick")) && (Input.GetKey(Controls.Agachar) || MobileInput.GetHeld("Down")))
         {
             StartCoroutine(PerformStomp());
         }
-        else if (Input.GetKeyDown(Controls.Soco))
+        else if (Input.GetKeyDown(Controls.Soco) || MobileInput.GetHeld("Punch"))
         {
             StartCoroutine(PerformAttack(punchHitbox, "Punch"));
         }
-        else if (Input.GetKeyDown(Controls.Chute))
+        else if (Input.GetKeyDown(Controls.Chute) || MobileInput.GetHeld("Kick"))
         {
             StartCoroutine(PerformAttack(kickHitbox, "Kick"));
         }
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isRolling || isAttacking || !isGrounded) return;
 
-        if (Input.GetKey(Controls.Agachar))
+        if (Input.GetKey(Controls.Agachar) || MobileInput.GetHeld("Down"))
         {
             if (!isCrouching)
             {
