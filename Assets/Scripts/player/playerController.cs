@@ -70,18 +70,18 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {   
-        if (boxCollider.gameObject.CompareTag("FireBorder")) Debug.Log("morreu");
+    {
+        if (boxCollider.gameObject.CompareTag("FireBorder")) Debug.Log("died");
         if (isDead) return;
 
         if (isSwinging)
         {
-            if (Input.GetKeyDown(Controls.Pulo) || MobileInput.GetHeld("Up"))
+            if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Up"))
                 DetachFromRope();
             return;
         }
 
-        if ((Input.GetKeyDown(Controls.Agarrar) || MobileInput.GetHeld("Grab")) && canAttach)
+        if ((Input.GetKeyDown(Controls.Grab) || MobileInput.GetHeld("Grab")) && canAttach)
             TryAttachToRope();
 
         HandleTimers();
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isRolling || isAttacking || isSwinging) return;
 
-        float moveInput = (Input.GetKey(Controls.Direita) || MobileInput.GetHeld("Right")) ? 1f : (Input.GetKey(Controls.Esquerda) || MobileInput.GetHeld("Left")) ? -1f : 0f;
+        float moveInput = (Input.GetKey(Controls.Right) || MobileInput.GetHeld("Right")) ? 1f : (Input.GetKey(Controls.Left) || MobileInput.GetHeld("Left")) ? -1f : 0f;
         Vector2 velocity = rb.linearVelocity;
         velocity.x = moveInput * moveSpeed;
         rb.linearVelocity = velocity;
@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRoll()
     {
-        if (isGrounded && (Input.GetKeyDown(Controls.Rolar) || MobileInput.GetHeld("Roll"))  && !isRolling)
+        if (isGrounded && (Input.GetKeyDown(Controls.Roll) || MobileInput.GetHeld("Roll")) && !isRolling)
         {
             if (isCrouching) ExitCrouch();
             StartCoroutine(PerformRoll());
@@ -156,19 +156,19 @@ public class PlayerController : MonoBehaviour
 
         if (isCrouching) ExitCrouch();
 
-        if (Input.GetKeyDown(Controls.Gancho) || MobileInput.GetHeld("Uppercut"))
+        if (Input.GetKeyDown(Controls.Uppercut) || MobileInput.GetHeld("Uppercut"))
         {
             StartCoroutine(PerformUppercut());
         }
-        else if (!isGrounded && (Input.GetKeyDown(Controls.Chute) ||MobileInput.GetHeld("Kick")) && (Input.GetKey(Controls.Agachar) || MobileInput.GetHeld("Down")))
+        else if (!isGrounded && (Input.GetKeyDown(Controls.Kick) || MobileInput.GetHeld("Kick")) && (Input.GetKey(Controls.Down) || MobileInput.GetHeld("Down")))
         {
             StartCoroutine(PerformStomp());
         }
-        else if (Input.GetKeyDown(Controls.Soco) || MobileInput.GetHeld("Punch"))
+        else if (Input.GetKeyDown(Controls.Punch) || MobileInput.GetHeld("Punch"))
         {
             StartCoroutine(PerformAttack(punchHitbox, "Punch"));
         }
-        else if (Input.GetKeyDown(Controls.Chute) || MobileInput.GetHeld("Kick"))
+        else if (Input.GetKeyDown(Controls.Kick) || MobileInput.GetHeld("Kick"))
         {
             StartCoroutine(PerformAttack(kickHitbox, "Kick"));
         }
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isRolling || isAttacking || !isGrounded) return;
 
-        if (Input.GetKey(Controls.Agachar) || MobileInput.GetHeld("Down"))
+        if (Input.GetKey(Controls.Down) || MobileInput.GetHeld("Down"))
         {
             if (!isCrouching)
             {
@@ -199,7 +199,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded) coyoteTimeCounter = coyoteTime;
         else coyoteTimeCounter -= Time.deltaTime;
 
-        if (Input.GetKeyDown(Controls.Pulo) ||  MobileInput.GetHeld("Up"))
+        if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Up"))
             jumpBufferCounter = jumpBufferTime;
         else
             jumpBufferCounter -= Time.deltaTime;
@@ -298,7 +298,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
         if (col.gameObject.CompareTag("FireBorder"))
         {
-            Debug.Log("morreu");
+            Debug.Log("died");
             Die();
         }
     }

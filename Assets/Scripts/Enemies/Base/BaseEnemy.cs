@@ -183,7 +183,6 @@ public class EnemyController : MonoBehaviour
         Vector3 targetPosition = originalPosition + (Vector3)(movementDirection.normalized * patrolDistance);
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
-        // Verifica se chegou ao ponto de destino ou à posição original
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f || 
             Vector3.Distance(transform.position, originalPosition) < 0.1f)
         {
@@ -221,14 +220,12 @@ public class EnemyController : MonoBehaviour
         targetPosition = customPathPoints[currentPathIndex].position;
         Vector2 direction = (targetPosition - transform.position).normalized;
 
-        // ROTACIONA o objeto em direção ao ponto (útil em 3D ou inimigos que giram de verdade)
         if (rotateTowardsCustomPath)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle + rotationOffset);
         }
 
-        // Apenas "vira o sprite visualmente", sem rotacionar o GameObject
         else if (lookAtCustomPathPoint)
         {
             bool shouldFaceRight = direction.x > 0;
@@ -237,7 +234,7 @@ public class EnemyController : MonoBehaviour
             {
                 Vector3 newScale = transform.localScale;
                 newScale.x = Mathf.Abs(originalScale.x) * (shouldFaceRight ? 1 : -1);
-                newScale.y = Mathf.Abs(originalScale.y); // Garante que Y NUNCA vire negativo
+                newScale.y = Mathf.Abs(originalScale.y);
                 newScale.z = originalScale.z;
                 transform.localScale = newScale;
             }

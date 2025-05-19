@@ -7,13 +7,14 @@ using UnityEngine.SceneManagement;
 public class KeyBinds : MonoBehaviour
 {
     public TMP_Text feedback;
+
     Dictionary<string, Dictionary<string, string>> DefaultKeyBinds = new Dictionary<string, Dictionary<string, string>> {
         {
             "Menu Binds", new Dictionary<string, string>{
-                {"Esquerda", "LeftArrow"},
-                {"Direita", "RightArrow"},
-                {"Cima", "UpArrow"},
-                {"Baixo", "DownArrow"},
+                {"Left", "LeftArrow"},
+                {"Right", "RightArrow"},
+                {"Up", "UpArrow"},
+                {"Down", "DownArrow"},
                 {"Confirm", "Enter"},
                 {"Cancel", "Escape"},
             }
@@ -21,20 +22,21 @@ public class KeyBinds : MonoBehaviour
 
         {
             "Player Binds", new Dictionary<string, string>{
-                {"Pulo", "Space"},
-                {"Esquerda", "A"},
-                {"Direita", "D"},
-                {"Agarrar", "E"},
-                {"Soco", "J"},
-                {"Gancho", "I"},
-                {"Chute", "L"},
-                {"Rolar", "K"},
-                {"Agachar", "S"}
+                {"Jump", "Space"},
+                {"Left", "A"},
+                {"Right", "D"},
+                {"Grab", "E"},
+                {"Punch", "J"},
+                {"Hook", "I"},
+                {"Kick", "L"},
+                {"Roll", "K"},
+                {"Crouch", "S"}
             }
         }
     };
-    
+
     Dictionary<string, Dictionary<string, string>> CurrentKeyBinds = new Dictionary<string, Dictionary<string, string>>() {};
+
     void Start()
     {
         CurrentKeyBinds = GameData.Load("config/KeyBinds.json");
@@ -42,28 +44,26 @@ public class KeyBinds : MonoBehaviour
         if (CurrentKeyBinds == null || CurrentKeyBinds.Count == 0)
         {
             CurrentKeyBinds = DefaultKeyBinds;
-            feedback.text = "Utilizando KeyBinds Padrões!";
+            feedback.text = "Using default KeyBinds!";
         }
         else 
         {
-            feedback.text = "Dicionário contém dados";
+            feedback.text = "Dictionary contains data";
         }
 
         SaveData();
     }
 
-
     void Update()
     {
-        
+        // Currently empty, can be used for updates per frame
     }
 
     void SaveData(){
         GameData.Save(CurrentKeyBinds, "config/KeyBinds.json");
     }
 
-    void closeKeyBindMenu() {
+    void CloseKeyBindMenu() {
         SceneManager.UnloadSceneAsync("PauseMenu");
     }
-
 }

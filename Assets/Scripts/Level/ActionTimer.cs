@@ -25,6 +25,7 @@ public class ActionTimer : MonoBehaviour
     private float delay;
     public float Delay => delay;
 
+    [System.Obsolete]
     void Start()
     {
         musicTimer = FindObjectOfType<MusicTimer>();
@@ -71,7 +72,6 @@ public class ActionTimer : MonoBehaviour
             StartColorChange();
         }
 
-        // Continuously update delay if we are in the collision window
 
         UpdateDelay(currentTime);
         

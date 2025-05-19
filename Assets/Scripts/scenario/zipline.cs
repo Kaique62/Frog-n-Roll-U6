@@ -8,11 +8,11 @@ public class Zipline : MonoBehaviour
     public Transform startPoint;
     public Transform endPoint;
 
-    [Header("Linha Visual")]
+    [Header("Line")]
     public Color lineColor = Color.green;
     public float lineWidth = 0.1f;
 
-    [Header("Gravidade")]
+    [Header("Gravity")]
     public bool affectedByGravity = false;
     public float curveAmount = 2f;
     public int segments = 20;
@@ -71,7 +71,6 @@ public class Zipline : MonoBehaviour
         line.positionCount = ropePoints.Length;
         line.SetPositions(ropePoints);
 
-        // Collider shape generation with proper alignment
         Vector2[] colliderPath = new Vector2[(segments + 1) * 2];
 
         for (int i = 0; i <= segments; i++)
@@ -85,12 +84,11 @@ public class Zipline : MonoBehaviour
             else
                 dir = ropePoints[i + 1] - ropePoints[i - 1];
 
-            // Calculate 2D perpendicular to direction
             Vector2 normal = new Vector2(-dir.y, dir.x).normalized * (lineWidth / 2f);
             Vector2 point = ropePoints[i];
 
-            colliderPath[i] = point + normal; // upper edge
-            colliderPath[(segments * 2 + 1) - i] = point - normal; // lower edge, reversed
+            colliderPath[i] = point + normal;
+            colliderPath[(segments * 2 + 1) - i] = point - normal;
         }
 
         polyCollider.SetPath(0, colliderPath);
