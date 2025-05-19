@@ -11,10 +11,7 @@ public class BoosterPlatform : MonoBehaviour
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                // Set velocity only on Y-axis
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, launchForce);
-
-                Debug.Log("2D Booster activated (Y-axis only)!");
             }
         }
     }

@@ -3,23 +3,22 @@ using UnityEngine.UI;
 
 public static class Controls
 {
-    //Binds do Menu
+    // Menu Binds
     public static KeyCode Confirm = KeyCode.Return;
     public static KeyCode Cancel = KeyCode.Escape;
 
-    //Binds do Jogador
-    public static KeyCode Pulo = KeyCode.Space;
-    public static KeyCode Esquerda = KeyCode.A;
-    public static KeyCode Direita = KeyCode.D;
-    public static KeyCode Agarrar = KeyCode.E;
-    public static KeyCode Soco = KeyCode.J;
-    public static KeyCode Gancho = KeyCode.I;
-    public static KeyCode Chute = KeyCode.L;
-    public static KeyCode Rolar = KeyCode.K;
-    public static KeyCode Agachar = KeyCode.S;
+    // Player Binds
+    public static KeyCode Jump = KeyCode.Space;
+    public static KeyCode Left = KeyCode.A;
+    public static KeyCode Right = KeyCode.D;
+    public static KeyCode Grab = KeyCode.E;
+    public static KeyCode Punch = KeyCode.J;
+    public static KeyCode Uppercut = KeyCode.I;
+    public static KeyCode Kick = KeyCode.L;
+    public static KeyCode Roll = KeyCode.K;
+    public static KeyCode Down = KeyCode.S;
     
-
-    //Teste para interface mobile
+    // Test for mobile interface
     public static Button ConfirmButton;
 
     private static bool confirmPressed;

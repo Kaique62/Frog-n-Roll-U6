@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class objetos_quebraveis : MonoBehaviour
+public class breakableObject : MonoBehaviour
 {
     [SerializeField] private float destroyDelay = 1.5f;
     private bool isBroken = false;
@@ -24,7 +24,7 @@ public class objetos_quebraveis : MonoBehaviour
         }
 
         //TODO:
-        //Animations; Effects...
+        //Animações e/ou Efeitos
 
         Destroy(gameObject, destroyDelay);
     }
