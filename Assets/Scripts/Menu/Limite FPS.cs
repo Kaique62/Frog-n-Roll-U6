@@ -3,38 +3,41 @@ using UnityEngine.UI;
 using TMPro;
 using SQLite;
 using System.IO;
-//using Unity.VisualScripting.Dependencies.Sqlite;
 
 public class FpsLimiter : MonoBehaviour
 {
     [Header("FPS")]
     [SerializeField] private Toggle toggleMostrarFps;
     [SerializeField] private TMP_Text fpsText;
-    [SerializeField] private Slider sliderFps;
 
     [Header("Volume da Música")]
     [SerializeField] private Slider sliderVolume;
     [SerializeField] private string nomeDoAudio = "Demo";  // Nome do áudio sem a extensão
+    private readonly int[] fpsOptions = { 30, 60, 120 };
 
     private SQLiteConnection db;
     private AudioSource audioSource;
+    private int fpsIndex = 1; // padrão: 60 FPS
 
     private void Start()
     {
         string path = Path.Combine(Application.persistentDataPath, "config.db");
         db = new SQLiteConnection(path);
+
+
         db.CreateTable<Configuracao>();
 
+        // Mostrar FPS
+        string mostrar = LerConfig("mostrarFps");
+        bool mostrarFps = mostrar == "True"; // valores vêm como string
+        toggleMostrarFps.isOn = mostrarFps;
+        fpsText.gameObject.SetActive(mostrarFps);
+
         // FPS
-        sliderFps.minValue = 30;
-        sliderFps.maxValue = 301;
-        sliderFps.wholeNumbers = false;
-        sliderFps.value = LerFpsSalvo();
+        fpsIndex = LerFpsSalvo();
+        AplicarFps();
 
         toggleMostrarFps.onValueChanged.AddListener(OnToggleFps);
-        sliderFps.onValueChanged.AddListener(delegate { AtualizarFps(); });
-
-        AtualizarFps();
 
         // Volume
         audioSource = GetComponent<AudioSource>();
@@ -45,8 +48,7 @@ public class FpsLimiter : MonoBehaviour
 
             if (audioSource != null)
             {
-                // Carregar o áudio da pasta Resources
-                AudioClip clip = Resources.Load<AudioClip>("Musics/Demo");  // Nome correto do arquivo sem a extensão
+                AudioClip clip = Resources.Load<AudioClip>("Musics/Demo");
                 if (clip != null)
                 {
                     audioSource.clip = clip;
@@ -56,7 +58,7 @@ public class FpsLimiter : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("Áudio não encontrado em Resources/Audio!");
+                    Debug.LogError("Áudio não encontrado em Resources/Musics!");
                 }
             }
 
@@ -67,27 +69,21 @@ public class FpsLimiter : MonoBehaviour
     private void OnToggleFps(bool isOn)
     {
         fpsText.gameObject.SetActive(isOn);
-        sliderFps.gameObject.SetActive(isOn);
-        AtualizarFps();
+        SalvarConfig("mostrarFps", isOn.ToString());
+        AplicarFps(); // já existe e está correta
     }
 
-    private void AtualizarFps()
+    private void AplicarFps()
     {
-        float valorSlider = sliderFps.value;
+        int fps = fpsOptions[fpsIndex];
+        Application.targetFrameRate = fps;
+        AtualizarFpsTexto();
+        SalvarFps(fpsIndex);
+    }
 
-        if (valorSlider >= 301f)
-        {
-            Application.targetFrameRate = -1;
-            fpsText.text = "FPS: Ilimitado";
-        }
-        else
-        {
-            int fps = Mathf.RoundToInt(valorSlider);
-            Application.targetFrameRate = fps;
-            fpsText.text = "FPS: " + fps;
-        }
-
-        SalvarFps(valorSlider);
+    private void AtualizarFpsTexto()
+    {
+        fpsText.text = "FPS: " + fpsOptions[fpsIndex];
     }
 
     private void AtualizarVolume()
@@ -98,8 +94,6 @@ public class FpsLimiter : MonoBehaviour
         if (audioSource != null)
         {
             audioSource.volume = volume;
-
-            // Só toca se ainda não estiver tocando
             if (!audioSource.isPlaying && audioSource.clip != null)
             {
                 audioSource.Play();
@@ -118,15 +112,15 @@ public class FpsLimiter : MonoBehaviour
         return float.TryParse(valor, out float resultado) ? resultado : 1f;
     }
 
-    private void SalvarFps(float fps)
+    private void SalvarFps(int index)
     {
-        SalvarConfig("fps", fps.ToString());
+        SalvarConfig("fpsIndex", index.ToString());
     }
 
-    private float LerFpsSalvo()
+    private int LerFpsSalvo()
     {
-        string valor = LerConfig("fps");
-        return float.TryParse(valor, out float resultado) ? resultado : 60f;
+        string valor = LerConfig("fpsIndex");
+        return int.TryParse(valor, out int index) ? Mathf.Clamp(index, 0, 2) : 1;
     }
 
     private void SalvarConfig(string chave, string valor)
@@ -149,16 +143,36 @@ public class FpsLimiter : MonoBehaviour
         return config?.Valor;
     }
 
-    [Table("configuracoes")]
+    [Table("configuracao")]
     public class Configuracao
     {
         [PrimaryKey]
         public string Chave { get; set; }
         public string Valor { get; set; }
     }
+
     public void SalvarTodasAsConfigs()
     {
         SalvarVolume(sliderVolume.value);
-        SalvarFps(sliderFps.value);
+        SalvarFps(fpsIndex);
+    }
+
+    // Botões para selecionar FPS
+    public void SelecionarFps30()
+    {
+        fpsIndex = 0;
+        AplicarFps();
+    }
+
+    public void SelecionarFps60()
+    {
+        fpsIndex = 1;
+        AplicarFps();
+    }
+
+    public void SelecionarFps120()
+    {
+        fpsIndex = 2;
+        AplicarFps();
     }
 }

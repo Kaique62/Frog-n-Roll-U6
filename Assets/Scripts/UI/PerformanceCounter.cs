@@ -1,5 +1,6 @@
 using UnityEngine;
-using TMPro;  // Add this namespace for TextMeshPro
+using TMPro;
+using SQLite; // Import sqlite-net
 
 public class FPSCounter : MonoBehaviour
 {
@@ -13,6 +14,26 @@ public class FPSCounter : MonoBehaviour
     private float timeSinceLastUpdate = 0f;
     private int frameCount = 0;
     private float fps = 0f;
+
+    void Start()
+    {
+        Debug.Log("Caminho do banco: " + Application.persistentDataPath);
+        // Check saved setting to determine if FPS counter should be visible
+        string path = System.IO.Path.Combine(Application.persistentDataPath, "config.db");
+        var db = new SQLiteConnection(path); // Use sqlite-net connection
+
+        var config = db.Table<Configuracao>()
+                       .FirstOrDefault(c => c.Chave == "mostrarFps");
+
+        if (config != null && config.Valor == "True")
+        {
+            gameObject.SetActive(true);
+        }
+        else
+        {
+            gameObject.SetActive(false); // Default to disabled
+        }
+    }
 
     void Update()
     {
