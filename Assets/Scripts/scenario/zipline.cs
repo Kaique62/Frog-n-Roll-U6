@@ -1,101 +1,97 @@
 using UnityEngine;
 
-[ExecuteAlways]
-[RequireComponent(typeof(LineRenderer))]
-[RequireComponent(typeof(PolygonCollider2D))]
+[RequireComponent(typeof(EdgeCollider2D), typeof(LineRenderer))]
 public class Zipline : MonoBehaviour
 {
     public Transform startPoint;
     public Transform endPoint;
 
-    [Header("Line")]
-    public Color lineColor = Color.green;
+    [Range(0f, 5f)]
+    public float curveHeight = 0.5f; // curvatura pra baixo
+
+    [Header("Line Renderer Settings")]
+    public Color lineColor = Color.cyan;
     public float lineWidth = 0.1f;
+    public int resolution = 30;
 
-    [Header("Gravity")]
-    public bool affectedByGravity = false;
-    public float curveAmount = 2f;
-    public int segments = 20;
+    private EdgeCollider2D edgeCollider;
+    private LineRenderer lineRenderer;
+    private Vector2[] points;
 
-    private LineRenderer line;
-    private PolygonCollider2D polyCollider;
-
-    void OnValidate()
+    private void Awake()
     {
-        SetupLineRenderer();
-        SetupPolygonCollider();
-        UpdateRope();
+        edgeCollider = GetComponent<EdgeCollider2D>();
+        lineRenderer = GetComponent<LineRenderer>();
+
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = lineColor;
+        lineRenderer.endColor = lineColor;
+        lineRenderer.startWidth = lineWidth;
+        lineRenderer.endWidth = lineWidth;
+        lineRenderer.sortingOrder = 5;
     }
 
-    void Update()
+    private void Start()
     {
-        UpdateRope();
+        UpdateZipline();
     }
 
-    void SetupLineRenderer()
+    public void UpdateZipline()
     {
-        if (line == null)
-            line = GetComponent<LineRenderer>();
+        points = new Vector2[resolution + 1];
 
-        line.material = new Material(Shader.Find("Sprites/Default"));
-        line.startColor = lineColor;
-        line.endColor = lineColor;
-        line.startWidth = lineWidth;
-        line.endWidth = lineWidth;
-        line.positionCount = segments + 1;
-        line.useWorldSpace = true;
+        Vector2 midPoint = (startPoint.position + endPoint.position) / 2;
+        Vector2 controlPoint = midPoint + Vector2.down * curveHeight;
+
+        for (int i = 0; i <= resolution; i++)
+        {
+            float t = i / (float)resolution;
+            points[i] = CalculateQuadraticBezierPoint(t, startPoint.position, controlPoint, endPoint.position);
+        }
+
+        // EdgeCollider precisa dos pontos em local space
+        Vector2[] localPoints = new Vector2[points.Length];
+        for (int i = 0; i < points.Length; i++)
+        {
+            localPoints[i] = transform.InverseTransformPoint(points[i]);
+        }
+
+        edgeCollider.points = localPoints;
+        edgeCollider.isTrigger = true;
+
+        // Atualiza o LineRenderer com os pontos em world space
+        lineRenderer.positionCount = points.Length;
+        for (int i = 0; i < points.Length; i++)
+        {
+            lineRenderer.SetPosition(i, points[i]);
+        }
     }
 
-    void SetupPolygonCollider()
+    private Vector2 CalculateQuadraticBezierPoint(float t, Vector2 p0, Vector2 p1, Vector2 p2)
     {
-        if (polyCollider == null)
-            polyCollider = GetComponent<PolygonCollider2D>();
-        polyCollider.pathCount = 1;
+        float u = 1 - t;
+        return u * u * p0 + 2 * u * t * p1 + t * t * p2;
     }
 
-    void UpdateRope()
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
     {
         if (startPoint == null || endPoint == null) return;
 
-        Vector3[] ropePoints = new Vector3[segments + 1];
+        Gizmos.color = Color.yellow;
 
-        for (int i = 0; i <= segments; i++)
+        Vector2 midPoint = (startPoint.position + endPoint.position) / 2;
+        Vector2 controlPoint = midPoint + Vector2.down * curveHeight;
+
+        Vector2 prevPoint = startPoint.position;
+        int gizmoRes = 20;
+        for (int i = 1; i <= gizmoRes; i++)
         {
-            float t = i / (float)segments;
-            Vector3 pos = Vector3.Lerp(startPoint.position, endPoint.position, t);
-            if (affectedByGravity)
-                pos.y -= Mathf.Sin(t * Mathf.PI) * curveAmount;
-            ropePoints[i] = pos;
+            float t = i / (float)gizmoRes;
+            Vector2 point = CalculateQuadraticBezierPoint(t, startPoint.position, controlPoint, endPoint.position);
+            Gizmos.DrawLine(prevPoint, point);
+            prevPoint = point;
         }
-
-        line.positionCount = ropePoints.Length;
-        line.SetPositions(ropePoints);
-
-        Vector2[] colliderPath = new Vector2[(segments + 1) * 2];
-
-        for (int i = 0; i <= segments; i++)
-        {
-            Vector3 dir;
-
-            if (i == 0)
-                dir = ropePoints[1] - ropePoints[0];
-            else if (i == segments)
-                dir = ropePoints[segments] - ropePoints[segments - 1];
-            else
-                dir = ropePoints[i + 1] - ropePoints[i - 1];
-
-            Vector2 normal = new Vector2(-dir.y, dir.x).normalized * (lineWidth / 2f);
-            Vector2 point = ropePoints[i];
-
-            colliderPath[i] = point + normal;
-            colliderPath[(segments * 2 + 1) - i] = point - normal;
-        }
-
-        polyCollider.SetPath(0, colliderPath);
     }
-
-    public LineRenderer GetLineRenderer()
-    {
-        return line;
-    }
+#endif
 }

@@ -10,6 +10,7 @@ TagManager:
   - PlayerAttackHitbox
   - Roof
   - FireBorder
+  - Zipline
   layers:
   - Default
   - TransparentFX

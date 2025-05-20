@@ -8,10 +8,10 @@ public static class Controls
     public static KeyCode Cancel = KeyCode.Escape;
 
     // Player Binds
-    public static KeyCode Jump = KeyCode.Space;
+    public static KeyCode Jump = KeyCode.W;
     public static KeyCode Left = KeyCode.A;
     public static KeyCode Right = KeyCode.D;
-    public static KeyCode Grab = KeyCode.E;
+    public static KeyCode Grab = KeyCode.W;
     public static KeyCode Punch = KeyCode.J;
     public static KeyCode Uppercut = KeyCode.I;
     public static KeyCode Kick = KeyCode.L;

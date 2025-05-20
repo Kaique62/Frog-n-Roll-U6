@@ -1,17 +1,20 @@
 using UnityEngine;
 
-public class BoosterPlatform : MonoBehaviour
+public class BoosterPlatform2D : MonoBehaviour
 {
-    [SerializeField] private float launchForce = 10f;
+    public Vector2 launchDirection = Vector2.up; // Direção do impulso
+    public float launchForce = 10f; // Força do impulso
+    public string playerTag = "Player"; // Tag do jogador
 
-    void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.collider.CompareTag(playerTag))
         {
-            Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
+            Rigidbody2D rb = collision.collider.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, launchForce);
+                rb.linearVelocity = Vector2.zero; // Correto: zera a velocidade antes do impulso
+                rb.AddForce(launchDirection.normalized * launchForce, ForceMode2D.Impulse);
             }
         }
     }
