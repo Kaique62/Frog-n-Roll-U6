@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Menu\Limite FPS.cs" />
     <Compile Include="Assets\Scripts\scenario\boosterPlatform.cs" />
     <Compile Include="Assets\Scripts\Camera\CamFollowController.cs" />
+    <Compile Include="Assets\Scripts\Menu\Configuracao.cs" />
     <Compile Include="Assets\Scripts\Menu\LevelPreload.cs" />
     <Compile Include="Assets\Scripts\scenario\ParallaxLayer.cs" />
     <Compile Include="Assets\Scripts\Menu\FPS.cs" />

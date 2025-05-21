@@ -129,10 +129,10 @@ TextureImporter:
       name: crounch_0
       rect:
         serializedVersion: 2
-        x: 176
+        x: 0
         y: 0
-        width: 202
-        height: 309
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 591cdd5b1bf83b24a99d82868d9cab14
     internalID: 0
     vertices: []
     indices: 
