@@ -8,7 +8,8 @@ public class Zipline : MonoBehaviour
 
     [Range(0f, 5f)]
     public float curveHeight = 0.5f; // curvatura pra baixo
-
+    public float reentryDelay = 1f; 
+    
     [Header("Line Renderer Settings")]
     public Color lineColor = Color.cyan;
     public float lineWidth = 0.1f;

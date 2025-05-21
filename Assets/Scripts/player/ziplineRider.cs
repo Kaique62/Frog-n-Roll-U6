@@ -12,6 +12,7 @@ public class PlayerZiplineController : MonoBehaviour
     private float progress = 0f; // 0 = início, 1 = fim
 
     private float moveDirection = 1f; // pode usar pra andar na direção da zipline
+    private float lastZiplineExitTime = -Mathf.Infinity;
 
     private void Start()
     {
@@ -102,10 +103,16 @@ public class PlayerZiplineController : MonoBehaviour
             // Verifica se quem colidiu foi a hitbox RopeGrabCollider
             if (collision.IsTouching(ropeGrabCollider.GetComponent<Collider2D>()))
             {
+                Zipline zip = collision.GetComponent<Zipline>();
+
+                // Impede reentrada se o cooldown não passou
+                if (Time.time - lastZiplineExitTime < zip.reentryDelay)
+                    return;
+
                 // Só engata se estiver caindo (velocidade y negativa)
                 if (rb.linearVelocity.y <= 0f)
                 {
-                    EnterZipline(collision.GetComponent<Zipline>());
+                    EnterZipline(zip);
                 }
             }
         }
@@ -125,11 +132,34 @@ public class PlayerZiplineController : MonoBehaviour
             ziplinePoints[i] = zipline.transform.TransformPoint(ziplinePoints[i]);
         }
 
-        // Começa pelo ponto mais próximo ao player (pra ser mais natural)
-        float distStart = Vector2.Distance(transform.position, ziplinePoints[0]);
-        float distEnd = Vector2.Distance(transform.position, ziplinePoints[ziplinePoints.Length - 1]);
-        progress = distStart < distEnd ? 0f : 1f;
-        moveDirection = distStart < distEnd ? 1f : -1f;
+        // Calcula o ponto mais próximo ao jogador na tirolesa
+        float totalLength = GetZiplineLength();
+        float closestDistance = float.MaxValue;
+        float cumulativeLength = 0f;
+        float distanceAtClosest = 0f;
+        moveDirection = 1f; // padrão, será ajustado depois
+
+        for (int i = 0; i < ziplinePoints.Length - 1; i++)
+        {
+            Vector2 a = ziplinePoints[i];
+            Vector2 b = ziplinePoints[i + 1];
+            Vector2 closest = ClosestPointOnLineSegment(a, b, transform.position);
+            float dist = Vector2.Distance(transform.position, closest);
+
+            if (dist < closestDistance)
+            {
+                closestDistance = dist;
+                distanceAtClosest = cumulativeLength + Vector2.Distance(a, closest);
+
+                // Decide direção com base no vetor da tirolesa
+                moveDirection = Mathf.Sign((b - a).x);
+            }
+
+            cumulativeLength += Vector2.Distance(a, b);
+        }
+
+        // Calcula o progress com base na posição relativa
+        progress = Mathf.Clamp01(distanceAtClosest / totalLength);
 
         rb.gravityScale = 0f;
         rb.linearVelocity = Vector2.zero;
@@ -138,9 +168,19 @@ public class PlayerZiplineController : MonoBehaviour
     private void ExitZipline()
     {
         onZipline = false;
+        lastZiplineExitTime = Time.time;
+
         currentZipline = null;
         ziplinePoints = null;
 
         rb.gravityScale = 1f;
+    }
+
+    private Vector2 ClosestPointOnLineSegment(Vector2 a, Vector2 b, Vector2 point)
+    {
+        Vector2 ab = b - a;
+        float t = Vector2.Dot(point - a, ab) / ab.sqrMagnitude;
+        t = Mathf.Clamp01(t);
+        return a + t * ab;
     }
 }
