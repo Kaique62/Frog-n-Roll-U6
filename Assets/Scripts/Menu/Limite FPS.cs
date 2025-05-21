@@ -13,9 +13,9 @@ public class FpsLimiter : MonoBehaviour
     [Header("Volume da Música")]
     [SerializeField] private Slider sliderVolume;
     [SerializeField] private string nomeDoAudio = "Demo";  // Nome do áudio sem a extensão
-    private readonly int[] fpsOptions = { 24, 30, 60, 90, 120 };
+    private readonly int[] fpsOptions = { 24, 30, 60, 90, 120, 999 };
     [Header("Botões de FPS")]
-    [SerializeField] private Button[] botoesFps; // Ordem: 24, 30, 60, 90, 120
+    [SerializeField] private Button[] botoesFps; // Ordem: 24, 30, 60, 90, 120, 999
 
     private SQLiteConnection db;
     private AudioSource audioSource;
@@ -224,6 +224,12 @@ public class FpsLimiter : MonoBehaviour
     public void SelecionarFps120()
     {
         fpsIndex = 4;
+        AplicarFps();
+    }
+
+    public void SelecionarFps999()
+    {
+        fpsIndex = 5;
         AplicarFps();
     }
 }
