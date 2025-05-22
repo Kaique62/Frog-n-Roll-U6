@@ -8,9 +8,10 @@ public class Zipline : MonoBehaviour
 
     [Range(0f, 5f)]
     public float curveHeight = 0.5f; // curvatura pra baixo
-    public float reentryDelay = 1f; 
-    
+    public float reentryDelay = 1f;
+
     [Header("Line Renderer Settings")]
+    public Sprite lineSprite; // Novo campo para o sprite da linha
     public Color lineColor = Color.cyan;
     public float lineWidth = 0.1f;
     public int resolution = 30;
@@ -24,12 +25,25 @@ public class Zipline : MonoBehaviour
         edgeCollider = GetComponent<EdgeCollider2D>();
         lineRenderer = GetComponent<LineRenderer>();
 
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        // Configura material com o sprite
+        if (lineSprite != null)
+        {
+            Material lineMaterial = new Material(Shader.Find("Sprites/Default"));
+            lineMaterial.mainTexture = lineSprite.texture;
+            lineRenderer.material = lineMaterial;
+        }
+        else
+        {
+            lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        }
+
         lineRenderer.startColor = lineColor;
         lineRenderer.endColor = lineColor;
         lineRenderer.startWidth = lineWidth;
         lineRenderer.endWidth = lineWidth;
         lineRenderer.sortingOrder = 5;
+        lineRenderer.textureMode = LineTextureMode.Tile;
+        lineRenderer.alignment = LineAlignment.TransformZ;
     }
 
     private void Start()
@@ -60,11 +74,11 @@ public class Zipline : MonoBehaviour
         edgeCollider.points = localPoints;
         edgeCollider.isTrigger = true;
 
-        // Atualiza o LineRenderer com os pontos em world space
+        // Atualiza o LineRenderer com os pontos em world space com Z = 1
         lineRenderer.positionCount = points.Length;
         for (int i = 0; i < points.Length; i++)
         {
-            lineRenderer.SetPosition(i, points[i]);
+            lineRenderer.SetPosition(i, new Vector3(points[i].x, points[i].y, 1f));
         }
     }
 

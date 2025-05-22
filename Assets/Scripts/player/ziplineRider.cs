@@ -26,7 +26,7 @@ public class PlayerZiplineController : MonoBehaviour
             MoveOnZipline();
 
             // Pular da zipline
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Up"))
             {
                 ExitZipline();
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, 10f); // pulo

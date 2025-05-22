@@ -425,6 +425,8 @@ GameObject:
   m_Component:
   - component: {fileID: 595530951}
   - component: {fileID: 595530952}
+  - component: {fileID: 595530953}
+  - component: {fileID: 595530954}
   m_Layer: 0
   m_Name: RopeBoxCollider
   m_TagString: Untagged
@@ -493,37 +495,47 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.076458, y: 1.2478018}
   m_EdgeRadius: 0
---- !u!1 &601710681
-GameObject:
+--- !u!114 &595530953
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 601710682}
-  m_Layer: 0
-  m_Name: StaticEnemy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &601710682
-Transform:
+  m_GameObject: {fileID: 595530950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cb83a14762e33842b551be3dbb7345a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ziplineSpeed: 7
+  ropeGrabCollider: {fileID: 595530951}
+--- !u!50 &595530954
+Rigidbody2D:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 601710681}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1202578636}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 595530950}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &658214233
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +976,7 @@ Transform:
   m_GameObject: {fileID: 1059884988}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -37}
+  m_LocalPosition: {x: 1.2500001, y: 0.41000003, z: -37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1032,8 +1044,7 @@ Transform:
   m_LocalPosition: {x: -6.147086, y: 1.1679622, z: 37.32213}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 601710682}
+  m_Children: []
   m_Father: {fileID: 983997647}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1274887736
@@ -1734,7 +1745,7 @@ Transform:
   m_GameObject: {fileID: 1786555453}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -37}
+  m_LocalPosition: {x: 1.2500001, y: 0.41000003, z: -37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1808,7 +1819,6 @@ GameObject:
   - component: {fileID: 1874806399}
   - component: {fileID: 1874806398}
   - component: {fileID: 1874806397}
-  - component: {fileID: 1874806403}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1825,7 +1835,7 @@ Transform:
   m_GameObject: {fileID: 1874806395}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.1, y: 0.08, z: 1}
+  m_LocalPosition: {x: -13.92, y: 0.08, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2042,19 +2052,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1874806403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874806395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cb83a14762e33842b551be3dbb7345a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ropeGrabCollider: {fileID: 595530951}
 --- !u!1 &1915923218
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,11 +2122,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5729684132681026777, guid: 487aa489dc3177a4d9c8f80d9d6e2c54, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.64
+      value: 3.7584817
       objectReference: {fileID: 0}
     - target: {fileID: 5729684132681026777, guid: 487aa489dc3177a4d9c8f80d9d6e2c54, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7
+      value: 1.281765
       objectReference: {fileID: 0}
     - target: {fileID: 5729684132681026777, guid: 487aa489dc3177a4d9c8f80d9d6e2c54, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2162,6 +2159,10 @@ PrefabInstance:
     - target: {fileID: 5729684132681026777, guid: 487aa489dc3177a4d9c8f80d9d6e2c54, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118556280782113396, guid: 487aa489dc3177a4d9c8f80d9d6e2c54, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6277852429159577879, guid: 487aa489dc3177a4d9c8f80d9d6e2c54, type: 3}
       propertyPath: m_LocalPosition.x
