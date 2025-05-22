@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
         ropeHinge.enabled = false;
     }
 
+    [System.Obsolete]
     void Update()
     {
         if (boxCollider.gameObject.CompareTag("FireBorder")) Debug.Log("died");
@@ -93,6 +94,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    [System.Obsolete]
     private void HandleInputs()
     {
         HandleCrouch();
@@ -150,6 +152,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    [System.Obsolete]
     private void HandleAttack()
     {
         if (isAttacking) return;
@@ -220,6 +223,7 @@ public class PlayerController : MonoBehaviour
         animator.Play(animationName);
     }
 
+    [System.Obsolete]
     IEnumerator PerformAttack(GameObject hitbox, string animationName)
     {
         isAttacking = true;

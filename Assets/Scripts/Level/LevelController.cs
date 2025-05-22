@@ -5,58 +5,39 @@ using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour
 {
-    [Header("Audio & Countdown")]
-    public AudioSource musicAudioSource;
-    public float countdownTime = 3f;
-    public GameObject countdownUI;
-
     [Header("Score System")]
     public float score = 0;                          // Current score
     public TMP_Text scoreText;                         // Optional UI Text to display the score
     public TMP_Text scoreTextMultiplier;                         // Optional UI Text to display the score
     
     public float pointMultiplier = 1;
+
+    [Header("Music")]
+    public AudioSource musicAudioSource;
+    static bool GameStarted = false;
     void Start()
     {
-        StartCoroutine(StartLevel());
-        UpdateScoreUI(); // Initialize score display
+        UpdateScoreUI();
     }
 
-    IEnumerator StartLevel()
+    void Update()
     {
-        if (countdownUI != null)
-            countdownUI.SetActive(true);
+        if (Input.anyKey && !GameStarted)
+        {
+            StartLevel();
+        }
+    }
 
-        yield return StartCoroutine(Countdown());
-
+    void StartLevel()
+    {
+        GameStarted = true;
         if (musicAudioSource != null && !musicAudioSource.isPlaying)
         {
             Debug.Log("audioStart");
             musicAudioSource.Play();
         }
-
-        // You could trigger gameplay start here
     }
 
-    IEnumerator Countdown()
-    {
-        float remainingTime = countdownTime;
-
-        while (remainingTime > 0)
-        {
-            remainingTime -= Time.deltaTime;
-
-            // Optional: update countdown text
-            // if (countdownUI != null) { ... }
-
-            yield return null;
-        }
-
-        if (countdownUI != null)
-            countdownUI.SetActive(false);
-    }
-
-    // Call this method to add points to the score
     public void AddScore(float delay)
     {
         Debug.Log("AddScoreFunctionBeingCalled");
@@ -83,7 +64,6 @@ public class LevelController : MonoBehaviour
         UpdateScoreUI();
     }
 
-    // Call this to reset the score (if needed)
     public void ResetScore()
     {
         score = 0;

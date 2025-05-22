@@ -19,8 +19,6 @@ public class ActionTimer : MonoBehaviour
     private bool hasStartedColorChange = false; // To prevent starting the color change multiple times
 
     private BoxCollider2D boxCollider;       // Reference to the BoxCollider2D attached to the object
-    private bool isInCollision = false;      // Flag to track collision state
-    private float collisionTime = 0f;        // The time when the collision started
 
     private float delay;
     public float Delay => delay;
@@ -120,8 +118,6 @@ public class ActionTimer : MonoBehaviour
 
         if (hasStartedColorChange && currentTime >= colorChangeStartMusicTime && currentTime <= colorChangeStartMusicTime + 2f)
         {
-            isInCollision = true;
-            collisionTime = currentTime;
             UpdateDelay(currentTime);
             Debug.Log($"[ActionTimer] Collision started, delay: {delay:0.00}ms");
         }
@@ -129,7 +125,6 @@ public class ActionTimer : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        isInCollision = false;
         Debug.Log($"[ActionTimer] Collision ended, final delay: {delay:0.00}ms");
     }
 
