@@ -257,7 +257,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator PerformStomp()
     {
         isAttacking = true;
-        PlayAnimation("DownKick");
+        PlayAnimation("Stomp");
         stompHitbox.SetActive(true);
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, -stompFallSpeed);
         yield return new WaitForSeconds(attackDuration);
