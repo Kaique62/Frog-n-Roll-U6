@@ -88,6 +88,7 @@
     <Compile Include="Assets\Scripts\UI\PerformanceCounter.cs" />
     <Compile Include="Assets\Packages\Auto Letterbox\ForceCameraRatio.cs" />
     <Compile Include="Assets\Scripts\player\playerController.cs" />
+    <Compile Include="Assets\Scripts\Misc\Controls\MobileControls\MobileJoystick.cs" />
     <Compile Include="Assets\Scripts\Data\LevelData.cs" />
     <Compile Include="Assets\Scripts\Menu\MainMenuManager.cs" />
     <Compile Include="Assets\Scripts\Menu\KeyBinds.cs" />
