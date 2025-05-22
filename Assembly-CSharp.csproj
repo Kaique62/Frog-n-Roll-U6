@@ -71,6 +71,11 @@
     <Compile Include="Assets\Scripts\Misc\Controls\MobileControls\MobileInput.cs" />
     <Compile Include="Assets\Scripts\Player\ziplineRider.cs" />
     <Compile Include="Assets\Scripts\Menu\Limite FPS.cs" />
+<<<<<<< Updated upstream
+=======
+    <Compile Include="Assets\Scripts\scenario\boosterPlatform.cs" />
+    <Compile Include="Assets\Scripts\Menu\EditorDeControles.cs" />
+>>>>>>> Stashed changes
     <Compile Include="Assets\Scripts\Camera\CamFollowController.cs" />
     <Compile Include="Assets\Scripts\Scenario\zipline.cs" />
     <Compile Include="Assets\Scripts\Menu\Configuracao.cs" />
@@ -82,7 +87,6 @@
     <Compile Include="Assets\Asset1\CodeRedCat\4kVectorLandscape\Demo\Scripts\CameraScroll.cs" />
     <Compile Include="Assets\Scripts\Level\LevelController.cs" />
     <Compile Include="Assets\Scripts\Data\GameData.cs" />
-    <Compile Include="Assets\Scripts\Menu\BotaoEditavel.cs" />
     <Compile Include="Assets\Scripts\UI\PerformanceCounter.cs" />
     <Compile Include="Assets\Packages\Auto Letterbox\ForceCameraRatio.cs" />
     <Compile Include="Assets\Scripts\Scenario\movingPlatform.cs" />
@@ -91,6 +95,7 @@
     <Compile Include="Assets\Scripts\Scenario\ParallaxLayer.cs" />
     <Compile Include="Assets\Scripts\Menu\MainMenuManager.cs" />
     <Compile Include="Assets\Scripts\Menu\KeyBinds.cs" />
+    <Compile Include="Assets\Scripts\Menu\EditarBotao.cs" />
     <Compile Include="Assets\Scripts\Camera\CamPointSettings.cs" />
     <Compile Include="Assets\Asset1\CodeRedCat\4kVectorLandscape\Demo\Scripts\SimpleParallaxScroller.cs" />
     <Compile Include="Assets\Scripts\Misc\Controls\Controls.cs" />

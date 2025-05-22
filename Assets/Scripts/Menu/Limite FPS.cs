@@ -6,41 +6,41 @@ using System.IO;
 
 public class FpsLimiter : MonoBehaviour
 {
+    public GameObject gameCt;
+    public GameObject mobileControls;
+
     [Header("FPS")]
     [SerializeField] private Toggle toggleMostrarFps;
     [SerializeField] private TMP_Text fpsText;
 
     [Header("Volume da Música")]
     [SerializeField] private Slider sliderVolume;
-    [SerializeField] private string nomeDoAudio = "Demo";  // Nome do áudio sem a extensão
-    private readonly int[] fpsOptions = { 24, 30, 60, 90, 120, 999 };
+    [SerializeField] private string nomeDoAudio = "Demo";
+
     [Header("Botões de FPS")]
-    [SerializeField] private Button[] botoesFps; // Ordem: 24, 30, 60, 90, 120, 999
+    [SerializeField] private Button[] botoesFps;
+
+    private readonly int[] fpsOptions = { 24, 30, 60, 90, 120, 999 };
 
     private SQLiteConnection db;
     private AudioSource audioSource;
-    private int fpsIndex = 1; // padrão: 60 FPS
-    public GameObject gameCt; // Arraste aqui o painel de edição de controles
-    public GameObject mobileControls; // O GameObject que contém os botões móveis (MobileControls)
+    private int fpsIndex = 2;
 
     private void Start()
     {
         string path = Path.Combine(Application.persistentDataPath, "config.db");
         db = new SQLiteConnection(path);
-
         db.CreateTable<Configuracao>();
 
         // Mostrar FPS
-        string mostrar = LerConfig("mostrarFps");
-        bool mostrarFps = mostrar == "True";
+        bool mostrarFps = LerConfig("mostrarFps") == "True";
         toggleMostrarFps.isOn = mostrarFps;
         fpsText.gameObject.SetActive(mostrarFps);
+        toggleMostrarFps.onValueChanged.AddListener(OnToggleFps);
 
         // FPS
         fpsIndex = LerFpsSalvo();
-        AplicarFps(); // já seleciona o botão certo
-
-        toggleMostrarFps.onValueChanged.AddListener(OnToggleFps);
+        AplicarFps();
 
         // Volume
         audioSource = GetComponent<AudioSource>();
@@ -51,7 +51,7 @@ public class FpsLimiter : MonoBehaviour
 
             if (audioSource != null)
             {
-                AudioClip clip = Resources.Load<AudioClip>("Musics/Demo");
+                AudioClip clip = Resources.Load<AudioClip>("Musics/" + nomeDoAudio);
                 if (clip != null)
                 {
                     audioSource.clip = clip;
@@ -61,34 +61,39 @@ public class FpsLimiter : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("Áudio não encontrado em Resources/Musics!");
+                    Debug.LogError("Áudio não encontrado em Resources/Musics/");
                 }
             }
 
             sliderVolume.onValueChanged.AddListener(delegate { AtualizarVolume(); });
         }
+
     }
 
     private void OnToggleFps(bool isOn)
     {
         fpsText.gameObject.SetActive(isOn);
         SalvarConfig("mostrarFps", isOn.ToString());
-        AplicarFps(); // já existe e está correta
+        AplicarFps();
     }
 
     private void AplicarFps()
     {
         if (fpsIndex < 0 || fpsIndex >= fpsOptions.Length)
         {
-            Debug.LogWarning($"fpsIndex {fpsIndex} está fora do intervalo! Usando padrão 60 FPS.");
             fpsIndex = 2;
+            Debug.LogWarning("Índice de FPS inválido. Usando padrão: 60");
         }
 
-        int fps = fpsOptions[fpsIndex];
-        Application.targetFrameRate = fps;
+        Application.targetFrameRate = fpsOptions[fpsIndex];
         AtualizarFpsTexto();
         SalvarFps(fpsIndex);
-        SelecionarBotaoFpsAtual(); // Atualiza a seleção visual
+        SelecionarBotaoFpsAtual();
+    }
+
+    private void AtualizarFpsTexto()
+    {
+        fpsText.text = "FPS: " + fpsOptions[fpsIndex];
     }
 
     private void SelecionarBotaoFpsAtual()
@@ -97,11 +102,6 @@ public class FpsLimiter : MonoBehaviour
         {
             botoesFps[fpsIndex].Select();
         }
-    }
-
-    private void AtualizarFpsTexto()
-    {
-        fpsText.text = "FPS: " + fpsOptions[fpsIndex];
     }
 
     private void AtualizarVolume()
@@ -138,7 +138,7 @@ public class FpsLimiter : MonoBehaviour
     private int LerFpsSalvo()
     {
         string valor = LerConfig("fpsIndex");
-        return int.TryParse(valor, out int index) ? Mathf.Clamp(index, 0, fpsOptions.Length - 1) : 2; // 60 FPS padrão
+        return int.TryParse(valor, out int index) ? Mathf.Clamp(index, 0, fpsOptions.Length - 1) : 2;
     }
 
     private void SalvarConfig(string chave, string valor)
@@ -161,6 +161,14 @@ public class FpsLimiter : MonoBehaviour
         return config?.Valor;
     }
 
+    public void AbrirConfiguracaoControles()
+    {
+        if (gameCt != null) gameCt.SetActive(true);
+        if (mobileControls != null) mobileControls.SetActive(true);
+
+        Debug.Log("Modo de edição de controles ativado!");
+    }
+
     [Table("configuracao")]
     public class Configuracao
     {
@@ -175,61 +183,11 @@ public class FpsLimiter : MonoBehaviour
         SalvarFps(fpsIndex);
     }
 
-    public void AbrirConfiguracaoControles()
-    {
-        if (gameCt != null) gameCt.SetActive(true);
-        if (mobileControls != null) mobileControls.SetActive(true);
-
-        // Permitir edição dos botões filhos (prefabs) dentro de MobileControls
-        foreach (Transform child in mobileControls.transform)
-        {
-            GameObject botao = child.gameObject;
-
-            // Garante que o botão tenha um componente que permita edição (componente customizado)
-            if (!botao.TryGetComponent<BotaoEditavel>(out _))
-            {
-                botao.AddComponent<BotaoEditavel>(); // Permite mover e redimensionar
-            }
-        }
-
-        Debug.Log("Modo de edição de controles ativado!");
-    }
-
-
-    // Botões para selecionar FPS
-    public void SelecionarFps24()
-    {
-        fpsIndex = 0;
-        AplicarFps();
-    }
-
-    public void SelecionarFps30()
-    {
-        fpsIndex = 1;
-        AplicarFps();
-    }
-
-    public void SelecionarFps60()
-    {
-        fpsIndex = 2;
-        AplicarFps();
-    }
-
-    public void SelecionarFps90()
-    {
-        fpsIndex = 3;
-        AplicarFps();
-    }
-
-    public void SelecionarFps120()
-    {
-        fpsIndex = 4;
-        AplicarFps();
-    }
-
-    public void SelecionarFps999()
-    {
-        fpsIndex = 5;
-        AplicarFps();
-    }
+    // Métodos para botões de FPS
+    public void SelecionarFps24() { fpsIndex = 0; AplicarFps(); }
+    public void SelecionarFps30() { fpsIndex = 1; AplicarFps(); }
+    public void SelecionarFps60() { fpsIndex = 2; AplicarFps(); }
+    public void SelecionarFps90() { fpsIndex = 3; AplicarFps(); }
+    public void SelecionarFps120() { fpsIndex = 4; AplicarFps(); }
+    public void SelecionarFps999() { fpsIndex = 5; AplicarFps(); }
 }
