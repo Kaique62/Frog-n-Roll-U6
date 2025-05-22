@@ -6,10 +6,9 @@ public class FPSCounter : MonoBehaviour
 {
     [Header("UI References")]
     public TMP_Text fpsText; // TextMeshPro Text to display FPS
-    public TMP_Text ramText; // TextMeshPro Text to display RAM usage
 
     [Header("Settings")]
-    public float updateInterval = 0.5f; // Update frequency for FPS and RAM data
+    public float updateInterval = 0.5f; // Update frequency for FPS
 
     private float timeSinceLastUpdate = 0f;
     private int frameCount = 0;
@@ -27,11 +26,11 @@ public class FPSCounter : MonoBehaviour
 
         if (config != null && config.Valor == "True")
         {
-            gameObject.SetActive(true);
+            fpsText.gameObject.SetActive(true);
         }
         else
         {
-            gameObject.SetActive(false); // Default to disabled
+            fpsText.gameObject.SetActive(false);
         }
     }
 
@@ -53,13 +52,6 @@ public class FPSCounter : MonoBehaviour
             // Update FPS text
             if (fpsText != null)
                 fpsText.text = "FPS: " + Mathf.Floor(fps).ToString();
-        }
-
-        // Update RAM usage text
-        if (ramText != null)
-        {
-            float totalMemory = System.GC.GetTotalMemory(false) / (1024f * 1024f); // in MB
-            ramText.text = "RAM: " + totalMemory.ToString("F2") + " MB";
         }
     }
 }

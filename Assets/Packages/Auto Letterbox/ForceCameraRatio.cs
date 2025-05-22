@@ -155,6 +155,7 @@ namespace AutoLetterbox
 
         public Camera letterBoxCamera;
 
+        [System.Obsolete]
         private void Start () {
             // If no cameras have been assigned in editor, search for cameras in the scene
             if (findCamerasAutomatically) {
@@ -238,6 +239,7 @@ namespace AutoLetterbox
         /// <summary>
         /// Populates the tracked Camera Array with every Camera currently in the scene
         /// </summary>
+        [System.Obsolete]
         public void FindAllCamerasInScene () {
             Camera[] allCameras = FindObjectsOfType<Camera>();
             cameras = new List<CameraRatio>();

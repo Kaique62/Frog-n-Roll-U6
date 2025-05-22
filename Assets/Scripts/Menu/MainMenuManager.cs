@@ -67,6 +67,7 @@ public class MenuPrincipalManager : MonoBehaviour
             StartCoroutine(AnimarEscala(bigElement, escalaInicial, escalaFinal));
     }
 
+    [System.Obsolete]
     public void FecharOpcoes()
     {
         // Salvar configurações
