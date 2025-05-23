@@ -2,6 +2,8 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using SQLite;
+using System.IO;
 
 public class LevelController : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class LevelController : MonoBehaviour
     public float score = 0;                          // Current score
     public TMP_Text scoreText;                         // Optional UI Text to display the score
     public TMP_Text scoreTextMultiplier;                         // Optional UI Text to display the score
-    
+
     public float pointMultiplier = 1;
 
     [Header("Music")]
@@ -33,7 +35,10 @@ public class LevelController : MonoBehaviour
         GameStarted = true;
         if (musicAudioSource != null && !musicAudioSource.isPlaying)
         {
-            Debug.Log("audioStart");
+            float volumeSalvo = LerVolumeSalvo();
+            musicAudioSource.volume = volumeSalvo;
+
+            Debug.Log("audioStart com volume: " + volumeSalvo);
             musicAudioSource.Play();
         }
     }
@@ -42,19 +47,23 @@ public class LevelController : MonoBehaviour
     {
         Debug.Log("AddScoreFunctionBeingCalled");
         float points = 0;
-        if (delay >= 170){ //Perfect
+        if (delay >= 170)
+        { //Perfect
             points += 1000;
             pointMultiplier += 0.3f;
         }
-        else if (delay >= 150 && delay < 170){ // Good
+        else if (delay >= 150 && delay < 170)
+        { // Good
             points += 700;
             pointMultiplier += 0.1f;
         }
-        else if (delay >= 120 && delay < 150){ // Mid
+        else if (delay >= 120 && delay < 150)
+        { // Mid
             points += 500;
             pointMultiplier = 1;
         }
-        else {  //Low
+        else
+        {  //Low
             points += 300;
             pointMultiplier = 1;
         }
@@ -78,5 +87,19 @@ public class LevelController : MonoBehaviour
             scoreText.text = score.ToString();
             scoreTextMultiplier.text = "X" + pointMultiplier.ToString();
         }
+    }
+    
+    private float LerVolumeSalvo()
+    {
+        string path = Path.Combine(Application.persistentDataPath, "config.db");
+        using (var db = new SQLiteConnection(path))
+        {
+            var config = db.Find<FpsLimiter.Configuracao>("volume_Demo");
+            if (config != null && float.TryParse(config.Valor, out float volume))
+            {
+                return Mathf.Clamp01(volume); // garante que está entre 0 e 1
+            }
+        }
+        return 1f; // valor padrão
     }
 }

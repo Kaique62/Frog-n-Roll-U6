@@ -7137,8 +7137,53 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2741214000039045597, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2061712301}
   m_SourcePrefab: {fileID: 100100000, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+--- !u!1 &2061712296 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2741214000039045597, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &2061712297 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8184346240899126174, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &2061712298 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4919369065160695903, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &2061712299 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7628578081381765933, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &2061712300 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2768621780745055274, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2061712301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061712296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90806426dc024934c8f2d9f22417b004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  botao1: {fileID: 2061712300}
+  botao2: {fileID: 2061712299}
+  botao3: {fileID: 2061712298}
+  botao4: {fileID: 2061712297}
+  canvasControles: {fileID: 2061712296}
 --- !u!1 &2069828688
 GameObject:
   m_ObjectHideFlags: 0

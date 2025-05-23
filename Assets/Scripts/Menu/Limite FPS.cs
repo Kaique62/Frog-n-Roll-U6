@@ -9,15 +9,19 @@ public class FpsLimiter : MonoBehaviour
     public GameObject gameCt;
     public GameObject mobileControls;
 
+    [Header("VSync")]
+    [SerializeField] private Toggle toggleVSync;
+
     [Header("FPS")]
     [SerializeField] private Toggle toggleMostrarFps;
     [SerializeField] private TMP_Text fpsText;
 
-    [Header("Volume da Música")]
+    [Header("Volume da Mï¿½sica")]
     [SerializeField] private Slider sliderVolume;
+    [SerializeField] private TextMeshProUGUI volumePercentText;
     [SerializeField] private string nomeDoAudio = "Demo";
 
-    [Header("Botões de FPS")]
+    [Header("Botï¿½es de FPS")]
     [SerializeField] private Button[] botoesFps;
 
     private readonly int[] fpsOptions = { 24, 30, 60, 90, 120, 999 };
@@ -48,6 +52,11 @@ public class FpsLimiter : MonoBehaviour
         {
             float volumeSalvo = LerVolumeSalvo();
             sliderVolume.value = volumeSalvo;
+            if (volumePercentText != null)
+            {
+                int percentual = Mathf.RoundToInt(volumeSalvo * 100);
+                volumePercentText.text = percentual + "%";
+            }
 
             if (audioSource != null)
             {
@@ -61,12 +70,19 @@ public class FpsLimiter : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("Áudio não encontrado em Resources/Musics/");
+                    Debug.LogError("ï¿½udio nï¿½o encontrado em Resources/Musics/");
                 }
             }
 
             sliderVolume.onValueChanged.AddListener(delegate { AtualizarVolume(); });
         }
+
+                // VSync
+        bool vsyncAtivado = LerConfig("vsync") == "True";
+        toggleVSync.isOn = vsyncAtivado;
+        QualitySettings.vSyncCount = vsyncAtivado ? 1 : 0;
+        toggleVSync.onValueChanged.AddListener(OnToggleVSync);
+
 
     }
 
@@ -77,12 +93,18 @@ public class FpsLimiter : MonoBehaviour
         AplicarFps();
     }
 
+    private void OnToggleVSync(bool isOn)
+    {
+        QualitySettings.vSyncCount = isOn ? 1 : 0;
+        SalvarConfig("vsync", isOn.ToString());
+    }
+
     private void AplicarFps()
     {
         if (fpsIndex < 0 || fpsIndex >= fpsOptions.Length)
         {
             fpsIndex = 2;
-            Debug.LogWarning("Índice de FPS inválido. Usando padrão: 60");
+            Debug.LogWarning("ï¿½ndice de FPS invï¿½lido. Usando padrï¿½o: 60");
         }
 
         Application.targetFrameRate = fpsOptions[fpsIndex];
@@ -106,7 +128,7 @@ public class FpsLimiter : MonoBehaviour
 
     private void AtualizarVolume()
     {
-        float volume = sliderVolume.value;
+        float volume = Mathf.Max(sliderVolume.value, 0.3f); // mÃ­nimo de 30%
         SalvarVolume(volume);
 
         if (audioSource != null)
@@ -116,6 +138,13 @@ public class FpsLimiter : MonoBehaviour
             {
                 audioSource.Play();
             }
+        }
+
+        // Atualiza texto de porcentagem
+        if (volumePercentText != null)
+        {
+            int percentual = Mathf.RoundToInt(volume * 100);
+            volumePercentText.text = percentual + "%";
         }
     }
 
@@ -166,7 +195,7 @@ public class FpsLimiter : MonoBehaviour
         if (gameCt != null) gameCt.SetActive(true);
         if (mobileControls != null) mobileControls.SetActive(true);
 
-        Debug.Log("Modo de edição de controles ativado!");
+        Debug.Log("Modo de ediï¿½ï¿½o de controles ativado!");
     }
 
     [Table("configuracao")]
@@ -183,7 +212,7 @@ public class FpsLimiter : MonoBehaviour
         SalvarFps(fpsIndex);
     }
 
-    // Métodos para botões de FPS
+    // Mï¿½todos para botï¿½es de FPS
     public void SelecionarFps24() { fpsIndex = 0; AplicarFps(); }
     public void SelecionarFps30() { fpsIndex = 1; AplicarFps(); }
     public void SelecionarFps60() { fpsIndex = 2; AplicarFps(); }

@@ -11,6 +11,9 @@ public class EditorDeControles : MonoBehaviour
     public RectTransform botao3;
     public RectTransform botao4;
 
+    [Header("Joystick (fixo, não editável pelo usuário)")]
+    public RectTransform joystick;
+
     [Header("Canvas com os botões (GameCt)")]
     public GameObject canvasControles;
 
@@ -25,8 +28,9 @@ public class EditorDeControles : MonoBehaviour
         AdicionarBotao(botao2);
         AdicionarBotao(botao3);
         AdicionarBotao(botao4);
+        AdicionarBotao(joystick); // ← joystick entra no sistema, mas não será arrastável
 
-        CarregarConfiguracoes(); // ← Carrega os dados salvos, se existirem
+        CarregarConfiguracoes();
     }
 
     void AdicionarBotao(RectTransform rt)
@@ -35,7 +39,8 @@ public class EditorDeControles : MonoBehaviour
         {
             botoes[rt.name] = rt;
 
-            if (rt.GetComponent<EditarBotao>() == null)
+            // Só adiciona o componente de edição se não for o joystick
+            if (rt.GetComponent<EditarBotao>() == null && rt != joystick)
                 rt.gameObject.AddComponent<EditarBotao>();
         }
     }
@@ -99,6 +104,34 @@ public class EditorDeControles : MonoBehaviour
             Debug.LogWarning("Canvas de controles não atribuído.");
         }
     }
+
+    /// <summary>
+    /// Inverte os valores de X e Y das posições dos botões salvos no JSON.
+    /// </summary>
+    public void InverterControles()
+    {
+        if (!File.Exists(caminhoArquivo))
+        {
+            Debug.LogWarning("Não há arquivo para inverter.");
+            return;
+        }
+
+        string json = File.ReadAllText(caminhoArquivo);
+        ListaDeBotoes dados = JsonUtility.FromJson<ListaDeBotoes>(json);
+
+        foreach (DadosBotao dado in dados.botoes)
+        {
+            // Inverte apenas o eixo X
+            dado.posicao.x = -dado.posicao.x;
+        }
+
+        string novoJson = JsonUtility.ToJson(dados, true);
+        File.WriteAllText(caminhoArquivo, novoJson);
+        Debug.Log("Eixo X dos controles invertido e salvo.");
+
+        CarregarConfiguracoes(); // Aplica as mudanças visualmente
+    }
+
 }
 
 [System.Serializable]
