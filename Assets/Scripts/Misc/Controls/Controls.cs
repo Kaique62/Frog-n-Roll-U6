@@ -1,46 +1,62 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public static class Controls
 {
-    // Menu Binds
-    public static KeyCode Confirm = KeyCode.Return;
-    public static KeyCode Cancel = KeyCode.Escape;
-
-    // Player Binds
+    //Movement
     public static KeyCode Jump = KeyCode.W;
     public static KeyCode Left = KeyCode.A;
+    public static KeyCode Down = KeyCode.S;
     public static KeyCode Right = KeyCode.D;
+    public static KeyCode Roll = KeyCode.K;
+    //Actions
     public static KeyCode Grab = KeyCode.W;
     public static KeyCode Punch = KeyCode.J;
     public static KeyCode Uppercut = KeyCode.I;
     public static KeyCode Kick = KeyCode.L;
-    public static KeyCode Roll = KeyCode.K;
-    public static KeyCode Down = KeyCode.S;
-    
-    // Test for mobile interface
-    public static Button ConfirmButton;
 
-    private static bool confirmPressed;
-
-    public static bool ConfirmButtonPressed
+    public static void LoadKeyBinds()
     {
-        get
+        var keybinds = GameData.Load("config/KeyBinds.json");
+
+        if (keybinds == null || keybinds.Count == 0)
         {
-            if (confirmPressed)
-            {
-                confirmPressed = false;
-                return true;
-            }
-            return false;
+            Debug.LogWarning("KeyBinds JSON is missing or empty. Using defaults.");
+            return;
         }
-    }
 
-    public static void InitializeUIButtons()
-    {
-        if (ConfirmButton != null)
+        foreach (var category in keybinds)
         {
-            ConfirmButton.onClick.AddListener(() => confirmPressed = true);
+            foreach (var bind in category.Value)
+            {
+                string action = bind.Key;
+                string keyString = bind.Value;
+
+                if (Enum.TryParse(keyString, out KeyCode key))
+                {
+                    switch (action)
+                    {
+                        case "Jump": Jump = key; break;
+                        case "Left": Left = key; break;
+                        case "Right": Right = key; break;
+                        case "Grab": Grab = key; break;
+                        case "Punch": Punch = key; break;
+                        case "Uppercut": Uppercut = key; break;
+                        case "Kick": Kick = key; break;
+                        case "Roll": Roll = key; break;
+                        case "Crouch": Down = key; break;
+
+                        default:
+                            Debug.LogWarning($"Unknown keybind action '{action}' in config.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"Could not parse '{keyString}' into KeyCode for action '{action}'.");
+                }
+            }
         }
     }
 }

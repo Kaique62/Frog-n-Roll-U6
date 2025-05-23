@@ -26,6 +26,7 @@ public class MenuPrincipalManager : MonoBehaviour
 
     private void Start()
     {
+        Controls.LoadKeyBinds();
         if (bigElement != null)
             bigElement.localScale = escalaInicial;
 

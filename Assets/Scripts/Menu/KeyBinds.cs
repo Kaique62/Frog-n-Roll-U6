@@ -6,20 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class KeyBinds : MonoBehaviour
 {
-    public TMP_Text feedback;
+    //ButtonTexts
+    [Header("Movement")]
+    public TMP_Text Up;
+    public TMP_Text Left;
+    public TMP_Text Down;
+    public TMP_Text Right;
+    public TMP_Text Roll;
 
-    Dictionary<string, Dictionary<string, string>> DefaultKeyBinds = new Dictionary<string, Dictionary<string, string>> {
-        {
-            "Menu Binds", new Dictionary<string, string>{
-                {"Left", "LeftArrow"},
-                {"Right", "RightArrow"},
-                {"Up", "UpArrow"},
-                {"Down", "DownArrow"},
-                {"Confirm", "Enter"},
-                {"Cancel", "Escape"},
-            }
-        },
-
+    Dictionary<string, Dictionary<string, string>> UnifiedKeyBinds = new Dictionary<string, Dictionary<string, string>> {
         {
             "Player Binds", new Dictionary<string, string>{
                 {"Jump", "Space"},
@@ -27,7 +22,7 @@ public class KeyBinds : MonoBehaviour
                 {"Right", "D"},
                 {"Grab", "E"},
                 {"Punch", "J"},
-                {"Hook", "I"},
+                {"Uppercut", "I"},
                 {"Kick", "L"},
                 {"Roll", "K"},
                 {"Crouch", "S"}
@@ -43,27 +38,37 @@ public class KeyBinds : MonoBehaviour
 
         if (CurrentKeyBinds == null || CurrentKeyBinds.Count == 0)
         {
-            CurrentKeyBinds = DefaultKeyBinds;
-            feedback.text = "Using default KeyBinds!";
+            CurrentKeyBinds = UnifiedKeyBinds;
         }
-        else 
+        else
         {
-            feedback.text = "Dictionary contains data";
+            Up.text = CurrentKeyBinds["Player Binds"]["Jump"];
         }
-
-        SaveData();
     }
 
-    void Update()
+    public void SaveData()
     {
-        // Currently empty, can be used for updates per frame
-    }
-
-    void SaveData(){
+        CurrentKeyBinds = new Dictionary<string, Dictionary<string, string>>(){
+        {
+            "Player Binds", new Dictionary<string, string>{
+                {"Left", Left.text},
+                {"Jump", Up.text},
+                {"Right", Right.text},
+                {"Grab", "E"},
+                {"Punch", "J"},
+                {"Uppercut", "I"},
+                {"Kick", "L"},
+                {"Roll", "K"},
+                {"Crouch", Down.text}
+            }
+        }
+        };
         GameData.Save(CurrentKeyBinds, "config/KeyBinds.json");
+        Controls.LoadKeyBinds();
+        CloseKeyBindMenu();
     }
 
     void CloseKeyBindMenu() {
-        SceneManager.UnloadSceneAsync("PauseMenu");
+        SceneManager.UnloadSceneAsync("KeyBindMenu");
     }
 }

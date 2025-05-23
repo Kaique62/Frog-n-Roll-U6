@@ -5762,7 +5762,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -939.00006, y: 428}
+  m_AnchoredPosition: {x: -939, y: 428}
   m_SizeDelta: {x: -1006.1946, y: -583.0497}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1309386835
@@ -6453,7 +6453,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -844.00006, y: 431.99414}
+  m_AnchoredPosition: {x: -844, y: 431.99414}
   m_SizeDelta: {x: -968.4003, y: -191.8926}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1512546617
@@ -8142,14 +8142,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1198571567}
         m_TargetAssemblyTypeName: MenuPrincipalManager, Assembly-CSharp
-        m_MethodName: FecharOpcoes
-        m_Mode: 1
+        m_MethodName: AbrirSubState
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: KeyBindMenu
           m_BoolArgument: 0
         m_CallState: 1
 --- !u!114 &1923730804
