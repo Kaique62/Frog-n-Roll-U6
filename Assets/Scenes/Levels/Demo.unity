@@ -5951,6 +5951,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!224 &1725231866 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4798628681730385163, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1731644867
 GameObject:
   m_ObjectHideFlags: 0
@@ -7183,6 +7188,7 @@ MonoBehaviour:
   botao2: {fileID: 2061712299}
   botao3: {fileID: 2061712298}
   botao4: {fileID: 2061712297}
+  joystick: {fileID: 1725231866}
   canvasControles: {fileID: 2061712296}
 --- !u!1 &2069828688
 GameObject:

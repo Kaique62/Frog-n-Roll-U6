@@ -56,7 +56,7 @@ public class EditorDeControles : MonoBehaviour
             {
                 nome = item.Key,
                 posicao = new Vetor2(rt.anchoredPosition),
-                tamanho = new Vetor2(rt.sizeDelta)
+                tamanho = (rt == joystick) ? null : new Vetor2(rt.sizeDelta) // ← ignora tamanho do joystick
             });
         }
 
@@ -83,7 +83,8 @@ public class EditorDeControles : MonoBehaviour
             if (botoes.TryGetValue(dado.nome, out RectTransform rt))
             {
                 rt.anchoredPosition = dado.posicao.ToVector2();
-                rt.sizeDelta = dado.tamanho.ToVector2();
+                if (dado.tamanho != null && rt != joystick)
+                    rt.sizeDelta = dado.tamanho.ToVector2();
             }
         }
 
