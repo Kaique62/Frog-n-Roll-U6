@@ -17,15 +17,15 @@ public class KeyBinds : MonoBehaviour
     Dictionary<string, Dictionary<string, string>> UnifiedKeyBinds = new Dictionary<string, Dictionary<string, string>> {
         {
             "Player Binds", new Dictionary<string, string>{
-                {"Jump", "Space"},
-                {"Left", "A"},
-                {"Right", "D"},
-                {"Grab", "E"},
-                {"Punch", "J"},
-                {"Uppercut", "I"},
-                {"Kick", "L"},
-                {"Roll", "K"},
-                {"Crouch", "S"}
+                {"Jump"  ,  "Space"},
+                {"Up"    ,  "W"},
+                {"Down"  ,  "S" },
+                {"Left"  ,  "A"},
+                {"Right" ,  "D"},
+                {"Grab"  ,  "Space"},
+                {"Punch" ,  "J"},
+                {"Roll"  ,  "K"},
+                {"Kick"  ,  "L"},
             }
         }
     };
