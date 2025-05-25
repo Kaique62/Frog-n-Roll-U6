@@ -5,7 +5,8 @@ using UnityEngine;
 public static class Controls
 {
     //Movement
-    public static KeyCode Jump = KeyCode.W;
+    public static KeyCode Jump = KeyCode.Space;
+    public static KeyCode Up = KeyCode.W;
     public static KeyCode Left = KeyCode.A;
     public static KeyCode Down = KeyCode.S;
     public static KeyCode Right = KeyCode.D;
@@ -13,7 +14,6 @@ public static class Controls
     //Actions
     public static KeyCode Grab = KeyCode.W;
     public static KeyCode Punch = KeyCode.J;
-    public static KeyCode Uppercut = KeyCode.I;
     public static KeyCode Kick = KeyCode.L;
 
     public static void LoadKeyBinds()
@@ -42,7 +42,7 @@ public static class Controls
                         case "Right": Right = key; break;
                         case "Grab": Grab = key; break;
                         case "Punch": Punch = key; break;
-                        case "Uppercut": Uppercut = key; break;
+                        case "Up": Up = key; break;
                         case "Kick": Kick = key; break;
                         case "Roll": Roll = key; break;
                         case "Crouch": Down = key; break;

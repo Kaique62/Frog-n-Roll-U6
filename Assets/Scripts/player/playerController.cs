@@ -41,7 +41,6 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     public bool isRolling;
     private bool isAttacking;
-    private bool isCrouching;
     private bool isSwinging;
     private bool canAttach = true;
     private bool isDead;
@@ -97,7 +96,6 @@ public class PlayerController : MonoBehaviour
     [System.Obsolete]
     private void HandleInputs()
     {
-        HandleCrouch();
         HandleMovement();
         HandleJump();
         HandleRoll();
@@ -115,14 +113,14 @@ public class PlayerController : MonoBehaviour
 
         if (moveInput != 0)
         {
-            if (isGrounded && !isCrouching)
+            if (isGrounded)
                 PlayAnimation("Run");
 
             transform.localScale = new Vector3(Mathf.Sign(moveInput), 1, 1);
         }
         else
         {
-            if (isGrounded && !isCrouching && !isAttacking)
+            if (isGrounded && !isAttacking)
                 PlayAnimation("Idle");
         }
 
@@ -133,8 +131,6 @@ public class PlayerController : MonoBehaviour
     {
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
-            if (isCrouching) ExitCrouch();
-
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             PlayAnimation("Jump");
 
@@ -147,7 +143,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded && (Input.GetKeyDown(Controls.Roll) || MobileInput.GetHeld("Roll")) && !isRolling)
         {
-            if (isCrouching) ExitCrouch();
             StartCoroutine(PerformRoll());
         }
     }
@@ -157,43 +152,58 @@ public class PlayerController : MonoBehaviour
     {
         if (isAttacking) return;
 
-        if (isCrouching) ExitCrouch();
-
-        if (Input.GetKeyDown(Controls.Uppercut) || MobileInput.GetHeld("Uppercut"))
+        // UpperPunch
+        if ((Input.GetKeyDown(Controls.Punch) || MobileInput.GetHeld("Punch")) &&
+        (Input.GetKey(Controls.Up) || MobileInput.GetHeld("Up")))
         {
-            StartCoroutine(PerformUppercut());
+            if (Mathf.Abs(rb.linearVelocity.x) > 0.1f)
+            {
+                StartCoroutine(PerformAttack(uppercutHitbox, "UpPunch-Run"));
+            }
+            else
+            {
+                 StartCoroutine(PerformAttack(uppercutHitbox, "UpPunch"));
+            }
         }
-        else if (!isGrounded && (Input.GetKeyDown(Controls.Kick) || MobileInput.GetHeld("Kick")) && (Input.GetKey(Controls.Down) || MobileInput.GetHeld("Down")))
+        // Stomp
+        else if (!isGrounded && (Input.GetKeyDown(Controls.Kick) || MobileInput.GetHeld("Kick")) &&
+        (Input.GetKey(Controls.Down) || MobileInput.GetHeld("Down")))
         {
             StartCoroutine(PerformStomp());
         }
+        // Punch
         else if (Input.GetKeyDown(Controls.Punch) || MobileInput.GetHeld("Punch"))
         {
-            StartCoroutine(PerformAttack(punchHitbox, "Punch"));
-        }
-        else if (Input.GetKeyDown(Controls.Kick) || MobileInput.GetHeld("Kick"))
-        {
-            StartCoroutine(PerformAttack(kickHitbox, "Kick"));
-        }
-    }
-
-    private void HandleCrouch()
-    {
-        if (isRolling || isAttacking || !isGrounded) return;
-
-        if (Input.GetKey(Controls.Down) || MobileInput.GetHeld("Down"))
-        {
-            if (!isCrouching)
+            // Verifica o estado do jogador para decidir qual animação de soco usar
+            if (!isGrounded)
             {
-                isCrouching = true;
-                boxCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y / 2);
-                boxCollider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y - originalColliderSize.y / 4);
-                PlayAnimation("Crouch");
+                StartCoroutine(PerformAttack(punchHitbox, "Punch-Jump"));
+            }
+            else if (Mathf.Abs(rb.linearVelocity.x) > 0.1f)
+            {
+                StartCoroutine(PerformAttack(punchHitbox, "Punch-Run"));
+            }
+            else
+            {
+                StartCoroutine(PerformAttack(punchHitbox, "Punch"));
             }
         }
-        else if (isCrouching)
+        // Kick
+        else if (Input.GetKeyDown(Controls.Kick) || MobileInput.GetHeld("Kick"))
         {
-            ExitCrouch();
+            // Verifica o estado do jogador para decidir qual animação de chute usar
+            if (!isGrounded)
+            {
+                StartCoroutine(PerformAttack(kickHitbox, "Kick-Jump"));
+            }
+            else if (Mathf.Abs(rb.linearVelocity.x) > 0.1f)
+            {
+                StartCoroutine(PerformAttack(kickHitbox, "Kick-Run"));
+            }
+            else
+            {
+                StartCoroutine(PerformAttack(kickHitbox, "Kick"));
+            }
         }
     }
 
@@ -206,14 +216,6 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter = jumpBufferTime;
         else
             jumpBufferCounter -= Time.deltaTime;
-    }
-
-    private void ExitCrouch()
-    {
-        isCrouching = false;
-        boxCollider.size = originalColliderSize;
-        boxCollider.offset = originalColliderOffset;
-        PlayAnimation("Idle");
     }
 
     private void PlayAnimation(string animationName)
@@ -245,16 +247,6 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(attackDuration);
         hitbox.SetActive(false);
-        isAttacking = false;
-    }
-
-    IEnumerator PerformUppercut()
-    {
-        isAttacking = true;
-        PlayAnimation("Punch");
-        uppercutHitbox.SetActive(true);
-        yield return new WaitForSeconds(attackDuration);
-        uppercutHitbox.SetActive(false);
         isAttacking = false;
     }
 

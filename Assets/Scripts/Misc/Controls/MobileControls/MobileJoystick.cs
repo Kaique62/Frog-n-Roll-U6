@@ -54,7 +54,7 @@ public class MobileJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IP
     {
         MobileInput.Held["Left"]  = input.x < -deadZone;
         MobileInput.Held["Right"] = input.x > deadZone;
-        //MobileInput.Held["Up"]    = input.y > deadZone;
+        MobileInput.Held["Up"]    = input.y > deadZone;
         MobileInput.Held["Down"]  = input.y < -deadZone;
     }
 

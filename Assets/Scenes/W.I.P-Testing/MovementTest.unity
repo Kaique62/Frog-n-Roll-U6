@@ -335,6 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75e885dce9e593f49b807dea8a40f529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveOnPlayerInput: 0
   moveSpeed: 5
   waitTime: 0
 --- !u!1 &658214233
@@ -465,13 +466,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa1ca4159e7dbf458f1cb9f35b29107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicAudioSource: {fileID: 1777700517}
-  countdownTime: 3
-  countdownUI: {fileID: 0}
   score: 0
   scoreText: {fileID: 0}
   scoreTextMultiplier: {fileID: 0}
   pointMultiplier: 1
+  musicAudioSource: {fileID: 1777700517}
 --- !u!1 &1025728934
 GameObject:
   m_ObjectHideFlags: 3
@@ -814,6 +813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75e885dce9e593f49b807dea8a40f529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveOnPlayerInput: 0
   moveSpeed: 5
   waitTime: 3
 --- !u!1 &1385646938
@@ -1078,7 +1078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2741214000039045597, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7575195096468316491, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
       propertyPath: inputName
@@ -1502,7 +1502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7718455522491348580, guid: 487aa489dc3177a4d9c8f80d9d6e2c54, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8544338477598347100, guid: 487aa489dc3177a4d9c8f80d9d6e2c54, type: 3}
       propertyPath: lineWidth
@@ -1525,6 +1525,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 983997647}
     m_Modifications:
+    - target: {fileID: 2901344457141050287, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3568917039274585907, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1567,6 +1571,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5621135663019350283, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948864015420598852, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948864015420598852, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+      propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

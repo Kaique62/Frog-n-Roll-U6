@@ -15,7 +15,7 @@ public class MobileInput : MonoBehaviour
             //Movement
             "Left", "Right", "Up", "Down",
             //Actions
-            "Punch", "Kick", "Roll", "Uppercut", "Grab"
+            "Punch", "Kick", "Roll", "Jump", "Grab"
         };
         foreach (var key in keys)
         {
