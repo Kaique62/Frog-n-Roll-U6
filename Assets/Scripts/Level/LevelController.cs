@@ -91,15 +91,11 @@ public class LevelController : MonoBehaviour
     
     private float LerVolumeSalvo()
     {
-        string path = Path.Combine(Application.persistentDataPath, "config.db");
-        using (var db = new SQLiteConnection(path))
+        string valor = ConfiguracoesManager.Ler("volume_MusicVolume");
+        if (float.TryParse(valor, out float volume))
         {
-            var config = db.Find<FpsLimiter.Configuracao>("volume_Demo");
-            if (config != null && float.TryParse(config.Valor, out float volume))
-            {
-                return Mathf.Clamp01(volume); // garante que está entre 0 e 1
-            }
+            return Mathf.Clamp01(volume);
         }
-        return 1f; // valor padrão
+        return 1f; // volume padrão
     }
 }

@@ -67,14 +67,12 @@ public class MenuPrincipalManager : MonoBehaviour
         if (bigElement != null)
             StartCoroutine(AnimarEscala(bigElement, escalaInicial, escalaFinal));
     }
-
-    [System.Obsolete]
     public void FecharOpcoes()
     {
         // Salvar configurações
         FpsLimiter fpsLimiter = FindObjectOfType<FpsLimiter>();
         if (fpsLimiter != null)
-            fpsLimiter.SalvarTodasAsConfigs();
+            fpsLimiter.SalvarTodasConfiguracoes();
 
         StopAllCoroutines();
 
