@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\Menu\LevelPreload.cs" />
     <Compile Include="Assets\Scripts\scenario\ParallaxLayer.cs" />
     <Compile Include="Assets\Scripts\Menu\FPS.cs" />
+    <Compile Include="Assets\Scripts\player\UpdateCollider.cs" />
     <Compile Include="Assets\Scripts\Misc\Controls\KeyBindListener.cs" />
     <Compile Include="Assets\Scripts\Level\ActionTimer.cs" />
     <Compile Include="Assets\Scripts\Enemies\Base\AutoDestroy.cs" />
@@ -91,7 +92,6 @@
     <Compile Include="Assets\Scripts\player\playerController.cs" />
     <Compile Include="Assets\Scripts\Misc\Controls\MobileControls\MobileJoystick.cs" />
     <Compile Include="Assets\Scripts\Data\LevelData.cs" />
-    <Compile Include="Assets\Scripts\Misc\Controls\KeybindConfig.cs" />
     <Compile Include="Assets\Scripts\Menu\MainMenuManager.cs" />
     <Compile Include="Assets\Scripts\Menu\KeyBinds.cs" />
     <Compile Include="Assets\Scripts\Menu\EditarBotao.cs" />
