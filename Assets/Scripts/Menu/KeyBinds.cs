@@ -79,10 +79,9 @@ public class KeyBinds : MonoBehaviour
         };
         GameData.Save(CurrentKeyBinds, "config/KeyBinds.json");
         Controls.LoadKeyBinds();
-        CloseKeyBindMenu();
     }
 
-    void CloseKeyBindMenu() {
+    public void CloseKeyBindMenu() {
         SceneManager.UnloadSceneAsync("KeyBindMenu");
     }
 }
