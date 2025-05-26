@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7416785130761896742}
   - component: {fileID: 4506952195655884445}
   m_Layer: 0
-  m_Name: Tamandua
+  m_Name: Sloth
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -8292627847575866788, guid: 1bf2fc925d10dae4eaaf14b158178a59, type: 3}
+  m_Sprite: {fileID: -5284650704551082553, guid: 2c40a34e74420ca40940cef68e673c77, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -123,17 +123,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.035190582, y: -0.008796692}
+  m_Offset: {x: 0.5383453, y: 0.025465488}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.23, y: 5.1}
+    oldSize: {x: 4.82, y: 5}
     newSize: {x: 4.23, y: 5.1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.3456573, y: 5.194292}
+  m_Size: {x: 3.7239342, y: 4.988721}
   m_EdgeRadius: 0
 --- !u!114 &4506952195655884445
 MonoBehaviour:
@@ -150,10 +150,10 @@ MonoBehaviour:
   isDestructible: 1
   damageCooldown: 0.5
   health: 1
-  killsPlayerOnContact: 0
+  killsPlayerOnContact: 1
   ignoreRollingPlayer: 0
   movementType: 0
-  movementTrigger: 1
+  movementTrigger: 0
   moveSpeed: 1
   movementDirection: {x: 1, y: 0}
   patrolDistance: 5

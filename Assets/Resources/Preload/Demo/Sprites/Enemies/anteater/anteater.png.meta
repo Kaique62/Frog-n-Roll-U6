@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 13dddbeb0a2dff1489039c451db91bff
+guid: 1bf2fc925d10dae4eaaf14b158178a59
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8067739859969224209
-    second: tamandua_0
+      213: -8292627847575866788
+    second: anteater_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tamandua_0
+      name: anteater_0
       rect:
         serializedVersion: 2
         x: 61
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fe156429751a90090800000000000000
-      internalID: -8067739859969224209
+      spriteID: c527abaa8eaaaec80800000000000000
+      internalID: -8292627847575866788
       vertices: []
       indices: 
       edges: []
@@ -160,8 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      tamandua_0: -8067739859969224209
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

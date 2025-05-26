@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 8333811592969058249}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 50.98823, y: -12.724612, z: -0.26242828}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -159,6 +159,9 @@ MonoBehaviour:
   patrolDistance: 5
   playerDetectionRange: 20
   movementCooldown: 1
+  rotateTowardsCustomPath: 0
+  lookAtCustomPathPoint: 0
+  rotationOffset: 0
   customPathPoints:
   - {fileID: 0}
   flipSpriteBasedOnPlayer: 0
