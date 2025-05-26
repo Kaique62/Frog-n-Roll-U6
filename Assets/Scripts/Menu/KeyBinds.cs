@@ -12,20 +12,26 @@ public class KeyBinds : MonoBehaviour
     public TMP_Text Left;
     public TMP_Text Down;
     public TMP_Text Right;
+
+    [Header("Actions")]
+    public TMP_Text Jump;
+    public TMP_Text Grab;
     public TMP_Text Roll;
+    public TMP_Text Punch;
+    public TMP_Text Kick;
 
     Dictionary<string, Dictionary<string, string>> UnifiedKeyBinds = new Dictionary<string, Dictionary<string, string>> {
         {
             "Player Binds", new Dictionary<string, string>{
-                {"Jump"  ,  "Space"},
-                {"Up"    ,  "W"},
-                {"Down"  ,  "S" },
-                {"Left"  ,  "A"},
-                {"Right" ,  "D"},
-                {"Grab"  ,  "Space"},
-                {"Punch" ,  "J"},
-                {"Roll"  ,  "K"},
-                {"Kick"  ,  "L"},
+                {"Up", "W"},
+                {"Left", "A"},
+                {"Down", "S"},
+                {"Right", "D"},
+                {"Jump", "SPACE"},
+                {"Grab", "E"},
+                {"Punch", "J"},
+                {"Kick", "L"},
+                {"Roll", "K"},
             }
         }
     };
@@ -42,7 +48,15 @@ public class KeyBinds : MonoBehaviour
         }
         else
         {
-            Up.text = CurrentKeyBinds["Player Binds"]["Jump"];
+            Up.text = CurrentKeyBinds["Player Binds"]["Up"];
+            Left.text = CurrentKeyBinds["Player Binds"]["Left"];
+            Down.text = CurrentKeyBinds["Player Binds"]["Down"];
+            Right.text = CurrentKeyBinds["Player Binds"]["Right"];
+            Jump.text = CurrentKeyBinds["Player Binds"]["Jump"];
+            Grab.text = CurrentKeyBinds["Player Binds"]["Grab"];
+            Roll.text = CurrentKeyBinds["Player Binds"]["Roll"];
+            Punch.text = CurrentKeyBinds["Player Binds"]["Punch"];
+            Kick.text = CurrentKeyBinds["Player Binds"]["Kick"];
         }
     }
 
@@ -51,15 +65,15 @@ public class KeyBinds : MonoBehaviour
         CurrentKeyBinds = new Dictionary<string, Dictionary<string, string>>(){
         {
             "Player Binds", new Dictionary<string, string>{
+                {"Up", Up.text},
                 {"Left", Left.text},
-                {"Jump", Up.text},
+                {"Down", Down.text},
                 {"Right", Right.text},
-                {"Grab", "E"},
-                {"Punch", "J"},
-                {"Uppercut", "I"},
-                {"Kick", "L"},
-                {"Roll", "K"},
-                {"Crouch", Down.text}
+                {"Jump", Jump.text},
+                {"Grab", Grab.text},
+                {"Punch", Punch.text},
+                {"Kick", Kick.text},
+                {"Roll", Roll.text},
             }
         }
         };
