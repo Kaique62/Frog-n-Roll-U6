@@ -4,6 +4,10 @@ using System.Threading.Tasks;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Game Over")]
+    public GameObject gameOverPrefab;
+    public Transform canvasTransform;
+
     [Header("Player Movement")]
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
@@ -284,6 +288,13 @@ public class PlayerController : MonoBehaviour
         isDead = true;
         rb.linearVelocity = Vector2.zero;
         PlayAnimation("Die");
+
+        if (gameOverPrefab != null)
+        {
+            Instantiate(gameOverPrefab, canvasTransform);
+            gameOverPrefab.SetActive(true);
+        }
+
         Destroy(gameObject);
         Time.timeScale = 0;
     }
