@@ -1266,7 +1266,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 572.99, y: -409.93}
+  m_AnchoredPosition: {x: 572.9899, y: -409.93}
   m_SizeDelta: {x: 675.5, y: 79.99}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &225107476
@@ -5089,7 +5089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd2024cdedd00db4db59b89894eb8440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nomeDoLevelDeJogo: Demo
+  nomeDoLevelDeJogo: Demo30s
   painelMenuInicial: {fileID: 1301335878}
   painelOpcoes: {fileID: 1996929056}
   menuPrincipal: {fileID: 1301335879}

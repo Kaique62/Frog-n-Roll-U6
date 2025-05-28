@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8698605036256478796}
   m_Layer: 0
   m_Name: InvisibleWallBorder
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,7 +42,7 @@ PolygonCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c194c58141573184bacc2756e22fb034, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
