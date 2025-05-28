@@ -1,4 +1,5 @@
 using System.Collections;
+using EasyTransition;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +20,10 @@ public class MenuPrincipalManager : MonoBehaviour
     [SerializeField] private Vector3 escalaInicial = new Vector3(0.45f, 0.45f, 0.45f);
     [SerializeField] private Vector3 escalaFinal = Vector3.one;
     [SerializeField] private float deslocamentoX = 1000f;
+
+    [Header("Transition Prefab")]
+    public TransitionSettings transition;
+    public float loadDelay;
 
     private Vector3 menuPrincipalPosOriginal;
     private Vector3 fnrLogoTypePosOriginal;
@@ -48,7 +53,7 @@ public class MenuPrincipalManager : MonoBehaviour
 
     public void Jogar()
     {
-        SceneManager.LoadScene(nomeDoLevelDeJogo);
+        TransitionManager.Instance().Transition("PreloadState", transition, loadDelay);
     }
 
     public void AbrirOpcoes()

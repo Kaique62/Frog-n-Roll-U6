@@ -9,7 +9,7 @@ public class PauseManager : MonoBehaviour
     public static bool isPaused = false;
 
     [Header("Menu de Pausa")]
-    public RectTransform pauseMenu;
+    public RectTransform menuContainer;
     public float animDuration = 0.5f;
     public Vector2 hiddenPos = new Vector2(0, -635);
     public Vector2 shownPos = new Vector2(0, 135);
@@ -29,15 +29,16 @@ public class PauseManager : MonoBehaviour
 
     void Start()
     {
-        pauseMenu.anchoredPosition = hiddenPos;
+        if (menuContainer != null)
+            menuContainer.anchoredPosition = hiddenPos;
+
         countdownText.text = "";
+
         backgroundTargetColor = backgroundImage.color;
         Color startColor = backgroundTargetColor;
         startColor.a = 0f;
         backgroundImage.color = startColor;
     }
-    
-    bool gameStarted = false;
 
     void Update()
     {
@@ -57,7 +58,7 @@ public class PauseManager : MonoBehaviour
         AudioListener.pause = true;
 
         if (animCoroutine != null) StopCoroutine(animCoroutine);
-        animCoroutine = StartCoroutine(AnimatePanel(pauseMenu, pauseMenu.anchoredPosition, shownPos));
+        animCoroutine = StartCoroutine(AnimateMenu(true));
         StartCoroutine(FadeBackground(0f, 190f / 255f));
     }
 
@@ -66,24 +67,26 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
 
         if (animCoroutine != null) StopCoroutine(animCoroutine);
-        animCoroutine = StartCoroutine(AnimatePanel(pauseMenu, pauseMenu.anchoredPosition, hiddenPos));
+        animCoroutine = StartCoroutine(AnimateMenu(false));
         StartCoroutine(CountdownResume());
     }
 
-    private IEnumerator AnimatePanel(RectTransform panel, Vector2 from, Vector2 to)
+    private IEnumerator AnimateMenu(bool show)
     {
         float elapsed = 0f;
+        Vector2 start = show ? hiddenPos : shownPos;
+        Vector2 end = show ? shownPos : hiddenPos;
 
         while (elapsed < animDuration)
         {
             float t = elapsed / animDuration;
             t = 1f - Mathf.Pow(1f - t, 2f); // ease-out
-            panel.anchoredPosition = Vector2.Lerp(from, to, t);
+            menuContainer.anchoredPosition = Vector2.Lerp(start, end, t);
             elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
 
-        panel.anchoredPosition = to;
+        menuContainer.anchoredPosition = end;
     }
 
     private IEnumerator FadeBackground(float fromAlpha, float toAlpha)
@@ -136,21 +139,26 @@ public class PauseManager : MonoBehaviour
 
     public void ResetScene()
     {
-        isPaused = false; // <- Garante que sempre comece "despausado"
-        pauseMenu.anchoredPosition = hiddenPos;
+        isPaused = false;
+
+        if (menuContainer != null)
+            menuContainer.anchoredPosition = hiddenPos;
+
         countdownText.text = "";
+
         backgroundTargetColor = backgroundImage.color;
         Color startColor = backgroundTargetColor;
         startColor.a = 0f;
         backgroundImage.color = startColor;
-        Time.timeScale = 1f; // Garante que o tempo volte ao normal
-        AudioListener.pause = false; // Garante que o som volte
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Recarrega a cena atual
+
+        Time.timeScale = 1f;
+        AudioListener.pause = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void GoToHome()
     {
-        isPaused = false; // Garantir que o jogo não fique pausado
+        isPaused = false;
         Time.timeScale = 1f;
         AudioListener.pause = false;
         SceneManager.LoadScene("MainMenu");
