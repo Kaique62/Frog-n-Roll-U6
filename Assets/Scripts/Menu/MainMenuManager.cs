@@ -48,7 +48,7 @@ public class MenuPrincipalManager : MonoBehaviour
         }
 
         if (painelOpcoes != null)
-            painelOpcoes.SetActive(true); // mantém sempre ativo
+            painelOpcoes.SetActive(true);
     }
 
     public void Jogar()

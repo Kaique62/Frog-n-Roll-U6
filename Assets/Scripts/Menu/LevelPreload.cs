@@ -151,7 +151,7 @@ public class LevelPreload : MonoBehaviour
         
         if (resourcesAvailable && Application.CanStreamedLevelBeLoaded(sceneName))
         {
-            SafeTransition(sceneName);
+            SafeTransition(Song);
         }
         else
         {

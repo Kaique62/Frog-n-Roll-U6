@@ -1,12 +1,14 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class KeyBinds : MonoBehaviour
 {
-    //ButtonTexts
+    // Button Texts
     [Header("Movement")]
     public TMP_Text Up;
     public TMP_Text Left;
@@ -19,83 +21,170 @@ public class KeyBinds : MonoBehaviour
     public TMP_Text Roll;
     public TMP_Text Punch;
     public TMP_Text Kick;
+    
+    [Header("UI Elements")]
+    public GameObject keyBindPanel;
+    public GameObject mobileControlsPanel;
+    public Button closeButton;
 
-    Dictionary<string, Dictionary<string, string>> DefaultKeys = new Dictionary<string, Dictionary<string, string>> {
-        {
-            "Player Binds", new Dictionary<string, string>{
-                {"Up", "W"},
-                {"Left", "A"},
-                {"Down", "S"},
-                {"Right", "D"},
-                {"Jump", "SPACE"},
-                {"Grab", "E"},
-                {"Punch", "J"},
-                {"Kick", "L"},
-                {"Roll", "K"},
-            }
-        }
+    // Default key bindings
+    private Dictionary<string, KeyCode> DefaultKeys = new Dictionary<string, KeyCode> {
+        {"Up", KeyCode.W},
+        {"Left", KeyCode.A},
+        {"Down", KeyCode.S},
+        {"Right", KeyCode.D},
+        {"Jump", KeyCode.Space},
+        {"Grab", KeyCode.E},
+        {"Punch", KeyCode.J},
+        {"Kick", KeyCode.L},
+        {"Roll", KeyCode.K},
     };
 
-    Dictionary<string, Dictionary<string, string>> CurrentKeyBinds = new Dictionary<string, Dictionary<string, string>>() {};
+    // Current key bindings
+    private Dictionary<string, KeyCode> currentKeyBinds = new Dictionary<string, KeyCode>();
+    private bool isRebinding = false;
+    private string currentRebindAction = "";
+    private TMP_Text currentRebindText;
 
     void Start()
     {
-        CurrentKeyBinds = GameData.Load("config/KeyBinds.json");
+        // Only show keyboard bindings on platforms that support them
+        keyBindPanel.SetActive(Application.platform != RuntimePlatform.Android && 
+                              Application.platform != RuntimePlatform.IPhonePlayer);
+        
+        // Show mobile controls on mobile platforms
+        mobileControlsPanel.SetActive(Application.platform == RuntimePlatform.Android || 
+                                    Application.platform == RuntimePlatform.IPhonePlayer);
 
-        if (CurrentKeyBinds == null || CurrentKeyBinds.Count == 0)
+        // Load saved key bindings or use defaults
+        LoadKeyBinds();
+
+        // Initialize UI with current bindings
+        UpdateUI();
+        
+        // Setup close button
+        closeButton.onClick.AddListener(CloseKeyBindMenu);
+    }
+
+    void Update()
+    {
+        // Handle key rebinding
+        if (isRebinding && Input.anyKeyDown)
         {
-            CurrentKeyBinds = DefaultKeys;
-        }
-        else
-        {
-            Up.text = CurrentKeyBinds["Player Binds"]["Up"];
-            Left.text = CurrentKeyBinds["Player Binds"]["Left"];
-            Down.text = CurrentKeyBinds["Player Binds"]["Down"];
-            Right.text = CurrentKeyBinds["Player Binds"]["Right"];
-            Jump.text = CurrentKeyBinds["Player Binds"]["Jump"];
-            Grab.text = CurrentKeyBinds["Player Binds"]["Grab"];
-            Roll.text = CurrentKeyBinds["Player Binds"]["Roll"];
-            Punch.text = CurrentKeyBinds["Player Binds"]["Punch"];
-            Kick.text = CurrentKeyBinds["Player Binds"]["Kick"];
+            foreach(KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
+            {
+                if (Input.GetKeyDown(keyCode))
+                {
+                    // Avoid binding escape key as it's used for closing
+                    if (keyCode == KeyCode.Escape) break;
+                    
+                    // Set the new key binding
+                    currentKeyBinds[currentRebindAction] = keyCode;
+                    currentRebindText.text = keyCode.ToString();
+                    
+                    // End rebinding
+                    isRebinding = false;
+                    currentRebindText.color = Color.white;
+                    SaveKeyBinds();
+                    break;
+                }
+            }
         }
     }
 
-    public void SaveData()
+    // Load key bindings from PlayerPrefs
+    private void LoadKeyBinds()
     {
-        CurrentKeyBinds = new Dictionary<string, Dictionary<string, string>>(){
+        currentKeyBinds = new Dictionary<string, KeyCode>();
+        
+        // Load each key binding or use default
+        foreach (var key in DefaultKeys.Keys)
         {
-            "Player Binds", new Dictionary<string, string>{
-                {"Up", Up.text},
-                {"Left", Left.text},
-                {"Down", Down.text},
-                {"Right", Right.text},
-                {"Jump", Jump.text},
-                {"Grab", Grab.text},
-                {"Punch", Punch.text},
-                {"Kick", Kick.text},
-                {"Roll", Roll.text},
+            string savedKey = PlayerPrefs.GetString("KeyBind_" + key, DefaultKeys[key].ToString());
+            
+            if (System.Enum.TryParse(savedKey, out KeyCode keyCode))
+            {
+                currentKeyBinds[key] = keyCode;
+            }
+            else
+            {
+                currentKeyBinds[key] = DefaultKeys[key];
             }
         }
-        };
-        GameData.Save(CurrentKeyBinds, "config/KeyBinds.json");
+    }
+
+    // Save key bindings to PlayerPrefs
+    private void SaveKeyBinds()
+    {
+        foreach (var key in currentKeyBinds.Keys)
+        {
+            PlayerPrefs.SetString("KeyBind_" + key, currentKeyBinds[key].ToString());
+        }
+        PlayerPrefs.Save();
+        
+        // Update controls in game
         Controls.LoadKeyBinds();
     }
 
-    public void resetKeys()
+    // Update UI with current key bindings
+    private void UpdateUI()
     {
-            Up.text = DefaultKeys["Player Binds"]["Up"];
-            Left.text = DefaultKeys["Player Binds"]["Left"];
-            Down.text = DefaultKeys["Player Binds"]["Down"];
-            Right.text = DefaultKeys["Player Binds"]["Right"];
-            Jump.text = DefaultKeys["Player Binds"]["Jump"];
-            Grab.text = DefaultKeys["Player Binds"]["Grab"];
-            Roll.text = DefaultKeys["Player Binds"]["Roll"];
-            Punch.text = DefaultKeys["Player Binds"]["Punch"];
-            Kick.text = DefaultKeys["Player Binds"]["Kick"];
+        Up.text = currentKeyBinds["Up"].ToString();
+        Left.text = currentKeyBinds["Left"].ToString();
+        Down.text = currentKeyBinds["Down"].ToString();
+        Right.text = currentKeyBinds["Right"].ToString();
+        Jump.text = currentKeyBinds["Jump"].ToString();
+        Grab.text = currentKeyBinds["Grab"].ToString();
+        Roll.text = currentKeyBinds["Roll"].ToString();
+        Punch.text = currentKeyBinds["Punch"].ToString();
+        Kick.text = currentKeyBinds["Kick"].ToString();
     }
 
+    // Start rebinding process for a specific action
+    public void StartRebind(string action, TMP_Text textElement)
+    {
+        // Only allow rebinding on keyboard-supported platforms
+        if (Application.platform == RuntimePlatform.Android || 
+            Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            return;
+        }
+
+        if (!isRebinding)
+        {
+            isRebinding = true;
+            currentRebindAction = action;
+            currentRebindText = textElement;
+            textElement.text = "PRESS KEY...";
+            textElement.color = Color.yellow;
+        }
+    }
+
+    // Reset all keys to defaults
+    public void ResetKeys()
+    {
+        foreach (var key in DefaultKeys.Keys)
+        {
+            currentKeyBinds[key] = DefaultKeys[key];
+        }
+        UpdateUI();
+        SaveKeyBinds();
+    }
+
+    // Close the key binding menu
     public void CloseKeyBindMenu()
     {
         SceneManager.UnloadSceneAsync("KeyBindMenu");
     }
+
+    // Helper methods for UI buttons
+    public void RebindUp() => StartRebind("Up", Up);
+    public void RebindLeft() => StartRebind("Left", Left);
+    public void RebindDown() => StartRebind("Down", Down);
+    public void RebindRight() => StartRebind("Right", Right);
+    public void RebindJump() => StartRebind("Jump", Jump);
+    public void RebindGrab() => StartRebind("Grab", Grab);
+    public void RebindRoll() => StartRebind("Roll", Roll);
+    public void RebindPunch() => StartRebind("Punch", Punch);
+    public void RebindKick() => StartRebind("Kick", Kick);
 }

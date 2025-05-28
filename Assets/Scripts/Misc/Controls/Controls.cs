@@ -4,12 +4,13 @@ using UnityEngine;
 
 public static class Controls
 {
-    //Movement
+    // Movement
     public static KeyCode Up = KeyCode.W;
     public static KeyCode Left = KeyCode.A;
     public static KeyCode Down = KeyCode.S;
     public static KeyCode Right = KeyCode.D;
-    //Actions
+    
+    // Actions
     public static KeyCode Punch = KeyCode.J;
     public static KeyCode Kick = KeyCode.L;
     public static KeyCode Grab = KeyCode.E;
@@ -17,6 +18,40 @@ public static class Controls
     public static KeyCode Roll = KeyCode.K;
 
     public static void LoadKeyBinds()
+    {
+        // Try loading from PlayerPrefs first (new system)
+        if (TryLoadFromPlayerPrefs())
+        {
+            Debug.Log("Loaded keybinds from PlayerPrefs");
+            return;
+        }
+        
+        // Fallback to JSON loading (old system)
+        LoadFromJson();
+    }
+
+    private static bool TryLoadFromPlayerPrefs()
+    {
+        bool loadedAny = false;
+        
+        foreach (var action in new[] {"Up", "Left", "Down", "Right", "Jump", "Grab", "Punch", "Kick", "Roll"})
+        {
+            string prefKey = "KeyBind_" + action;
+            if (PlayerPrefs.HasKey(prefKey))
+            {
+                string keyString = PlayerPrefs.GetString(prefKey);
+                if (Enum.TryParse(keyString, out KeyCode keyCode))
+                {
+                    SetKey(action, keyCode);
+                    loadedAny = true;
+                }
+            }
+        }
+        
+        return loadedAny;
+    }
+
+    private static void LoadFromJson()
     {
         var keybinds = GameData.Load("config/KeyBinds.json");
 
@@ -35,23 +70,8 @@ public static class Controls
 
                 if (Enum.TryParse(keyString, out KeyCode key))
                 {
-                    switch (action)
-                    {
-                        case "Up": Up = key; break;
-                        case "Left": Left = key; break;
-                        case "Down": Down = key; break;
-                        case "Right": Right = key; break;
-                        case "Jump": Jump = key; break;
-                        case "Grab": Grab = key; break;
-                        case "Punch": Punch = key; break;
-                        case "Kick": Kick = key; break;
-                        case "Roll": Roll = key; break;
-
-                        default:
-                            Debug.LogWarning($"Unknown keybind action '{action}' in config.");
-                            break;
-                    }
-                    Debug.Log("Keybinded to " + key);
+                    SetKey(action, key);
+                    Debug.Log($"Keybind updated: {action} = {key}");
                 }
                 else
                 {
@@ -59,5 +79,57 @@ public static class Controls
                 }
             }
         }
+    }
+
+    private static void SetKey(string action, KeyCode key)
+    {
+        switch (action)
+        {
+            case "Up": Up = key; break;
+            case "Left": Left = key; break;
+            case "Down": Down = key; break;
+            case "Right": Right = key; break;
+            case "Jump": Jump = key; break;
+            case "Grab": Grab = key; break;
+            case "Punch": Punch = key; break;
+            case "Kick": Kick = key; break;
+            case "Roll": Roll = key; break;
+            default:
+                Debug.LogWarning($"Unknown keybind action '{action}' in config.");
+                break;
+        }
+    }
+
+    // Helper methods for input checks
+    public static bool IsKeyDown(string action)
+    {
+        return Input.GetKey(GetKeyCode(action));
+    }
+    
+    public static bool IsKeyPressed(string action)
+    {
+        return Input.GetKeyDown(GetKeyCode(action));
+    }
+    
+    public static bool IsKeyReleased(string action)
+    {
+        return Input.GetKeyUp(GetKeyCode(action));
+    }
+    
+    public static KeyCode GetKeyCode(string action)
+    {
+        return action switch
+        {
+            "Up" => Up,
+            "Left" => Left,
+            "Down" => Down,
+            "Right" => Right,
+            "Jump" => Jump,
+            "Grab" => Grab,
+            "Punch" => Punch,
+            "Kick" => Kick,
+            "Roll" => Roll,
+            _ => KeyCode.None
+        };
     }
 }
