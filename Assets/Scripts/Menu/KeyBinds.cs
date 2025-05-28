@@ -20,7 +20,7 @@ public class KeyBinds : MonoBehaviour
     public TMP_Text Punch;
     public TMP_Text Kick;
 
-    Dictionary<string, Dictionary<string, string>> UnifiedKeyBinds = new Dictionary<string, Dictionary<string, string>> {
+    Dictionary<string, Dictionary<string, string>> DefaultKeys = new Dictionary<string, Dictionary<string, string>> {
         {
             "Player Binds", new Dictionary<string, string>{
                 {"Up", "W"},
@@ -44,7 +44,7 @@ public class KeyBinds : MonoBehaviour
 
         if (CurrentKeyBinds == null || CurrentKeyBinds.Count == 0)
         {
-            CurrentKeyBinds = UnifiedKeyBinds;
+            CurrentKeyBinds = DefaultKeys;
         }
         else
         {
@@ -81,7 +81,21 @@ public class KeyBinds : MonoBehaviour
         Controls.LoadKeyBinds();
     }
 
-    public void CloseKeyBindMenu() {
+    public void resetKeys()
+    {
+            Up.text = DefaultKeys["Player Binds"]["Up"];
+            Left.text = DefaultKeys["Player Binds"]["Left"];
+            Down.text = DefaultKeys["Player Binds"]["Down"];
+            Right.text = DefaultKeys["Player Binds"]["Right"];
+            Jump.text = DefaultKeys["Player Binds"]["Jump"];
+            Grab.text = DefaultKeys["Player Binds"]["Grab"];
+            Roll.text = DefaultKeys["Player Binds"]["Roll"];
+            Punch.text = DefaultKeys["Player Binds"]["Punch"];
+            Kick.text = DefaultKeys["Player Binds"]["Kick"];
+    }
+
+    public void CloseKeyBindMenu()
+    {
         SceneManager.UnloadSceneAsync("KeyBindMenu");
     }
 }
