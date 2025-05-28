@@ -90,6 +90,7 @@
     <Compile Include="Assets\Scripts\player\playerController.cs" />
     <Compile Include="Assets\Scripts\Misc\Controls\MobileControls\MobileJoystick.cs" />
     <Compile Include="Assets\Scripts\Menu\ConfiguracaoMeneger.cs" />
+    <Compile Include="Assets\Scripts\Level\PauseController.cs" />
     <Compile Include="Assets\Scripts\Data\LevelData.cs" />
     <Compile Include="Assets\Scripts\Scenario\ParallaxLayer.cs" />
     <Compile Include="Assets\Scripts\Menu\MainMenuManager.cs" />
