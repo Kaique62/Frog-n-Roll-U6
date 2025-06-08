@@ -99,10 +99,19 @@ public class MenuPrincipalManager : MonoBehaviour
         SceneManager.LoadScene("KeyBindMenu", LoadSceneMode.Additive);
     }
 
-    public void SairJogo()
+    public void SairDoJogo()
     {
-        Debug.Log("Sair do jogo");
-        Application.Quit();
+        Debug.Log("O botão de SAIR foi pressionado!");
+
+        // Se estivermos rodando em um jogo já compilado (PC, Mac, etc)...
+        #if !UNITY_EDITOR
+            Application.Quit();
+        #endif
+
+        // Se estivermos rodando dentro do Editor do Unity...
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
 
     private IEnumerator AnimarEscala(Transform alvo, Vector3 de, Vector3 para)
