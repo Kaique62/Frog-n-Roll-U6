@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: 85cdde54e48b3a749a65456899e94f8b
+guid: 9a77a92fc54f5124aacb25a4c47f4f0d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4887672596059771973
-    second: Home-Icon_0
+      213: 3151928998499959967
+    second: Home-Icon (2)_0
   - first:
-      213: -1181582516797818180
-    second: Home-Icon_1
+      213: -3467123199950950869
+    second: Home-Icon (2)_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -129,13 +129,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Home-Icon_0
+      name: Home-Icon (2)_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 265
-        width: 609
-        height: 294
+        y: 94
+        width: 222
+        height: 110
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,20 +144,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bbb227d7baf7b2cb0800000000000000
-      internalID: -4887672596059771973
+      spriteID: f94c7d879b6edbb20800000000000000
+      internalID: 3151928998499959967
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Home-Icon_1
+      name: Home-Icon (2)_1
       rect:
         serializedVersion: 2
-        x: 68
+        x: 23
         y: 0
-        width: 473
-        height: 445
+        width: 176
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,8 +166,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cba347516fc2a9fe0800000000000000
-      internalID: -1181582516797818180
+      spriteID: b2e686ab1dd42efc0800000000000000
+      internalID: -3467123199950950869
       vertices: []
       indices: 
       edges: []
@@ -186,8 +186,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Home-Icon_0: -4887672596059771973
-      Home-Icon_1: -1181582516797818180
+      Home-Icon (2)_0: 3151928998499959967
+      Home-Icon (2)_1: -3467123199950950869
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
