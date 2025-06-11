@@ -21,7 +21,7 @@ public class FPSCounter : MonoBehaviour
         string path = System.IO.Path.Combine(Application.persistentDataPath, "config.db");
         var db = new SQLiteConnection(path); // Use sqlite-net connection
 
-        var config = db.Table<Configuracao>()
+        var config = db.Table<Config>()
                        .FirstOrDefault(c => c.Chave == "mostrarFps");
 
         if (config != null && config.Valor == "True")

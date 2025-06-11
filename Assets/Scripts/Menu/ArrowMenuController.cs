@@ -1,3 +1,9 @@
+// CURRENTLY NOT BEING USED
+/// <summary> 
+/// This code was planned for the menus, so you can control it with arrow keys or with a controller.
+/// But the game currently does not support controller Joystick
+/// </summary>
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;

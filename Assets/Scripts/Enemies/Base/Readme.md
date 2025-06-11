@@ -1,60 +1,58 @@
-Vou explicar **todas as variáveis visíveis no Inspector** (marcadas com `[Header]`), organizadas por seção:
+# EnemyController
+
+Componente para controle de inimigos com múltiplos tipos de movimento e comportamento configuráveis via Inspector.
 
 ---
 
-### **Combat Settings** *(Configurações de Combate)*
-| Variável | Tipo | Descrição |
-|----------|------|-----------|
-| **isDestructible** | `bool` | Se `true`, o inimigo pode ser destruído ao receber dano. |
-| **damageCooldown** | `float` | Tempo (em segundos) entre um dano e outro que o inimigo pode receber. |
-| **health** | `int` | Quantidade de vida do inimigo. Quando chegar a 0, ele será destruído. |
-| **killsPlayerOnContact** | `bool` | Se `true`, o jogador morre imediatamente ao tocar no inimigo. |
-| **ignoreRollingPlayer** | `bool` | Se `true`, o inimigo ignora colisões com o jogador quando ele está rolando. |
+## Features
+
+- Diferentes tipos de movimento: estático, patrulha, perseguição, fuga e caminho personalizado.
+- Movimentação ativada por diferentes gatilhos: sempre, proximidade do jogador ou eventos externos.
+- Configurações de combate: vida, dano, colisão e interação com o jogador (ex: matar ao contato).
+- Flip automático do sprite com opção de usar escala ou flipX.
+- Eventos customizáveis no início/fim do movimento e detecção do jogador.
+- Controle de colisão para ignorar colisão enquanto jogador está rolando.
 
 ---
 
-### **Movement Settings** *(Configurações de Movimento)*
-| Variável | Tipo | Descrição |
-|----------|------|-----------|
-| **movementType** | `enum MovementType` | **Tipo de movimento:**<br>- `Static`: Não se move.<br>- `Patrol`: Movimento de vai e vem.<br>- `ChasePlayer`: Persegue o jogador.<br>- `FleePlayer`: Foge do jogador.<br>- `CustomPath`: Segue um caminho pré-definido. |
-| **movementTrigger** | `enum MovementTrigger` | **Quando o movimento é ativado:**<br>- `Always`: Movimenta-se constantemente.<br>- `OnPlayerProximity`: Só se move quando o jogador está próximo.<br>- `OnEvent`: Movimento controlado por eventos externos. |
-| **moveSpeed** | `float` | Velocidade de movimento do inimigo. |
-| **movementDirection** | `Vector2` | Direção inicial do movimento (usado em `Patrol` e `CustomPath`). |
-| **patrolDistance** | `float` | Distância máxima que o inimigo percorre no modo `Patrol`. |
-| **playerDetectionRange** | `float` | Raio de detecção do jogador (usado com `OnPlayerProximity`). |
-| **movementCooldown** | `float` | Tempo de espera entre mudanças de direção (ex: em `Patrol`). |
-| **customPathPoints** | `Transform[]` | Pontos do caminho personalizado (usado com `CustomPath`). |
+## Inspector Variables
+
+### Combat Settings  
+- **isDestructible (bool):** Pode receber dano e ser destruído.  
+- **damageCooldown (float):** Tempo entre danos consecutivos.  
+- **health (int):** Vida do inimigo.  
+- **killsPlayerOnContact (bool):** Mata o jogador no contato.  
+- **ignoreRollingPlayer (bool):** Ignora colisão se jogador estiver rolando.  
+
+### Movement Settings  
+- **movementType (enum):** Tipo de movimento (`Static`, `Patrol`, `ChasePlayer`, `FleePlayer`, `CustomPath`).  
+- **movementTrigger (enum):** Quando o movimento é ativado (`Always`, `OnPlayerProximity`, `OnEvent`).  
+- **moveSpeed (float):** Velocidade de movimento.  
+- **movementDirection (Vector2):** Direção inicial para patrulha/caminho.  
+- **patrolDistance (float):** Distância do percurso de patrulha.  
+- **playerDetectionRange (float):** Raio para detectar jogador (usado em `OnPlayerProximity`).  
+- **movementCooldown (float):** Tempo de espera entre mudanças (ex: patrulha).  
+- **customPathPoints (Transform[]):** Pontos para caminho personalizado.  
+
+### Visual Settings  
+- **flipSpriteBasedOnPlayer (bool):** Vira sprite para olhar para o jogador.  
+- **flipUsingScale (bool):** Usa escala para virar sprite ao invés do `flipX`.  
+- **flipThreshold (float):** Distância mínima para virar o sprite (evita oscilações).  
+- **spriteRenderer (SpriteRenderer):** Referência ao componente de sprite do inimigo.  
+
+### Collision Settings  
+- **enemyCollider (Collider2D):** Collider do inimigo para controle manual.  
+- **restoreColliderAfterRoll (bool):** Reativa o collider após o jogador parar de rolar.  
+
+### Events  
+- **onMovementStart (UnityEvent):** Evento disparado quando o movimento começa.  
+- **onMovementEnd (UnityEvent):** Evento disparado quando o movimento termina.  
+- **onPlayerDetected (UnityEvent):** Evento disparado quando o jogador entra no raio de detecção.  
 
 ---
 
-### **Visual Settings** *(Configurações Visuais)*
-| Variável | Tipo | Descrição |
-|----------|------|-----------|
-| **flipSpriteBasedOnPlayer** | `bool` | Se `true`, o sprite vira para a direção do jogador. |
-| **flipUsingScale** | `bool` | Se `true`, usa a escala do objeto para virar o sprite (ao invés de `flipX`). |
-| **flipThreshold** | `float` | Distância mínima para o sprite virar (evita oscilações). |
-| **spriteRenderer** | `SpriteRenderer` | Referência ao componente de sprite do inimigo. |
+## Notes  
+- Variáveis como `playerDetectionRange` e `patrolDistance` só funcionam se o tipo de movimento ou trigger correspondente estiver selecionado.  
+- Eventos permitem vincular ações no Inspector, como tocar sons ou spawnar efeitos.  
+- `customPathPoints` deve receber objetos "Waypoint" para definir o caminho.
 
----
-
-### **Collision Settings** *(Configurações de Colisão)*
-| Variável | Tipo | Descrição |
-|----------|------|-----------|
-| **enemyCollider** | `Collider2D` | Collider do inimigo (para controle manual). |
-| **restoreColliderAfterRoll** | `bool` | Se `true`, reativa o collider após o jogador parar de rolar. |
-
----
-
-### **Events** *(Eventos)*
-| Variável | Tipo | Descrição |
-|----------|------|-----------|
-| **onMovementStart** | `UnityEvent` | Disparado quando o movimento começa. |
-| **onMovementEnd** | `UnityEvent` | Disparado quando o movimento termina. |
-| **onPlayerDetected** | `UnityEvent` | Disparado quando o jogador entra no raio de detecção. |
-
----
-
-### **Detalhes Adicionais**:
-- **Variáveis como `playerDetectionRange` e `patrolDistance** só funcionam se o tipo de movimento ou trigger correspondente estiver selecionado.
-- **Os eventos** (ex: `onPlayerDetected`) permitem vincular ações no Inspector, como tocar sons ou spawnar efeitos.
-- **CustomPathPoints** requer que você arraste objetos "Waypoint" no Inspector para definir o caminho.

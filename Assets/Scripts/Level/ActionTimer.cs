@@ -1,30 +1,41 @@
 using UnityEngine;
 
+/// <summary>
+/// Controls a timed color change on a target GameObject synchronized with a music timer,
+/// and tracks collision delay during the color change window.
+/// </summary>
 public class ActionTimer : MonoBehaviour
 {
     [Header("Settings")]
-    public float targetTimeInSeconds = 30f;   // Time at which the color change should start
-    public GameObject colorChangeObject;      // The object to change color
+    /// <summary>Music time (in seconds) to start the color change.</summary>
+    public float targetTimeInSeconds = 30f;
+
+    /// <summary>The GameObject whose color will be changed.</summary>
+    public GameObject colorChangeObject;
 
     [Header("Color Change Settings")]
-    public float colorChangeDuration = 1.7f;  // Duration of the color change
-    public Color targetColor = Color.green;   // The color to fade to
+    /// <summary>Duration (in seconds) of the color transition.</summary>
+    public float colorChangeDuration = 1.7f;
+
+    /// <summary>The color to fade to during the color change.</summary>
+    public Color targetColor = Color.green;
 
     private MusicTimer musicTimer;            // Reference to the MusicTimer
-    private SpriteRenderer spriteRenderer;    // SpriteRenderer of the color change object
-    private Color initialColor;               // Initial color of the object
-    private float colorChangeStartTime;       // Time when the color change starts (Time.time)
+    private SpriteRenderer spriteRenderer;    // SpriteRenderer of the colorChangeObject
+    private Color initialColor;                // Initial color of the object
+    private float colorChangeStartTime;       // Real time when color change starts
     private float colorChangeStartMusicTime;  // Music time when color change starts
-    private bool isColorChanging = false;     // Flag to check if the color change is in progress
-    private bool hasStartedColorChange = false; // To prevent starting the color change multiple times
+    private bool isColorChanging = false;     // Is the color change in progress?
+    private bool hasStartedColorChange = false; // Prevent multiple starts
 
-    private BoxCollider2D boxCollider;       // Reference to the BoxCollider2D attached to the object
+    private BoxCollider2D boxCollider;       // Collider on this object
 
     private float delay;
+    /// <summary>Delay measured during collision, in milliseconds.</summary>
     public float Delay => delay;
 
     [System.Obsolete]
-    void Start()
+    private void Start()
     {
         musicTimer = FindObjectOfType<MusicTimer>();
         if (musicTimer == null)
@@ -37,13 +48,9 @@ public class ActionTimer : MonoBehaviour
         {
             spriteRenderer = colorChangeObject.GetComponent<SpriteRenderer>();
             if (spriteRenderer != null)
-            {
                 initialColor = spriteRenderer.color;
-            }
             else
-            {
                 Debug.LogWarning("[ActionTimer] No SpriteRenderer found on the target object.");
-            }
         }
         else
         {
@@ -52,27 +59,23 @@ public class ActionTimer : MonoBehaviour
 
         boxCollider = GetComponent<BoxCollider2D>();
         if (boxCollider == null)
-        {
             Debug.LogWarning("[ActionTimer] No BoxCollider2D found on this object.");
-        }
     }
 
-    void Update()
+    private void Update()
     {
         if (musicTimer == null || spriteRenderer == null || boxCollider == null) return;
 
         float currentTime = musicTimer.CurrentTime;
 
-        // Check if the color change should start
+        // Start color change 2 seconds before target time
         if (!hasStartedColorChange && currentTime >= targetTimeInSeconds - 2f)
         {
             hasStartedColorChange = true;
             StartColorChange();
         }
 
-
         UpdateDelay(currentTime);
-        
 
         if (isColorChanging)
         {
@@ -88,6 +91,9 @@ public class ActionTimer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initializes variables and starts the color change interpolation.
+    /// </summary>
     private void StartColorChange()
     {
         Debug.Log("[ActionTimer] Starting color change.");
@@ -96,6 +102,9 @@ public class ActionTimer : MonoBehaviour
         isColorChanging = true;
     }
 
+    /// <summary>
+    /// Logs the current music time in MM:SS.mmm format.
+    /// </summary>
     public void LogCurrentMusicTime()
     {
         if (musicTimer == null)
@@ -112,6 +121,9 @@ public class ActionTimer : MonoBehaviour
         Debug.Log($"[ActionTimer] Music Time: {minutes:00}:{seconds:00}.{milliseconds:000}");
     }
 
+    /// <summary>
+    /// Called when a collision starts. Updates and logs delay if within color change window.
+    /// </summary>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         float currentTime = musicTimer.CurrentTime;
@@ -123,17 +135,23 @@ public class ActionTimer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called when a collision ends. Logs the final delay.
+    /// </summary>
     private void OnCollisionExit2D(Collision2D collision)
     {
         Debug.Log($"[ActionTimer] Collision ended, final delay: {delay:0.00}ms");
     }
 
+    /// <summary>
+    /// Updates the delay value based on the elapsed music time within the 2-second window.
+    /// </summary>
+    /// <param name="currentTime">Current music time.</param>
     private void UpdateDelay(float currentTime)
     {
-        // Ensure that we only update delay within the 2-second window after the color change starts
         if (currentTime >= colorChangeStartMusicTime && currentTime <= colorChangeStartMusicTime + 2f)
         {
-            delay = (currentTime - colorChangeStartMusicTime) * 100f;  // Update delay based on music time
+            delay = (currentTime - colorChangeStartMusicTime) * 100f;
         }
     }
 }

@@ -1,23 +1,54 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Automatically assigns sprites and audio clips to GameObjects in the active scene
+/// based on their names using the LevelPreload system.
+/// Can also destroy objects if no matching assets are found.
+/// This is Important for the proload system actually works instead of loading the same items twice.
+/// This is not really necessary by now since it's a demo, but might be usefull for later.
+/// </summary>
 public class UniversalSmartLoader : MonoBehaviour
 {
     [Header("Settings")]
+
+    /// <summary>
+    /// If true, attempts to load and assign sprites to SpriteRenderers based on GameObject names.
+    /// </summary>
     public bool processSprites = true;
+
+    /// <summary>
+    /// If true, attempts to load and assign audio clips to AudioSources based on GameObject names.
+    /// </summary>
     public bool processAudio = true;
+
+    /// <summary>
+    /// If true, destroys GameObjects that fail to find a matching sprite or audio clip.
+    /// </summary>
     public bool destroyInvalidObjects = false;
 
     [Header("Debug")]
+
+    /// <summary>
+    /// If true, logs detailed loading actions to the console for debugging purposes.
+    /// </summary>
     public bool logDetails = true;
 
+    /// <summary>
+    /// Called on script start. Begins processing all root objects in the scene.
+    /// </summary>
     private void Start()
     {
         ProcessAllObjects();
     }
 
+    /// <summary>
+    /// Processes all root GameObjects in the active scene,
+    /// skipping the current GameObject and its children.
+    /// </summary>
     private void ProcessAllObjects()
     {
-        var rootObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+        var rootObjects = SceneManager.GetActiveScene().GetRootGameObjects();
 
         foreach (GameObject rootObj in rootObjects)
         {
@@ -28,12 +59,16 @@ public class UniversalSmartLoader : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Recursively processes a GameObject and its children for sprite and audio assignment.
+    /// </summary>
+    /// <param name="targetObj">The GameObject to process.</param>
     private void ProcessObject(GameObject targetObj)
     {
         if (!targetObj.activeInHierarchy)
             return;
 
-        // SpriteRenderer logic
+        // Process SpriteRenderer
         if (processSprites)
         {
             var spriteRenderer = targetObj.GetComponent<SpriteRenderer>();
@@ -45,6 +80,7 @@ public class UniversalSmartLoader : MonoBehaviour
                     if (logDetails)
                         Debug.Log($"[UniversalLoader] Applied sprite '{targetObj.name}' to {targetObj.name}", targetObj);
                 }
+                // Destroy Objects if the destroyInvalidObjects is set to True.
                 else if (destroyInvalidObjects)
                 {
                     Debug.LogWarning($"[UniversalLoader] Destroying {targetObj.name} - sprite not found", targetObj);
@@ -54,7 +90,7 @@ public class UniversalSmartLoader : MonoBehaviour
             }
         }
 
-        // AudioSource logic
+        // Process AudioSource || Audio Preload
         if (processAudio)
         {
             var audioSource = targetObj.GetComponent<AudioSource>();
@@ -75,7 +111,7 @@ public class UniversalSmartLoader : MonoBehaviour
             }
         }
 
-        // Recursive processing
+        // Recursively process children
         foreach (Transform child in targetObj.transform)
         {
             ProcessObject(child.gameObject);

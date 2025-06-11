@@ -6,9 +6,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles customizable key bindings for player controls and UI updates.
+/// Supports loading, saving, rebinding, and resetting keys.
+/// </summary>
 public class KeyBinds : MonoBehaviour
 {
-    // Button Texts
     [Header("Movement")]
     public TMP_Text Up;
     public TMP_Text Left;
@@ -27,7 +30,9 @@ public class KeyBinds : MonoBehaviour
     public GameObject mobileControlsPanel;
     public Button closeButton;
 
-    // Default key bindings
+    /// <summary>
+    /// Default key bindings.
+    /// </summary>
     private Dictionary<string, KeyCode> DefaultKeys = new Dictionary<string, KeyCode> {
         {"Up", KeyCode.W},
         {"Left", KeyCode.A},
@@ -40,49 +45,43 @@ public class KeyBinds : MonoBehaviour
         {"Roll", KeyCode.K},
     };
 
-    // Current key bindings
     private Dictionary<string, KeyCode> currentKeyBinds = new Dictionary<string, KeyCode>();
     private bool isRebinding = false;
     private string currentRebindAction = "";
     private TMP_Text currentRebindText;
 
+    /// <summary>
+    /// Initializes key binding UI and loads saved or default keys.
+    /// </summary>
     void Start()
     {
-        // Only show keyboard bindings on platforms that support them
         keyBindPanel.SetActive(Application.platform != RuntimePlatform.Android && 
                               Application.platform != RuntimePlatform.IPhonePlayer);
         
-        // Show mobile controls on mobile platforms
         mobileControlsPanel.SetActive(Application.platform == RuntimePlatform.Android || 
-                                    Application.platform == RuntimePlatform.IPhonePlayer);
+                                     Application.platform == RuntimePlatform.IPhonePlayer);
 
-        // Load saved key bindings or use defaults
         LoadKeyBinds();
-
-        // Initialize UI with current bindings
         UpdateUI();
-        
-        // Setup close button
         closeButton.onClick.AddListener(CloseKeyBindMenu);
     }
 
+    /// <summary>
+    /// Handles rebinding process when waiting for new key input.
+    /// </summary>
     void Update()
     {
-        // Handle key rebinding
         if (isRebinding && Input.anyKeyDown)
         {
             foreach(KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
             {
                 if (Input.GetKeyDown(keyCode))
                 {
-                    // Avoid binding escape key as it's used for closing
                     if (keyCode == KeyCode.Escape) break;
-                    
-                    // Set the new key binding
+
                     currentKeyBinds[currentRebindAction] = keyCode;
                     currentRebindText.text = keyCode.ToString();
-                    
-                    // End rebinding
+
                     isRebinding = false;
                     currentRebindText.color = Color.white;
                     SaveKeyBinds();
@@ -92,41 +91,38 @@ public class KeyBinds : MonoBehaviour
         }
     }
 
-    // Load key bindings from PlayerPrefs
+    /// <summary>
+    /// Loads key bindings from PlayerPrefs or defaults if not found.
+    /// </summary>
     private void LoadKeyBinds()
     {
         currentKeyBinds = new Dictionary<string, KeyCode>();
-        
-        // Load each key binding or use default
         foreach (var key in DefaultKeys.Keys)
         {
             string savedKey = PlayerPrefs.GetString("KeyBind_" + key, DefaultKeys[key].ToString());
-            
+
             if (System.Enum.TryParse(savedKey, out KeyCode keyCode))
-            {
                 currentKeyBinds[key] = keyCode;
-            }
             else
-            {
                 currentKeyBinds[key] = DefaultKeys[key];
-            }
         }
     }
 
-    // Save key bindings to PlayerPrefs
+    /// <summary>
+    /// Saves current key bindings to PlayerPrefs and updates controls.
+    /// </summary>
     private void SaveKeyBinds()
     {
         foreach (var key in currentKeyBinds.Keys)
-        {
             PlayerPrefs.SetString("KeyBind_" + key, currentKeyBinds[key].ToString());
-        }
+
         PlayerPrefs.Save();
-        
-        // Update controls in game
         Controls.LoadKeyBinds();
     }
 
-    // Update UI with current key bindings
+    /// <summary>
+    /// Updates the UI texts to reflect current key bindings.
+    /// </summary>
     private void UpdateUI()
     {
         Up.text = currentKeyBinds["Up"].ToString();
@@ -140,10 +136,13 @@ public class KeyBinds : MonoBehaviour
         Kick.text = currentKeyBinds["Kick"].ToString();
     }
 
-    // Start rebinding process for a specific action
+    /// <summary>
+    /// Begins rebinding a specific action if the platform supports keyboard input.
+    /// </summary>
+    /// <param name="action">Action name to rebind.</param>
+    /// <param name="textElement">UI Text element to update during rebinding.</param>
     public void StartRebind(string action, TMP_Text textElement)
     {
-        // Only allow rebinding on keyboard-supported platforms
         if (Application.platform == RuntimePlatform.Android || 
             Application.platform == RuntimePlatform.IPhonePlayer)
         {
@@ -160,24 +159,27 @@ public class KeyBinds : MonoBehaviour
         }
     }
 
-    // Reset all keys to defaults
+    /// <summary>
+    /// Resets all key bindings to their default values.
+    /// </summary>
     public void ResetKeys()
     {
         foreach (var key in DefaultKeys.Keys)
-        {
             currentKeyBinds[key] = DefaultKeys[key];
-        }
+
         UpdateUI();
         SaveKeyBinds();
     }
 
-    // Close the key binding menu
+    /// <summary>
+    /// Closes the key binding menu scene.
+    /// </summary>
     public void CloseKeyBindMenu()
     {
         SceneManager.UnloadSceneAsync("KeyBindMenu");
     }
 
-    // Helper methods for UI buttons
+    // UI Button helper methods
     public void RebindUp() => StartRebind("Up", Up);
     public void RebindLeft() => StartRebind("Left", Left);
     public void RebindDown() => StartRebind("Down", Down);
