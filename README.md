@@ -43,15 +43,6 @@
   - `WebGL`
   - `Android`
 
-## 🤝 How to Contribute
-
-- Fork the repo
-- Create your feature branch (`git checkout -b feature/YourFeature`)
-- Commit your changes (`git commit -m 'Add some feature'`)
-- Push to the branch (`git push origin feature/YourFeature`)
-- Open a Pull Request
-
-
 ## 📦 How to Build and Run
 
 ### 1. Clone the Repository
@@ -80,6 +71,14 @@ In Unity:
 - Unity will compile the build for your selected platform
 
 ---
+
+## 🤝 How to Contribute
+
+- Fork the repo
+- Create your feature branch (`git checkout -b feature/YourFeature`)
+- Commit your changes (`git commit -m 'Add some feature'`)
+- Push to the branch (`git push origin feature/YourFeature`)
+- Open a Pull Request
 
 <p align="center">
   🔗 <strong><a href="https://z1c4z.github.io/Frog-and-roll/">Visit Our Website</a></strong>
