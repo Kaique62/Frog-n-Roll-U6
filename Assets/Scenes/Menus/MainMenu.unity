@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 49200867}
   - component: {fileID: 49200868}
   m_Layer: 5
-  m_Name: porcentagem
+  m_Name: music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1562,7 +1562,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 572.9899, y: -409.93}
+  m_AnchoredPosition: {x: 572.98987, y: -409.93}
   m_SizeDelta: {x: 675.5, y: 79.99}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &225107476
@@ -2684,7 +2684,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 82.544}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -143.99994, y: 68}
+  m_AnchoredPosition: {x: -143.99991, y: 68}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &509483953
@@ -2981,13 +2981,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 163f467fd53ba634badb437ae2ab0f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuMusicClip: {fileID: 0}
+  menuMusicClip: {fileID: 8300000, guid: e9b33e24902787947800a30b8e036907, type: 3}
   globalVolumeSlider: {fileID: 147213653}
-  globalVolumeText: {fileID: 1242402780}
+  globalVolumeText: {fileID: 171404038}
   musicVolumeSlider: {fileID: 303016300}
-  musicVolumeText: {fileID: 1564325448}
+  musicVolumeText: {fileID: 49200868}
   sfxVolumeSlider: {fileID: 1044581104}
-  sfxVolumeText: {fileID: 1262799887}
+  sfxVolumeText: {fileID: 1934266663}
   sfxManagerObject: {fileID: 1022866928}
   btnFps24: {fileID: 298227794}
   btnFps30: {fileID: 1759720019}
@@ -2998,7 +2998,7 @@ MonoBehaviour:
   showFpsToggle: {fileID: 440327215}
   vsyncToggle: {fileID: 379181748}
   fpsPanel: {fileID: 1960953365}
-  controlEditCanvas: {fileID: 1034595647}
+  controlEditCanvas: {fileID: 1573913409}
 --- !u!1 &648468390
 GameObject:
   m_ObjectHideFlags: 0
@@ -3183,7 +3183,7 @@ RectTransform:
   m_Father: {fileID: 476834596}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.445, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3332,8 +3332,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 335797009}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.445, y: 0}
-  m_AnchorMax: {x: 0.445, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3550,7 +3550,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 572.99994, y: -313}
+  m_AnchoredPosition: {x: 572.9999, y: -313}
   m_SizeDelta: {x: 675.4922, y: 68.9136}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &787156084
@@ -3969,7 +3969,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 572.99994, y: -192}
+  m_AnchoredPosition: {x: 572.9999, y: -192}
   m_SizeDelta: {x: 675.4922, y: 68.9136}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &874132088
@@ -4382,7 +4382,7 @@ RectTransform:
   m_Father: {fileID: 1101838014}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.3470588, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5146,12 +5146,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90806426dc024934c8f2d9f22417b004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button1: {fileID: 0}
-  button2: {fileID: 0}
-  button3: {fileID: 0}
-  button4: {fileID: 0}
+  button1: {fileID: 551934144}
+  button2: {fileID: 1071946812}
+  button3: {fileID: 1128607723}
+  button4: {fileID: 995270577}
   joystick: {fileID: 914500323}
-  controlCanvas: {fileID: 0}
+  controlCanvas: {fileID: 1573913409}
 --- !u!1 &1044581102
 GameObject:
   m_ObjectHideFlags: 0
@@ -5766,12 +5766,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd2024cdedd00db4db59b89894eb8440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameLevelName: 
-  initialMenuPanel: {fileID: 0}
-  optionsPanel: {fileID: 0}
-  mainMenuRect: {fileID: 0}
-  fnrLogoRect: {fileID: 0}
-  optionsPanelRect: {fileID: 0}
+  gameLevelName: sketchLevel
+  initialMenuPanel: {fileID: 1301335878}
+  optionsPanel: {fileID: 1996929056}
+  mainMenuRect: {fileID: 1301335879}
+  fnrLogoRect: {fileID: 225691026}
+  optionsPanelRect: {fileID: 1996929057}
   bigElement: {fileID: 677921141}
   animationDuration: 0.3
   initialScale: {x: 0.45, y: 0.45, z: 0.45}
@@ -5865,7 +5865,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 627977753}
         m_TargetAssemblyTypeName: FpsLimiter, Assembly-CSharp
-        m_MethodName: AbrirConfiguracoesDeControles
+        m_MethodName: OpenControlSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7801,7 +7801,7 @@ RectTransform:
   m_Father: {fileID: 1986275138}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.445, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8452,8 +8452,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1198571567}
-        m_TargetAssemblyTypeName: MenuPrincipalManager, Assembly-CSharp
-        m_MethodName: FecharOpcoes
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: CloseOptions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8749,8 +8749,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1084279037}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.3470588, y: 0}
-  m_AnchorMax: {x: 0.3470588, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8824,8 +8824,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1252376171}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.445, y: 0}
-  m_AnchorMax: {x: 0.445, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8952,8 +8952,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1198571567}
-        m_TargetAssemblyTypeName: MenuPrincipalManager, Assembly-CSharp
-        m_MethodName: AbrirSubState
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: OpenSubState
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9215,7 +9215,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 572.99994, y: -90}
+  m_AnchoredPosition: {x: 572.9999, y: -90}
   m_SizeDelta: {x: 675.4922, y: 68.9136}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1939845252
@@ -9263,8 +9263,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1198571567}
-        m_TargetAssemblyTypeName: MenuPrincipalManager, Assembly-CSharp
-        m_MethodName: Jogar
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9814,7 +9814,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1996929057
 RectTransform:
   m_ObjectHideFlags: 0

@@ -106,9 +106,6 @@ public class MainMenuManager : MonoBehaviour
             // Initially position options panel outside the screen to the right
             optionsPanelRect.anchoredPosition = optionsPanelOriginalPos + Vector3.right * horizontalOffset;
         }
-
-        if (optionsPanel != null)
-            optionsPanel.SetActive(true);
     }
 
     /// <summary>
@@ -126,6 +123,9 @@ public class MainMenuManager : MonoBehaviour
     {
         StopAllCoroutines();
 
+        if (optionsPanel != null)
+            optionsPanel.SetActive(true);
+
         if (mainMenuRect != null)
             StartCoroutine(AnimateMovement(mainMenuRect, mainMenuRect.anchoredPosition, mainMenuOriginalPos + Vector3.right * horizontalOffset));
 
@@ -137,6 +137,7 @@ public class MainMenuManager : MonoBehaviour
 
         if (bigElement != null)
             StartCoroutine(AnimateScale(bigElement, initialScale, finalScale));
+
     }
 
     /// <summary>
@@ -163,6 +164,16 @@ public class MainMenuManager : MonoBehaviour
 
         if (optionsPanelRect != null)
             StartCoroutine(AnimateMovement(optionsPanelRect, optionsPanelRect.anchoredPosition, optionsPanelOriginalPos + Vector3.right * horizontalOffset));
+
+        StartCoroutine(DeactivatePanelAfterDelay(animationDuration));
+
+    }
+
+    private IEnumerator DeactivatePanelAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (optionsPanel != null)
+            optionsPanel.SetActive(false);
     }
 
     /// <summary>
