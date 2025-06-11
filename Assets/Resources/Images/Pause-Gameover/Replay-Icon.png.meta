@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a08e101d83cc920408256883d2174056
+guid: c2da0e198a75a8a47b246ab95d4cea88
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2507642975096808372
-    second: Replay-Icon_0
+      213: 5702359926613553227
+    second: reset-icon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Replay-Icon_0
+      name: reset-icon_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 609
-        height: 522
+        width: 222
+        height: 190
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4b32622ffffecc220800000000000000
-      internalID: 2507642975096808372
+      spriteID: b40393f042ad22f40800000000000000
+      internalID: 5702359926613553227
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Replay-Icon_0: 2507642975096808372
+      reset-icon_0: 5702359926613553227
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
