@@ -7,7 +7,7 @@ public static class GameData
 {
     private static string dataPath => Application.persistentDataPath;
 
-    // Salva o dicionário em um caminho relativo (ex: "config/KeyBinds.json")
+    // Saves the dictionary to a relative path (e.g., "config/KeyBinds.json")
     public static void Save(Dictionary<string, Dictionary<string, string>> data, string relativePath)
     {
         string fullPath = Path.Combine(dataPath, relativePath);
@@ -22,7 +22,7 @@ public static class GameData
         Debug.Log("Saved to: " + fullPath);
     }
 
-    // Carrega o dicionário de um caminho relativo (ex: "config/KeyBinds.json")
+    // Loads the dictionary from a relative path (e.g., "config/KeyBinds.json")
     public static Dictionary<string, Dictionary<string, string>> Load(string relativePath)
     {
         string fullPath = Path.Combine(dataPath, relativePath);
@@ -34,12 +34,12 @@ public static class GameData
         }
         else
         {
-            Debug.LogWarning("Data Not Found at: " + fullPath);
+            Debug.LogWarning("Data not found at: " + fullPath);
             return null;
         }
     }
 
-    // Deleta o arquivo no caminho relativo (ex: "config/KeyBinds.json")
+    // Deletes the file at the relative path (e.g., "config/KeyBinds.json")
     public static void DeleteData(string relativePath)
     {
         string fullPath = Path.Combine(dataPath, relativePath);
@@ -47,11 +47,11 @@ public static class GameData
         if (File.Exists(fullPath))
         {
             File.Delete(fullPath);
-            Debug.Log("Data Removed: " + fullPath);
+            Debug.Log("Deleted: " + fullPath);
         }
         else
         {
-            Debug.LogWarning("Attempted to delete missing file: " + fullPath);
+            Debug.LogWarning("File to delete not found: " + fullPath);
         }
     }
 }

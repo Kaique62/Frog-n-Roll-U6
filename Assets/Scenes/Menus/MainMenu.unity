@@ -2981,13 +2981,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 163f467fd53ba634badb437ae2ab0f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicaDoMenuClip: {fileID: 8300000, guid: e9b33e24902787947800a30b8e036907, type: 3}
-  sliderVolumeGlobal: {fileID: 147213653}
-  textoPorcentagemGlobal: {fileID: 171404038}
-  sliderVolumeMusica: {fileID: 303016300}
-  textoPorcentagemMusica: {fileID: 49200868}
-  sliderVolumeSfx: {fileID: 1044581104}
-  textoPorcentagemSfx: {fileID: 1934266663}
+  menuMusicClip: {fileID: 0}
+  globalVolumeSlider: {fileID: 147213653}
+  globalVolumeText: {fileID: 1242402780}
+  musicVolumeSlider: {fileID: 303016300}
+  musicVolumeText: {fileID: 1564325448}
+  sfxVolumeSlider: {fileID: 1044581104}
+  sfxVolumeText: {fileID: 1262799887}
   sfxManagerObject: {fileID: 1022866928}
   btnFps24: {fileID: 298227794}
   btnFps30: {fileID: 1759720019}
@@ -2995,10 +2995,10 @@ MonoBehaviour:
   btnFps90: {fileID: 1899282159}
   btnFps120: {fileID: 939676935}
   btnFps999: {fileID: 196002620}
-  toggleMostrarFps: {fileID: 440327215}
-  toggleVSync: {fileID: 379181748}
-  painelFPS: {fileID: 1960953365}
-  canvasEdicaoControles: {fileID: 1573913409}
+  showFpsToggle: {fileID: 440327215}
+  vsyncToggle: {fileID: 379181748}
+  fpsPanel: {fileID: 1960953365}
+  controlEditCanvas: {fileID: 1034595647}
 --- !u!1 &648468390
 GameObject:
   m_ObjectHideFlags: 0
@@ -4017,8 +4017,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1198571567}
-        m_TargetAssemblyTypeName: MenuPrincipalManager, Assembly-CSharp
-        m_MethodName: AbrirOpcoes
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: OpenOptions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5146,12 +5146,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90806426dc024934c8f2d9f22417b004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  botao1: {fileID: 551934144}
-  botao2: {fileID: 1071946812}
-  botao3: {fileID: 1128607723}
-  botao4: {fileID: 995270577}
+  button1: {fileID: 0}
+  button2: {fileID: 0}
+  button3: {fileID: 0}
+  button4: {fileID: 0}
   joystick: {fileID: 914500323}
-  canvasControles: {fileID: 1573913409}
+  controlCanvas: {fileID: 0}
 --- !u!1 &1044581102
 GameObject:
   m_ObjectHideFlags: 0
@@ -5766,17 +5766,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd2024cdedd00db4db59b89894eb8440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nomeDoLevelDeJogo: Demo30s
-  painelMenuInicial: {fileID: 1301335878}
-  painelOpcoes: {fileID: 1996929056}
-  menuPrincipal: {fileID: 1301335879}
-  fnrLogoType: {fileID: 225691026}
-  painelOpcoesRect: {fileID: 1996929057}
+  gameLevelName: 
+  initialMenuPanel: {fileID: 0}
+  optionsPanel: {fileID: 0}
+  mainMenuRect: {fileID: 0}
+  fnrLogoRect: {fileID: 0}
+  optionsPanelRect: {fileID: 0}
   bigElement: {fileID: 677921141}
-  tempoAnimacao: 0.5
-  escalaInicial: {x: 0.55, y: 0.55, z: 0.55}
-  escalaFinal: {x: 1, y: 1, z: 1}
-  deslocamentoX: 1500
+  animationDuration: 0.3
+  initialScale: {x: 0.45, y: 0.45, z: 0.45}
+  finalScale: {x: 1, y: 1, z: 1}
+  horizontalOffset: 1000
   transition: {fileID: 11400000, guid: 2eec88d4ca6df24419aab2fd6b04c543, type: 2}
   loadDelay: 0
 --- !u!1 &1200247997
@@ -6510,7 +6510,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -939.00006, y: 428}
+  m_AnchoredPosition: {x: -939, y: 428}
   m_SizeDelta: {x: -1006.1946, y: -583.0497}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1309386835
@@ -7273,7 +7273,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -844.00006, y: 431.99414}
+  m_AnchoredPosition: {x: -844, y: 431.99414}
   m_SizeDelta: {x: -968.4003, y: -191.8926}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1512546617

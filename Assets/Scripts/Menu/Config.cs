@@ -1,7 +1,7 @@
 using SQLite;
 
-[Table("Configuracao")]
-public class Configuracao
+[Table("Configuration")]
+public class Config
 {
     [PrimaryKey]
     public string Chave { get; set; }

@@ -3,138 +3,228 @@ using EasyTransition;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuPrincipalManager : MonoBehaviour
+/// <summary>
+/// Manages the main menu interactions, animations, and transitions.
+/// </summary>
+public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField] private string nomeDoLevelDeJogo;
-    [SerializeField] private GameObject painelMenuInicial;
-    [SerializeField] private GameObject painelOpcoes;
+    /// <summary>
+    /// The name of the game level to load.
+    /// </summary>
+    [SerializeField] private string gameLevelName;
 
-    [Header("Elementos Visuais")]
-    [SerializeField] private RectTransform menuPrincipal;
-    [SerializeField] private RectTransform fnrLogoType;
-    [SerializeField] private RectTransform painelOpcoesRect;
+    /// <summary>
+    /// The initial main menu panel GameObject.
+    /// </summary>
+    [SerializeField] private GameObject initialMenuPanel;
+
+    /// <summary>
+    /// The options panel GameObject.
+    /// </summary>
+    [SerializeField] private GameObject optionsPanel;
+
+    [Header("Visual Elements")]
+
+    /// <summary>
+    /// RectTransform of the main menu UI.
+    /// </summary>
+    [SerializeField] private RectTransform mainMenuRect;
+
+    /// <summary>
+    /// RectTransform of the logo UI element.
+    /// </summary>
+    [SerializeField] private RectTransform fnrLogoRect;
+
+    /// <summary>
+    /// RectTransform of the options panel.
+    /// </summary>
+    [SerializeField] private RectTransform optionsPanelRect;
+
+    /// <summary>
+    /// Transform of a large UI element that will be scaled during animation.
+    /// </summary>
     [SerializeField] private Transform bigElement;
 
-    [Header("Animação")]
-    [SerializeField] private float tempoAnimacao = 0.3f;
-    [SerializeField] private Vector3 escalaInicial = new Vector3(0.45f, 0.45f, 0.45f);
-    [SerializeField] private Vector3 escalaFinal = Vector3.one;
-    [SerializeField] private float deslocamentoX = 1000f;
+    [Header("Animation")]
+
+    /// <summary>
+    /// Duration of animations in seconds.
+    /// </summary>
+    [SerializeField] private float animationDuration = 0.3f;
+
+    /// <summary>
+    /// Initial scale of the big UI element.
+    /// </summary>
+    [SerializeField] private Vector3 initialScale = new Vector3(0.45f, 0.45f, 0.45f);
+
+    /// <summary>
+    /// Final scale of the big UI element.
+    /// </summary>
+    [SerializeField] private Vector3 finalScale = Vector3.one;
+
+    /// <summary>
+    /// Horizontal offset used for sliding animations.
+    /// </summary>
+    [SerializeField] private float horizontalOffset = 1000f;
 
     [Header("Transition Prefab")]
+
+    /// <summary>
+    /// Transition settings used when switching scenes.
+    /// </summary>
     public TransitionSettings transition;
+
+    /// <summary>
+    /// Delay before loading the next scene.
+    /// </summary>
     public float loadDelay;
 
-    private Vector3 menuPrincipalPosOriginal;
-    private Vector3 fnrLogoTypePosOriginal;
-    private Vector3 painelOpcoesPosOriginal;
+    // Original anchored positions to restore after animations
+    private Vector3 mainMenuOriginalPos;
+    private Vector3 fnrLogoOriginalPos;
+    private Vector3 optionsPanelOriginalPos;
 
+    /// <summary>
+    /// Initializes UI elements and positions.
+    /// </summary>
     private void Start()
     {
         Controls.LoadKeyBinds();
+
         if (bigElement != null)
-            bigElement.localScale = escalaInicial;
+            bigElement.localScale = initialScale;
 
-        if (menuPrincipal != null)
-            menuPrincipalPosOriginal = menuPrincipal.anchoredPosition;
+        if (mainMenuRect != null)
+            mainMenuOriginalPos = mainMenuRect.anchoredPosition;
 
-        if (fnrLogoType != null)
-            fnrLogoTypePosOriginal = fnrLogoType.anchoredPosition;
+        if (fnrLogoRect != null)
+            fnrLogoOriginalPos = fnrLogoRect.anchoredPosition;
 
-        if (painelOpcoesRect != null)
+        if (optionsPanelRect != null)
         {
-            painelOpcoesPosOriginal = painelOpcoesRect.anchoredPosition;
-            painelOpcoesRect.anchoredPosition = painelOpcoesPosOriginal + Vector3.right * deslocamentoX;
+            optionsPanelOriginalPos = optionsPanelRect.anchoredPosition;
+            // Initially position options panel outside the screen to the right
+            optionsPanelRect.anchoredPosition = optionsPanelOriginalPos + Vector3.right * horizontalOffset;
         }
 
-        if (painelOpcoes != null)
-            painelOpcoes.SetActive(true);
+        if (optionsPanel != null)
+            optionsPanel.SetActive(true);
     }
 
-    public void Jogar()
+    /// <summary>
+    /// Starts the game by transitioning to the preload state.
+    /// </summary>
+    public void Play()
     {
         TransitionManager.Instance().Transition("PreloadState", transition, loadDelay);
     }
 
-    public void AbrirOpcoes()
+    /// <summary>
+    /// Opens the options panel with animation, sliding the main menu and logo out.
+    /// </summary>
+    public void OpenOptions()
     {
         StopAllCoroutines();
 
-        if (menuPrincipal != null)
-            StartCoroutine(AnimarMovimento(menuPrincipal, menuPrincipal.anchoredPosition, menuPrincipalPosOriginal + Vector3.right * deslocamentoX));
+        if (mainMenuRect != null)
+            StartCoroutine(AnimateMovement(mainMenuRect, mainMenuRect.anchoredPosition, mainMenuOriginalPos + Vector3.right * horizontalOffset));
 
-        if (fnrLogoType != null)
-            StartCoroutine(AnimarMovimento(fnrLogoType, fnrLogoType.anchoredPosition, fnrLogoTypePosOriginal + Vector3.right * deslocamentoX));
+        if (fnrLogoRect != null)
+            StartCoroutine(AnimateMovement(fnrLogoRect, fnrLogoRect.anchoredPosition, fnrLogoOriginalPos + Vector3.right * horizontalOffset));
 
-        if (painelOpcoesRect != null)
-            StartCoroutine(AnimarMovimento(painelOpcoesRect, painelOpcoesRect.anchoredPosition, painelOpcoesPosOriginal));
+        if (optionsPanelRect != null)
+            StartCoroutine(AnimateMovement(optionsPanelRect, optionsPanelRect.anchoredPosition, optionsPanelOriginalPos));
 
         if (bigElement != null)
-            StartCoroutine(AnimarEscala(bigElement, escalaInicial, escalaFinal));
+            StartCoroutine(AnimateScale(bigElement, initialScale, finalScale));
     }
-    public void FecharOpcoes()
+
+    /// <summary>
+    /// Closes the options panel with animation, sliding main menu and logo back in.
+    /// Saves any settings before closing.
+    /// </summary>
+    public void CloseOptions()
     {
-        // Salvar configurações
+        // Save settings before closing options
         FpsLimiter fpsLimiter = FindObjectOfType<FpsLimiter>();
         if (fpsLimiter != null)
-            fpsLimiter.SalvarTodasConfiguracoes();
+            fpsLimiter.SaveAllSettings();
 
         StopAllCoroutines();
 
         if (bigElement != null)
-            StartCoroutine(AnimarEscala(bigElement, bigElement.localScale, escalaInicial));
+            StartCoroutine(AnimateScale(bigElement, bigElement.localScale, initialScale));
 
-        if (menuPrincipal != null)
-            StartCoroutine(AnimarMovimento(menuPrincipal, menuPrincipal.anchoredPosition, menuPrincipalPosOriginal));
+        if (mainMenuRect != null)
+            StartCoroutine(AnimateMovement(mainMenuRect, mainMenuRect.anchoredPosition, mainMenuOriginalPos));
 
-        if (fnrLogoType != null)
-            StartCoroutine(AnimarMovimento(fnrLogoType, fnrLogoType.anchoredPosition, fnrLogoTypePosOriginal));
+        if (fnrLogoRect != null)
+            StartCoroutine(AnimateMovement(fnrLogoRect, fnrLogoRect.anchoredPosition, fnrLogoOriginalPos));
 
-        if (painelOpcoesRect != null)
-            StartCoroutine(AnimarMovimento(painelOpcoesRect, painelOpcoesRect.anchoredPosition, painelOpcoesPosOriginal + Vector3.right * deslocamentoX));
+        if (optionsPanelRect != null)
+            StartCoroutine(AnimateMovement(optionsPanelRect, optionsPanelRect.anchoredPosition, optionsPanelOriginalPos + Vector3.right * horizontalOffset));
     }
 
-    public void AbrirSubState(string state)
+    /// <summary>
+    /// Loads a sub-state scene additively, e.g., for key binding menu.
+    /// </summary>
+    /// <param name="state">Name of the sub-state to open.</param>
+    public void OpenSubState(string state)
     {
         SceneManager.LoadScene("KeyBindMenu", LoadSceneMode.Additive);
     }
 
-    public void SairDoJogo()
+    /// <summary>
+    /// Exits the game application.
+    /// </summary>
+    public void QuitGame()
     {
-        Debug.Log("O botão de SAIR foi pressionado!");
+        Debug.Log("Exit button pressed!");
 
-        // Se estivermos rodando em um jogo já compilado (PC, Mac, etc)...
         #if !UNITY_EDITOR
             Application.Quit();
         #endif
 
-        // Se estivermos rodando dentro do Editor do Unity...
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #endif
     }
 
-    private IEnumerator AnimarEscala(Transform alvo, Vector3 de, Vector3 para)
+    /// <summary>
+    /// Coroutine to animate the scale of a Transform from a start scale to an end scale.
+    /// </summary>
+    /// <param name="target">Transform to animate.</param>
+    /// <param name="from">Starting scale.</param>
+    /// <param name="to">Ending scale.</param>
+    /// <returns>IEnumerator for coroutine.</returns>
+    private IEnumerator AnimateScale(Transform target, Vector3 from, Vector3 to)
     {
-        float tempo = 0f;
-        while (tempo < tempoAnimacao)
+        float time = 0f;
+        while (time < animationDuration)
         {
-            alvo.localScale = Vector3.Lerp(de, para, tempo / tempoAnimacao);
-            tempo += Time.deltaTime;
+            target.localScale = Vector3.Lerp(from, to, time / animationDuration);
+            time += Time.deltaTime;
             yield return null;
         }
-        alvo.localScale = para;
+        target.localScale = to;
     }
 
-    private IEnumerator AnimarMovimento(RectTransform alvo, Vector3 de, Vector3 para)
+    /// <summary>
+    /// Coroutine to animate the anchored position of a RectTransform from a start to an end position.
+    /// </summary>
+    /// <param name="target">RectTransform to animate.</param>
+    /// <param name="from">Starting anchored position.</param>
+    /// <param name="to">Ending anchored position.</param>
+    /// <returns>IEnumerator for coroutine.</returns>
+    private IEnumerator AnimateMovement(RectTransform target, Vector3 from, Vector3 to)
     {
-        float tempo = 0f;
-        while (tempo < tempoAnimacao)
+        float time = 0f;
+        while (time < animationDuration)
         {
-            alvo.anchoredPosition = Vector3.Lerp(de, para, tempo / tempoAnimacao);
-            tempo += Time.deltaTime;
+            target.anchoredPosition = Vector3.Lerp(from, to, time / animationDuration);
+            time += Time.deltaTime;
             yield return null;
         }
-        alvo.anchoredPosition = para;
+        target.anchoredPosition = to;
     }
 }

@@ -4,43 +4,48 @@ using TMPro;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Handles pause, resume, and UI transitions for the pause menu.
+/// The functions names are very objective btw
+/// </summary>
 public class PauseManager : MonoBehaviour
 {
     public static bool isPaused = false;
 
-    [Header("Menu de Pausa")]
+    [Header("Pause Menu")]
     public RectTransform menuContainer;
     public float animDuration = 0.5f;
     public Vector2 hiddenPos = new Vector2(0, -635);
     public Vector2 shownPos = new Vector2(0, 135);
 
-    [Header("Contagem de Retorno")]
+    [Header("Countdown to Resume")]
     public TextMeshProUGUI countdownText;
     public Vector2 countdownStartPos = new Vector2(0, -200);
     public Vector2 countdownEndPos = new Vector2(0, 100);
     public float countdownAnimDuration = 0.4f;
 
-    [Header("Background Escurecedor")]
+    [Header("Background Dimmer")]
     public Image backgroundImage;
     public float fadeDuration = 0.5f;
-    private Color backgroundTargetColor;
 
+    private Color backgroundTargetColor;
     private Coroutine animCoroutine;
 
-    void Start()
+    private void Start()
     {
         if (menuContainer != null)
             menuContainer.anchoredPosition = hiddenPos;
 
         countdownText.text = "";
 
+        // Set transparent background at start
         backgroundTargetColor = backgroundImage.color;
-        Color startColor = backgroundTargetColor;
-        startColor.a = 0f;
-        backgroundImage.color = startColor;
+        Color transparent = backgroundTargetColor;
+        transparent.a = 0f;
+        backgroundImage.color = transparent;
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -57,8 +62,10 @@ public class PauseManager : MonoBehaviour
         isPaused = true;
         AudioListener.pause = true;
 
-        if (animCoroutine != null) StopCoroutine(animCoroutine);
+        if (animCoroutine != null)
+            StopCoroutine(animCoroutine);
         animCoroutine = StartCoroutine(AnimateMenu(true));
+
         StartCoroutine(FadeBackground(0f, 190f / 255f));
     }
 
@@ -66,8 +73,10 @@ public class PauseManager : MonoBehaviour
     {
         isPaused = false;
 
-        if (animCoroutine != null) StopCoroutine(animCoroutine);
+        if (animCoroutine != null)
+            StopCoroutine(animCoroutine);
         animCoroutine = StartCoroutine(AnimateMenu(false));
+
         StartCoroutine(CountdownResume());
     }
 
@@ -80,7 +89,7 @@ public class PauseManager : MonoBehaviour
         while (elapsed < animDuration)
         {
             float t = elapsed / animDuration;
-            t = 1f - Mathf.Pow(1f - t, 2f); // ease-out
+            t = 1f - Mathf.Pow(1f - t, 2f); // Ease-out
             menuContainer.anchoredPosition = Vector2.Lerp(start, end, t);
             elapsed += Time.unscaledDeltaTime;
             yield return null;
@@ -97,7 +106,7 @@ public class PauseManager : MonoBehaviour
         while (elapsed < fadeDuration)
         {
             float t = elapsed / fadeDuration;
-            t = 1f - Mathf.Pow(1f - t, 2f); // ease-out
+            t = 1f - Mathf.Pow(1f - t, 2f); // Ease-out
             float a = Mathf.Lerp(fromAlpha, toAlpha, t);
             backgroundImage.color = new Color(baseColor.r, baseColor.g, baseColor.b, a);
             elapsed += Time.unscaledDeltaTime;
@@ -109,10 +118,10 @@ public class PauseManager : MonoBehaviour
 
     private IEnumerator CountdownResume()
     {
-        string[] countdownSteps = { "3", "2", "1", "GO!!" };
+        string[] steps = { "3", "2", "1", "GO!!" };
         countdownText.text = "";
 
-        foreach (string step in countdownSteps)
+        foreach (string step in steps)
         {
             countdownText.text = step;
             countdownText.rectTransform.anchoredPosition = countdownStartPos;
@@ -121,7 +130,7 @@ public class PauseManager : MonoBehaviour
             while (elapsed < countdownAnimDuration)
             {
                 float t = elapsed / countdownAnimDuration;
-                t = 1f - Mathf.Pow(1f - t, 2f); // ease-out
+                t = 1f - Mathf.Pow(1f - t, 2f); // Ease-out
                 countdownText.rectTransform.anchoredPosition = Vector2.Lerp(countdownStartPos, countdownEndPos, t);
                 elapsed += Time.unscaledDeltaTime;
                 yield return null;
@@ -133,6 +142,7 @@ public class PauseManager : MonoBehaviour
 
         countdownText.text = "";
         StartCoroutine(FadeBackground(190f / 255f, 0f));
+
         Time.timeScale = 1f;
         AudioListener.pause = false;
     }
@@ -146,13 +156,13 @@ public class PauseManager : MonoBehaviour
 
         countdownText.text = "";
 
-        backgroundTargetColor = backgroundImage.color;
-        Color startColor = backgroundTargetColor;
-        startColor.a = 0f;
-        backgroundImage.color = startColor;
+        Color transparent = backgroundImage.color;
+        transparent.a = 0f;
+        backgroundImage.color = transparent;
 
         Time.timeScale = 1f;
         AudioListener.pause = false;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -161,6 +171,7 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
         AudioListener.pause = false;
+
         SceneManager.LoadScene("MainMenu");
     }
 }

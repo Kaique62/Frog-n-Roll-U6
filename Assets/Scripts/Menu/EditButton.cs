@@ -1,7 +1,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class EditarBotao : MonoBehaviour, IDragHandler, IScrollHandler
+/// <summary>
+/// Allows a UI button to be moved by dragging and resized using scroll (PC) or pinch gesture (mobile).
+/// </summary>
+public class EditButton : MonoBehaviour, IDragHandler, IScrollHandler
 {
     private RectTransform rt;
 
@@ -10,28 +13,38 @@ public class EditarBotao : MonoBehaviour, IDragHandler, IScrollHandler
         rt = GetComponent<RectTransform>();
     }
 
+    /// <summary>
+    /// Allows dragging the button on the screen using mouse or touch.
+    /// </summary>
+    /// <param name="eventData">Pointer event data containing the drag delta.</param>
     public void OnDrag(PointerEventData eventData)
     {
         rt.anchoredPosition += eventData.delta;
     }
 
-    // Redimensiona com scroll do mouse (PC)
+    /// <summary>
+    /// Resizes the button using mouse scroll wheel (PC only).
+    /// </summary>
+    /// <param name="eventData">Scroll event data.</param>
     public void OnScroll(PointerEventData eventData)
     {
         float delta = eventData.scrollDelta.y * 10f;
-        Vector2 novaEscala = rt.sizeDelta + new Vector2(delta, delta);
+        Vector2 newScale = rt.sizeDelta + new Vector2(delta, delta);
 
-        novaEscala = Vector2.Max(novaEscala, Vector2.one * 50);   // Mínimo 50x50
-        novaEscala = Vector2.Min(novaEscala, Vector2.one * 300);  // Máximo 300x300
+        newScale = Vector2.Max(newScale, Vector2.one * 50);   // Minimum 50x50
+        newScale = Vector2.Min(newScale, Vector2.one * 300);  // Maximum 300x300
 
-        rt.sizeDelta = novaEscala;
+        rt.sizeDelta = newScale;
     }
 
-#if UNITY_ANDROID || UNITY_IOS
+    #if UNITY_ANDROID || UNITY_IOS
     private bool pinchInProgress = false;
     private float pinchStartDist;
     private Vector2 startSize;
 
+    /// <summary>
+    /// Detects pinch gestures on mobile devices to resize the button.
+    /// </summary>
     void Update()
     {
         if (Input.touchCount == 2)
@@ -52,8 +65,8 @@ public class EditarBotao : MonoBehaviour, IDragHandler, IScrollHandler
                 float scaleFactor = dist / pinchStartDist;
                 Vector2 newSize = startSize * scaleFactor;
 
-                newSize = Vector2.Max(newSize, Vector2.one * 50);
-                newSize = Vector2.Min(newSize, Vector2.one * 300);
+                newSize = Vector2.Max(newSize, Vector2.one * 50);   // Minimum 50x50
+                newSize = Vector2.Min(newSize, Vector2.one * 300);  // Maximum 300x300
 
                 rt.sizeDelta = newSize;
             }
@@ -63,5 +76,5 @@ public class EditarBotao : MonoBehaviour, IDragHandler, IScrollHandler
             pinchInProgress = false;
         }
     }
-#endif
+    #endif
 }
