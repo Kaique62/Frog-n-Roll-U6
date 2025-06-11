@@ -70,8 +70,6 @@ In Unity:
 - Choose your desired output directory
 - Unity will compile the build for your selected platform
 
----
-
 ## 🤝 How to Contribute
 
 - Fork the repo
@@ -79,6 +77,8 @@ In Unity:
 - Commit your changes (`git commit -m 'Add some feature'`)
 - Push to the branch (`git push origin feature/YourFeature`)
 - Open a Pull Request
+
+---
 
 <p align="center">
   🔗 <strong><a href="https://z1c4z.github.io/Frog-and-roll/">Visit Our Website</a></strong>
