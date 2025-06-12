@@ -1,34 +1,38 @@
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
-/// <summary>
-/// Controls the gameplay logic for a level, including score tracking,
-/// music playback, and score multiplier calculations based on timing.
-/// </summary>
 public class LevelController : MonoBehaviour
 {
     [Header("Score System")]
     public float score = 0;
     public TMP_Text scoreText;
     public TMP_Text scoreTextMultiplier;
-    public float pointMultiplier = 1f;
+    public float pointMultiplier;
+
+    [Header("Popup Text")]
+    public TMP_Text popupText;                 // World-space TextMeshPro object (assign in inspector)
+    public float popupDuration = 1f;           // How long the popup stays visible
+    private Coroutine popupCoroutine;
 
     [Header("Music")]
     public AudioSource musicAudioSource;
 
-    private bool gameStarted = false;
+    public static bool gameStarted = false;
 
-    /// <summary>
-    /// Initializes score display when the level starts.
-    /// </summary>
     void Start()
     {
         UpdateScoreUI();
+
+        popupText.gameObject.SetActive(false);
+        popupText.color = new Color(popupText.color.r, popupText.color.g, popupText.color.b, 0f);
+
+        if (popupText != null)
+        {
+            popupText.gameObject.SetActive(false);
+        }
     }
 
-    /// <summary>
-    /// Waits for any key press to start the level.
-    /// </summary>
     void Update()
     {
         if (!gameStarted && Input.anyKey)
@@ -37,10 +41,6 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Begins the level by starting the music and flagging the game as started.
-    /// Sets the music volume based on saved settings.
-    /// </summary>
     private void StartLevel()
     {
         gameStarted = true;
@@ -48,63 +48,82 @@ public class LevelController : MonoBehaviour
         if (musicAudioSource != null && !musicAudioSource.isPlaying)
         {
             musicAudioSource.volume = LoadSavedVolume();
-            Debug.Log($"Audio started with volume: {musicAudioSource.volume}");
             musicAudioSource.Play();
         }
     }
 
-    /// <summary>
-    /// Adds points to the current score based on a given delay and updates the multiplier.
-    /// Higher delays reward more points and increase the multiplier.
-    /// Missing a time will reset the multiplier
-    /// </summary>
-    /// <param name="delay">The timing delay used to evaluate the score quality.</param>
-    /// <remarks>
-    /// The multiplier is not capped, which could lead to exponential score growth.
-    /// I May need to cap this later, idk tbh, big numbers are kinda funny to see on a score.
-    /// </remarks>
     public void AddScore(float delay)
     {
         float points = 0;
+        string popupStr = "";
+        Color popupColor = Color.white;
 
         if (delay >= 170)
         {
             points = 1000;
+            popupStr = "Perfect";
+            popupColor = Color.yellow;
             pointMultiplier += 0.3f;
         }
         else if (delay >= 150)
         {
             points = 700;
+            popupStr = "Good";
+            popupColor = Color.green;
             pointMultiplier += 0.1f;
         }
         else if (delay >= 120)
         {
             points = 500;
+            popupStr = "Bad";
+            popupColor = Color.red;
             pointMultiplier = 1f;
         }
         else
         {
             points = 300;
+            popupStr = "Miss";
+            popupColor = Color.gray;
             pointMultiplier = 1f;
         }
 
         points *= pointMultiplier;
         score += points;
         UpdateScoreUI();
+
+        ShowPopup(popupStr, popupColor);
     }
 
-    /// <summary>
-    /// Resets the current score and multiplier display.
-    /// </summary>
-    public void ResetScore()
+    private void ShowPopup(string text, Color color)
     {
-        score = 0;
-        UpdateScoreUI();
+        if (popupText == null) return;
+
+        popupText.text = text;
+        popupText.color = new Color(color.r, color.g, color.b, 1f);
+        popupText.gameObject.SetActive(true);
+
+        if (popupCoroutine != null)
+            StopCoroutine(popupCoroutine);
+
+        popupCoroutine = StartCoroutine(FadeOutPopup());
     }
 
-    /// <summary>
-    /// Updates the UI elements for score and multiplier.
-    /// </summary>
+    private IEnumerator FadeOutPopup()
+    {
+        float elapsed = 0f;
+        Color startColor = popupText.color;
+
+        while (elapsed < popupDuration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / popupDuration);
+            popupText.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+            yield return null;
+        }
+
+        popupText.gameObject.SetActive(false);
+    }
+
     private void UpdateScoreUI()
     {
         if (scoreText != null)
@@ -114,11 +133,6 @@ public class LevelController : MonoBehaviour
             scoreTextMultiplier.text = $"X{pointMultiplier:F1}";
     }
 
-    /// <summary>
-    /// Loads the saved music volume from persistent configuration.
-    /// Defaults to 1 if no value is found or parsing fails.
-    /// </summary>
-    /// <returns>A float value between 0 and 1 representing the volume level.</returns>
     private float LoadSavedVolume()
     {
         string savedVolume = ConfigManager.Read("volume_MusicVolume");

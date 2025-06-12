@@ -4609,8 +4609,8 @@ GameObject:
   m_Component:
   - component: {fileID: 944372577}
   - component: {fileID: 944372576}
-  - component: {fileID: 944372575}
   - component: {fileID: 944372574}
+  - component: {fileID: 944372578}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4662,14 +4662,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &944372575
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 944372573}
-  m_Enabled: 1
 --- !u!20 &944372576
 Camera:
   m_ObjectHideFlags: 0
@@ -4737,6 +4729,14 @@ Transform:
   - {fileID: 995895577}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &944372578
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944372573}
+  m_Enabled: 1
 --- !u!1 &954798253
 GameObject:
   m_ObjectHideFlags: 0
@@ -5087,8 +5087,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1022866928}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.00012207031, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5766,7 +5766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd2024cdedd00db4db59b89894eb8440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameLevelName: sketchLevel
+  gameLevelName: Demo
   initialMenuPanel: {fileID: 1301335878}
   optionsPanel: {fileID: 1996929056}
   mainMenuRect: {fileID: 1301335879}
@@ -10546,8 +10546,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 184009323}
   - {fileID: 944372577}
+  - {fileID: 1022866930}
   - {fileID: 845322879}
   - {fileID: 1198571566}
   - {fileID: 627977752}
   - {fileID: 250109788}
-  - {fileID: 1022866930}

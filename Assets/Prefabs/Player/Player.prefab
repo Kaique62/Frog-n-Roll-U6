@@ -205,6 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af37a2639d554bd459020934a181de15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameOverPrefab: {fileID: 0}
+  canvasTransform: {fileID: 0}
   moveSpeed: 10
   jumpForce: 10
   rollDistance: 5
@@ -485,7 +487,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.30366898, y: 0}
+  m_Offset: {x: 0.80366945, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -495,7 +497,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.2028942, y: 3.4160843}
+  m_Size: {x: 3.2028952, y: 3.4160843}
   m_EdgeRadius: 0
 --- !u!1 &6408881593606726946
 GameObject:

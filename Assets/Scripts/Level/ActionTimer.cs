@@ -64,30 +64,33 @@ public class ActionTimer : MonoBehaviour
 
     private void Update()
     {
-        if (musicTimer == null || spriteRenderer == null || boxCollider == null) return;
-
-        float currentTime = musicTimer.CurrentTime;
-
-        // Start color change 2 seconds before target time
-        if (!hasStartedColorChange && currentTime >= targetTimeInSeconds - 2f)
+        if (LevelController.gameStarted)
         {
-            hasStartedColorChange = true;
-            StartColorChange();
-        }
+            if (musicTimer == null || spriteRenderer == null || boxCollider == null) return;
 
-        UpdateDelay(currentTime);
+            float currentTime = musicTimer.CurrentTime;
 
-        if (isColorChanging)
-        {
-            float elapsedTime = Time.time - colorChangeStartTime;
-            float lerpProgress = Mathf.Clamp01(elapsedTime / colorChangeDuration);
-            spriteRenderer.color = Color.Lerp(initialColor, targetColor, lerpProgress);
-
-            if (lerpProgress >= 1f)
+            // Start color change 2 seconds before target time
+            if (!hasStartedColorChange && currentTime >= targetTimeInSeconds - 2f)
             {
-                isColorChanging = false;
-                Debug.Log("[ActionTimer] Color change completed.");
+                hasStartedColorChange = true;
+                StartColorChange();
             }
+
+            UpdateDelay(currentTime);
+
+            if (isColorChanging)
+            {
+                float elapsedTime = Time.time - colorChangeStartTime;
+                float lerpProgress = Mathf.Clamp01(elapsedTime / colorChangeDuration);
+                spriteRenderer.color = Color.Lerp(initialColor, targetColor, lerpProgress);
+
+                if (lerpProgress >= 1f)
+                {
+                    isColorChanging = false;
+                    Debug.Log("[ActionTimer] Color change completed.");
+                }
+            }   
         }
     }
 

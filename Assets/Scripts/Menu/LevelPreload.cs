@@ -218,7 +218,7 @@ public class LevelPreload : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(sceneName);
+            SceneManager.LoadScene("scketchLevel");
         }
     }
 
