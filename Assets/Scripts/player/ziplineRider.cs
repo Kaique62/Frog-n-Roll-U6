@@ -21,6 +21,7 @@ public class PlayerZiplineController : MonoBehaviour
     private Zipline currentZipline;
     private Vector2[] ziplinePoints;
     private float progress = 0f; // Progress along the zipline (0 = start, 1 = end)
+    private bool isAttachedToZipline = false;
 
     private float moveDirection = 1f; // Direction of movement on the zipline (1 or -1)
     private float lastZiplineExitTime = -Mathf.Infinity; // Time when the player last exited a zipline
@@ -67,7 +68,8 @@ public class PlayerZiplineController : MonoBehaviour
         // Calculate the world position on the zipline at current progress
         Vector2 pos = GetPositionOnZipline(progress);
 
-        rb.position = pos;
+        Vector2 offset = ropeGrabCollider.position - transform.position;
+        rb.position = pos - offset;
         rb.linearVelocity = Vector2.zero; // Reset velocity to prevent physics interference
 
         // Automatically exit zipline at the ends
@@ -183,8 +185,8 @@ public class PlayerZiplineController : MonoBehaviour
         {
             Vector2 a = ziplinePoints[i];
             Vector2 b = ziplinePoints[i + 1];
-            Vector2 closest = ClosestPointOnLineSegment(a, b, transform.position);
-            float dist = Vector2.Distance(transform.position, closest);
+            Vector2 closest = ClosestPointOnLineSegment(a, b, ropeGrabCollider.position);
+            float dist = Vector2.Distance(ropeGrabCollider.position, closest) - Vector2.Distance(a, b) * 0.2f; // Adjust distance to account for segment length
 
             if (dist < closestDistance)
             {
