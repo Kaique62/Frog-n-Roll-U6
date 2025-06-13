@@ -25,13 +25,11 @@
 
 ## 🧩 About the Game
 
-**Frog'n Roll** is an exciting rhythm-platformer developed in **Unity 6**. Control a music-loving frog and synchronize your movements to the beat to overcome obstacles, defeat enemies, and face epic bosses. The game blends rhythmic action with classic platformer mechanics to deliver a unique and immersive experience.
+**Frog'n Roll** is an exciting rhythm-platformer developed in **Unity 6**. Control a music-loving frog and synchronize your movements to the beat to overcome obstacles, defeat enemies and much more!
 
 ## 🚀 Features
 - 🎶 Rhythm-synced gameplay
 - 🐸 Original frog protagonist
-- ⚔️ Boss battles
-- 🪄 Unique platforming mechanics
 - 🖥️ Multi-platform support (PC, Web, Mobile)
 
 ## 🛠️ Requirements
