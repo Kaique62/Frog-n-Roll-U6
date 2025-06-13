@@ -4,117 +4,71 @@ using EasyTransition;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Handles preloading of sprites and audio for a level based on a song name.
+/// Works with WebGL by avoiding platform-specific memory checks.
+/// </summary>
 public class LevelPreload : MonoBehaviour
 {
     /// <summary>
-    /// The name of the song/level to preload.
+    /// The name of the song/level to load.
+    /// The scene and resource folders must match this name.
     /// </summary>
     [Header("Preload Settings")]
     public string Song = "";
 
     /// <summary>
-    /// Maximum RAM usage percentage allowed (0.1 - 0.9).
-    /// </summary>
-    [Header("Memory Management")]
-    [Tooltip("Maximum RAM usage percentage (0.1-0.9)")]
-    [Range(0.1f, 0.9f)] public float maxRamUsagePercent = 0.7f;
-
-    /// <summary>
-    /// Minimum required RAM in megabytes.
-    /// </summary>
-    [Tooltip("Minimum required RAM (MB)")]
-    public int minRequiredRamMB = 500;
-
-    /// <summary>
-    /// Maximum loading time allowed per frame in milliseconds.
+    /// Maximum allowed load time per frame in milliseconds (to avoid frame drops).
     /// </summary>
     [Header("Performance")]
     [Tooltip("Max load time per frame (ms)")]
     [Range(1f, 33f)] public float maxLoadTimePerFrame = 10f;
 
     /// <summary>
-    /// Delay between loading each resource in seconds.
+    /// Delay between resource loading operations to avoid locking the main thread.
     /// </summary>
     [Tooltip("Delay between resource loads")]
     [Range(0f, 0.1f)] public float interLoadDelay = 0.01f;
 
     /// <summary>
-    /// Transition settings used when switching scenes.
+    /// Settings used for the scene transition effect.
     /// </summary>
     [Header("Transition")]
     public TransitionSettings transition;
 
     /// <summary>
-    /// Delay before starting the scene load transition.
+    /// Delay before executing the scene load transition (in seconds).
     /// </summary>
     public float loadDelay;
 
     /// <summary>
-    /// Cached sprites loaded for the current song/level.
+    /// Cached dictionary of preloaded sprites.
     /// </summary>
     public static Dictionary<string, Sprite> SpriteCache { get; private set; }
 
     /// <summary>
-    /// Cached audio clips loaded for the current song/level.
+    /// Cached dictionary of preloaded audio clips.
     /// </summary>
     public static Dictionary<string, AudioClip> AudioCache { get; private set; }
 
     private bool spritesLoaded = false;
     private bool audioLoaded = false;
-    private bool resourcesAvailable = true;
 
     /// <summary>
-    /// Initializes caches, checks system resources and starts preload coroutine.
-    /// Falls back to main menu if resources are insufficient.
+    /// Initializes the cache and starts the preload coroutine.
     /// </summary>
     private void Start()
     {
         SpriteCache = new Dictionary<string, Sprite>();
         AudioCache = new Dictionary<string, AudioClip>();
 
-        resourcesAvailable = CheckSystemResources();
-
-        if (resourcesAvailable)
-        {
-            StartCoroutine(PreloadFiles());
-        }
-        else
-        {
-            FallbackToMainMenu();
-        }
+        StartCoroutine(PreloadFiles());
     }
 
     /// <summary>
-    /// Checks if the system has enough available memory to safely load resources.
+    /// Preloads sprites and audio, then transitions to the next scene.
     /// </summary>
-    /// <returns>True if resources are sufficient; otherwise, false.</returns>
-    private bool CheckSystemResources()
-    {
-        long systemRamMB = SystemInfo.systemMemorySize;
-        long usedRamMB = (int)(System.GC.GetTotalMemory(false) / 1048576);
-        long availableRamMB = systemRamMB - usedRamMB;
-
-        if (availableRamMB < minRequiredRamMB)
-        {
-            Debug.LogError($"Insufficient RAM: {availableRamMB}MB available < {minRequiredRamMB}MB required");
-            return false;
-        }
-
-        long safeLimitMB = (long)(systemRamMB * maxRamUsagePercent);
-
-        if (usedRamMB > safeLimitMB)
-        {
-            Debug.LogError($"Memory limit exceeded: {usedRamMB}MB > {safeLimitMB}MB");
-            return false;
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    /// Coroutine that starts loading sprites and audio clips, then loads the next scene when done.
-    /// </summary>
-    /// <returns>IEnumerator for coroutine.</returns>
+    /// <returns>Coroutine enumerator.</returns>
     IEnumerator PreloadFiles()
     {
         string spritesFolderPath = "Preload/" + Song;
@@ -128,10 +82,10 @@ public class LevelPreload : MonoBehaviour
     }
 
     /// <summary>
-    /// Coroutine to load all sprites in the specified folder and cache them.
+    /// Loads all sprites in the specified path and caches them.
     /// </summary>
-    /// <param name="path">Resource path to load sprites from.</param>
-    /// <returns>IEnumerator for coroutine.</returns>
+    /// <param name="path">Resources path where the sprites are located.</param>
+    /// <returns>Coroutine enumerator.</returns>
     IEnumerator LoadSprites(string path)
     {
         Sprite[] sprites = Resources.LoadAll<Sprite>(path);
@@ -159,10 +113,10 @@ public class LevelPreload : MonoBehaviour
     }
 
     /// <summary>
-    /// Coroutine to load all audio clips in the specified folder and cache them.
+    /// Loads all audio clips in the specified path and caches them.
     /// </summary>
-    /// <param name="path">Resource path to load audio clips from.</param>
-    /// <returns>IEnumerator for coroutine.</returns>
+    /// <param name="path">Resources path where the audio clips are located.</param>
+    /// <returns>Coroutine enumerator.</returns>
     IEnumerator LoadAudio(string path)
     {
         AudioClip[] audioClips = Resources.LoadAll<AudioClip>(path);
@@ -190,13 +144,13 @@ public class LevelPreload : MonoBehaviour
     }
 
     /// <summary>
-    /// Loads the next scene corresponding to the song, or falls back to the main menu if unavailable.
+    /// Loads the scene with the same name as the song if available.
     /// </summary>
     private void LoadNextScene()
     {
         string sceneName = Song;
 
-        if (resourcesAvailable && Application.CanStreamedLevelBeLoaded(sceneName))
+        if (Application.CanStreamedLevelBeLoaded(sceneName))
         {
             SafeTransition(sceneName);
         }
@@ -207,9 +161,9 @@ public class LevelPreload : MonoBehaviour
     }
 
     /// <summary>
-    /// Performs a safe scene transition using the transition manager if available.
+    /// Performs a safe scene transition using TransitionManager, if available.
     /// </summary>
-    /// <param name="sceneName">Name of the scene to load.</param>
+    /// <param name="sceneName">The scene to load.</param>
     private void SafeTransition(string sceneName)
     {
         if (TransitionManager.Instance() != null)
@@ -218,12 +172,12 @@ public class LevelPreload : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("scketchLevel");
+            SceneManager.LoadScene(sceneName);
         }
     }
 
     /// <summary>
-    /// Fallback to load the main menu scene with transition.
+    /// Fallback method to load the main menu if the target scene isn't found.
     /// </summary>
     private void FallbackToMainMenu()
     {
@@ -240,10 +194,10 @@ public class LevelPreload : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the cached sprite by key, or null if not found.
+    /// Retrieves a sprite from the cache using its name.
     /// </summary>
-    /// <param name="key">Sprite key/name.</param>
-    /// <returns>The cached sprite or null.</returns>
+    /// <param name="key">The name of the sprite.</param>
+    /// <returns>The sprite if found, otherwise null.</returns>
     public static Sprite GetSprite(string key)
     {
         if (SpriteCache != null && SpriteCache.TryGetValue(key, out var sprite))
@@ -254,11 +208,11 @@ public class LevelPreload : MonoBehaviour
     }
 
     /// <summary>
-    /// Attempts to get a cached sprite by key.
+    /// Tries to get a sprite from the cache.
     /// </summary>
-    /// <param name="key">Sprite key/name.</param>
-    /// <param name="sprite">Output sprite if found.</param>
-    /// <returns>True if sprite is found; otherwise, false.</returns>
+    /// <param name="key">The sprite name.</param>
+    /// <param name="sprite">Output parameter for the sprite if found.</param>
+    /// <returns>True if found, otherwise false.</returns>
     public static bool TryGetSprite(string key, out Sprite sprite)
     {
         sprite = null;
@@ -267,10 +221,10 @@ public class LevelPreload : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the cached audio clip by key, or null if not found.
+    /// Retrieves an audio clip from the cache using its name.
     /// </summary>
-    /// <param name="key">Audio clip key/name.</param>
-    /// <returns>The cached audio clip or null.</returns>
+    /// <param name="key">The name of the audio clip.</param>
+    /// <returns>The audio clip if found, otherwise null.</returns>
     public static AudioClip GetAudio(string key)
     {
         if (AudioCache != null && AudioCache.TryGetValue(key, out var clip))
@@ -281,11 +235,11 @@ public class LevelPreload : MonoBehaviour
     }
 
     /// <summary>
-    /// Attempts to get a cached audio clip by key.
+    /// Tries to get an audio clip from the cache.
     /// </summary>
-    /// <param name="key">Audio clip key/name.</param>
-    /// <param name="clip">Output audio clip if found.</param>
-    /// <returns>True if audio clip is found; otherwise, false.</returns>
+    /// <param name="key">The audio clip name.</param>
+    /// <param name="clip">Output parameter for the audio clip if found.</param>
+    /// <returns>True if found, otherwise false.</returns>
     public static bool TryGetAudio(string key, out AudioClip clip)
     {
         clip = null;
@@ -294,12 +248,12 @@ public class LevelPreload : MonoBehaviour
     }
 
     /// <summary>
-    /// Cleans up caches and unloads unused assets when this object is destroyed.
+    /// Clears caches and unloads unused assets when this component is destroyed.
     /// </summary>
     private void OnDestroy()
     {
-        if (SpriteCache != null) SpriteCache.Clear();
-        if (AudioCache != null) AudioCache.Clear();
+        SpriteCache?.Clear();
+        AudioCache?.Clear();
         Resources.UnloadUnusedAssets();
     }
 }

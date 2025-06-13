@@ -71,6 +71,12 @@ public static class Controls
     /// </summary>
     private static void LoadFromJson()
     {
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            Debug.LogWarning("Skipping JSON load on WebGL — not supported.");
+            return;
+        }
+
         var keybinds = GameData.Load("config/KeyBinds.json");
 
         if (keybinds == null || keybinds.Count == 0)
