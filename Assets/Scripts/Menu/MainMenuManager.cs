@@ -113,7 +113,7 @@ public class MainMenuManager : MonoBehaviour
     /// </summary>
     public void Play()
     {
-        TransitionManager.Instance().Transition("PreloadState", transition, loadDelay);
+        TransitionManager.Instance().Transition("scketchLevel", transition, loadDelay);
     }
 
     /// <summary>

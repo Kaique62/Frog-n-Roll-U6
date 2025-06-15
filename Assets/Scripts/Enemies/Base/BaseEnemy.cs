@@ -125,10 +125,10 @@ public class EnemyController : MonoBehaviour
     {
         if (!ignoreRollingPlayer || playerController == null || enemyCollider == null) return;
 
-        if (playerController.isRolling)
+      /*  if (playerController.isRolling)
         {
             enemyCollider.enabled = false;
-        }
+        } */
         else if (restoreColliderAfterRoll)
         {
             enemyCollider.enabled = originalColliderState;
@@ -281,8 +281,8 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (ignoreRollingPlayer && playerController != null && playerController.isRolling)
-                return;
+         //   if (ignoreRollingPlayer && playerController != null && playerController.isRolling)
+        //      return;
 
             PlayerController pc = collision.gameObject.GetComponent<PlayerController>();
             if (pc != null && killsPlayerOnContact)

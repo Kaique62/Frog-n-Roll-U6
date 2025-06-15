@@ -81,6 +81,15 @@ public class MusicTimer : MonoBehaviour
         }
     }
 
+    public void DebugTime()
+    {
+        int min = Mathf.FloorToInt(currentTime / 60f);
+        int sec = Mathf.FloorToInt(currentTime % 60f);
+        int ms = Mathf.FloorToInt((currentTime * 1000f) % 1000f);
+
+        Debug.Log("Ação Realizada em: " + $"{min}:{sec}:{ms}");
+    }
+
     private void UpdateUI()
     {
         int min = Mathf.FloorToInt(currentTime / 60f);
