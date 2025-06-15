@@ -519,6 +519,25 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        // Só executa dano se o jogador está no stomp e a colisão vem da stompHitbox
+        if (currentState == PlayerState.Stomping && stompHitbox.activeInHierarchy)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                var timer = other.GetComponent<ActionTimer>();
+                if (timer != null)
+                    FindObjectOfType<LevelController>().AddScore(timer.Delay);
+
+                var enemy = other.GetComponent<EnemyController>();
+                if (enemy != null)
+                    enemy.TakeDamage();
+            }
+        }
+    }
+
+
     void TryAttachToRope()
     {
         Collider2D[] cols = Physics2D.OverlapCircleAll(
