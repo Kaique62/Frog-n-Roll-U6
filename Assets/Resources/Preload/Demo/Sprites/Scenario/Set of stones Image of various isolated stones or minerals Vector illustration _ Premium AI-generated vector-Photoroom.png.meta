@@ -1,0 +1,508 @@
+fileFormatVersion: 2
+guid: eef3bc3fc64f09e449899dc1612185ad
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5774178379928880265
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_0
+  - first:
+      213: -6332511856313658654
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_1
+  - first:
+      213: 6846234789311082090
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_2
+  - first:
+      213: -7704628670049400412
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_3
+  - first:
+      213: -3031899461733436464
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_4
+  - first:
+      213: -8406241141676578498
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_5
+  - first:
+      213: 5887640133657211985
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_6
+  - first:
+      213: -6803094173282074444
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_7
+  - first:
+      213: -6470739160970882704
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_8
+  - first:
+      213: 8660058438807856568
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_9
+  - first:
+      213: 4875190479177019864
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_10
+  - first:
+      213: 7497989111687161408
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_11
+  - first:
+      213: 4274490767662393495
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_12
+  - first:
+      213: 2249112230194019466
+    second: Set of stones Image of various isolated stones or minerals Vector illustration
+      _ Premium AI-generated vector-Photoroom_13
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 352
+        width: 170
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 984c665c4a0022050800000000000000
+      internalID: 5774178379928880265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_1
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 440
+        width: 190
+        height: 170
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e2997c84066e18a0800000000000000
+      internalID: -6332511856313658654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_2
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 319
+        width: 128
+        height: 133
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6eeec99446b20f50800000000000000
+      internalID: 6846234789311082090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_3
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 443
+        width: 211
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a94a63ab09a31590800000000000000
+      internalID: -7704628670049400412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_4
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 360
+        width: 76
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d33ea4d0878ce5d0800000000000000
+      internalID: -3031899461733436464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_5
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 300
+        width: 151
+        height: 130
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e39e7164838075b80800000000000000
+      internalID: -8406241141676578498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_6
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 235
+        width: 211
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 154b8fbe18915b150800000000000000
+      internalID: 5887640133657211985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_7
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 134
+        width: 210
+        height: 176
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b00efbc4ed8691a0800000000000000
+      internalID: -6803094173282074444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_8
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 272
+        width: 33
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0711f1c34015336a0800000000000000
+      internalID: -6470739160970882704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_9
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 13
+        width: 153
+        height: 204
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b524436445be2870800000000000000
+      internalID: 8660058438807856568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_10
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 171
+        width: 180
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d176b339e728a340800000000000000
+      internalID: 4875190479177019864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_11
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 13
+        width: 112
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0462cdbfe553e0860800000000000000
+      internalID: 7497989111687161408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_12
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 23
+        width: 133
+        height: 133
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 798243ab4ba025b30800000000000000
+      internalID: 4274490767662393495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Set of stones Image of various isolated stones or minerals Vector illustration
+        _ Premium AI-generated vector-Photoroom_13
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 23
+        width: 81
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8c73b438a3763f10800000000000000
+      internalID: 2249112230194019466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

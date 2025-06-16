@@ -1,0 +1,655 @@
+fileFormatVersion: 2
+guid: 59c7fcac1e1074d479e29652766b76a0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7463844729378864620
+    second: Forest Elements-Photoroom_0
+  - first:
+      213: -2355401353857307053
+    second: Forest Elements-Photoroom_1
+  - first:
+      213: -6930156426233916742
+    second: Forest Elements-Photoroom_2
+  - first:
+      213: -1091803807072251932
+    second: Forest Elements-Photoroom_3
+  - first:
+      213: 882323728737697785
+    second: Forest Elements-Photoroom_4
+  - first:
+      213: 6945704241694299549
+    second: Forest Elements-Photoroom_5
+  - first:
+      213: 929600765714802513
+    second: Forest Elements-Photoroom_6
+  - first:
+      213: 3977381617734918060
+    second: Forest Elements-Photoroom_7
+  - first:
+      213: -6204681326725974025
+    second: Forest Elements-Photoroom_8
+  - first:
+      213: -951012311164356845
+    second: Forest Elements-Photoroom_9
+  - first:
+      213: -4929493522553200162
+    second: Forest Elements-Photoroom_10
+  - first:
+      213: -2354822716631092561
+    second: Forest Elements-Photoroom_11
+  - first:
+      213: -2425803074491863684
+    second: Forest Elements-Photoroom_12
+  - first:
+      213: 4968216989572265850
+    second: Forest Elements-Photoroom_13
+  - first:
+      213: 5341795688296314121
+    second: Forest Elements-Photoroom_14
+  - first:
+      213: 2861751309841096206
+    second: Forest Elements-Photoroom_15
+  - first:
+      213: 2643730090327183198
+    second: Forest Elements-Photoroom_16
+  - first:
+      213: 3359163117984247094
+    second: Forest Elements-Photoroom_17
+  - first:
+      213: 1330900613413663838
+    second: Forest Elements-Photoroom_18
+  - first:
+      213: -5581585221124924063
+    second: Forest Elements-Photoroom_19
+  - first:
+      213: 2902888541514904905
+    second: Forest Elements-Photoroom_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1054
+        width: 161
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ced7c497c37e49760800000000000000
+      internalID: 7463844729378864620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_1
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 1054
+        width: 114
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35e6cd7b2feef4fd0800000000000000
+      internalID: -2355401353857307053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_2
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 1058
+        width: 159
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab2df68a27323df90800000000000000
+      internalID: -6930156426233916742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_3
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 1015
+        width: 107
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ef0a0bd83229d0f0800000000000000
+      internalID: -1091803807072251932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_4
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 1051
+        width: 199
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fffe4ca1c4ae3c00800000000000000
+      internalID: 882323728737697785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_5
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 924
+        width: 198
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d95dc193539146060800000000000000
+      internalID: 6945704241694299549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_6
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 938
+        width: 134
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 157ac5f98fa96ec00800000000000000
+      internalID: 929600765714802513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_7
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 940
+        width: 107
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: caf124d128f723730800000000000000
+      internalID: 3977381617734918060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_8
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 658
+        width: 225
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f7bff7053b84e9a0800000000000000
+      internalID: -6204681326725974025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_9
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 660
+        width: 105
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 317760877535dc2f0800000000000000
+      internalID: -951012311164356845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_10
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 670
+        width: 194
+        height: 252
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed1a0a142cbe69bb0800000000000000
+      internalID: -4929493522553200162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_11
+      rect:
+        serializedVersion: 2
+        x: 461
+        y: 672
+        width: 71
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa2fe22373df15fd0800000000000000
+      internalID: -2354822716631092561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_12
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 471
+        width: 163
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7dacd9c4f0d55ed0800000000000000
+      internalID: -2425803074491863684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_13
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 405
+        width: 162
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a77f38e7707a2f440800000000000000
+      internalID: 4968216989572265850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_14
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 528
+        width: 113
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9057d9f50eed12a40800000000000000
+      internalID: 5341795688296314121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_15
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 253
+        width: 188
+        height: 203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0e569277abf6b720800000000000000
+      internalID: 2861751309841096206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_16
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 404
+        width: 147
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5f86f3928a60b420800000000000000
+      internalID: 2643730090327183198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_17
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 0
+        width: 252
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63d6b06ee052e9e20800000000000000
+      internalID: 3359163117984247094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_18
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 181
+        width: 169
+        height: 216
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e54fed57e0f487210800000000000000
+      internalID: 1330900613413663838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_19
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 247
+        width: 99
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16d574b50d93a82b0800000000000000
+      internalID: -5581585221124924063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest Elements-Photoroom_20
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 32
+        width: 178
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9453c839fb1294820800000000000000
+      internalID: 2902888541514904905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
