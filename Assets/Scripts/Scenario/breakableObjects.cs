@@ -1,26 +1,24 @@
 using UnityEngine;
 
-/// <summary>
-/// Represents an object that can be broken when hit by the player's attack hitbox.
-/// Upon breaking, the object's collider is destroyed and the object is destroyed after a delay.
-/// </summary>
+[RequireComponent(typeof(SpriteRenderer))]
 public class breakableObject : MonoBehaviour
 {
-    /// <summary>
-    /// Delay in seconds before the object is destroyed after breaking.
-    /// </summary>
     [SerializeField] private float destroyDelay = 1.5f;
+    [SerializeField] private float fadeDuration = 1f;
+    [SerializeField] private Vector2 pushDirection = new Vector2(-1f, 1f);
+    [SerializeField] private float pushSpeed = 2f;
+    [SerializeField] private float rotationSpeed = 180f; // graus por segundo
 
-    /// <summary>
-    /// Indicates whether the object has already been broken.
-    /// </summary>
     private bool isBroken = false;
+    private SpriteRenderer spriteRenderer;
+    private Collider2D myCollider;
 
-    /// <summary>
-    /// Called when another collider enters this trigger collider.
-    /// Checks if the collider belongs to the player's attack hitbox and breaks the object if not already broken.
-    /// </summary>
-    /// <param name="collision">The collider that entered the trigger.</param>
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        myCollider = GetComponent<Collider2D>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!isBroken && collision.CompareTag("PlayerAttackHitbox"))
@@ -29,23 +27,40 @@ public class breakableObject : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Handles the breaking logic: marks the object as broken, destroys the BoxCollider2D component,
-    /// triggers animations or effects (TODO), and schedules destruction of the object after a delay.
-    /// </summary>
     private void BreakObject()
     {
         isBroken = true;
 
-        BoxCollider2D collider = GetComponent<BoxCollider2D>();
-        if (collider != null)
+        if (myCollider != null)
+            myCollider.enabled = false;
+
+        // Começa movimento e fade-out
+        StartCoroutine(BreakEffect());
+
+        // Destroi o objeto depois do tempo definido
+        Destroy(gameObject, destroyDelay);
+    }
+
+    private System.Collections.IEnumerator BreakEffect()
+    {
+        float elapsed = 0f;
+        Color originalColor = spriteRenderer.color;
+
+        while (elapsed < fadeDuration)
         {
-            Destroy(collider);
+            // Movimento
+            transform.position += (Vector3)(pushDirection.normalized * pushSpeed * Time.deltaTime);
+            transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+
+            // Fade-out
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
+            spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+
+            elapsed += Time.deltaTime;
+            yield return null;
         }
 
-        // TODO:
-        // Add animations and/or effects here
-
-        Destroy(gameObject, destroyDelay);
+        // Garante opacidade zero no final
+        spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
     }
 }
