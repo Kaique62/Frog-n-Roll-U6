@@ -16,6 +16,7 @@ public class PlayerZiplineController : MonoBehaviour
     /// </summary>
     public Transform ropeGrabCollider;
 
+    private Animator animator;
     private Rigidbody2D rb;
     private bool onZipline = false;
     private Zipline currentZipline;
@@ -32,6 +33,7 @@ public class PlayerZiplineController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     /// <summary>
@@ -204,6 +206,8 @@ public class PlayerZiplineController : MonoBehaviour
 
         rb.gravityScale = 0f; // disable gravity while on zipline
         rb.linearVelocity = Vector2.zero; // reset velocity
+
+        animator.SetBool("OnRope", true); // Set animator state for riding rope
     }
 
     /// <summary>
@@ -219,6 +223,9 @@ public class PlayerZiplineController : MonoBehaviour
         ziplinePoints = null;
 
         rb.gravityScale = 1f; // enable gravity
+
+        animator.SetBool("OnRope", false); // reset animator state
+        animator.SetTrigger("Jump"); // trigger jump animation
     }
 
     /// <summary>
