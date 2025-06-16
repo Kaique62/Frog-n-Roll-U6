@@ -264,7 +264,6 @@ public class PlayerController : MonoBehaviour
                 animator.ResetTrigger("Punch");
                 animator.ResetTrigger("Kick");
                 animator.ResetTrigger("Uppercut");
-                animator.ResetTrigger("Roll");
                 animator.ResetTrigger("Stomp");
                 animator.ResetTrigger("Jump");
                 break;
