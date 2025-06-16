@@ -89,6 +89,10 @@
     <Compile Include="Assets\Scripts\Enemies\Base\AutoDestroy.cs" />
     <Compile Include="Assets\Scripts\Menu\ConfigManager.cs" />
     <Compile Include="Assets\Scripts\Menu\ArrowMenuController.cs" />
+<<<<<<< Updated upstream
+=======
+    <Compile Include="Assets\Scripts\player\ziplineRider.cs" />
+>>>>>>> Stashed changes
     <Compile Include="Assets\Packages\EasyTransitions\Scripts\TransitionSettings.cs" />
     <Compile Include="Assets\Scripts\Level\LevelController.cs" />
     <Compile Include="Assets\Scripts\Data\GameData.cs" />
@@ -109,6 +113,10 @@
     <Compile Include="Assets\Scripts\Menu\KeyBinds.cs" />
     <Compile Include="Assets\Scripts\Menu\UIAudioManager.cs" />
     <Compile Include="Assets\Scripts\Camera\CamPointSettings.cs" />
+<<<<<<< Updated upstream
+=======
+    <Compile Include="Assets\Scripts\scenario\movingPlatform.cs" />
+>>>>>>> Stashed changes
     <Compile Include="Assets\Scripts\Misc\Controls\Controls.cs" />
     <Compile Include="Assets\Scripts\Enemies\Base\BaseEnemy.cs" />
     <Compile Include="Assets\Packages\Auto Letterbox\Util.cs" />

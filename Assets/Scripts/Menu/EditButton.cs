@@ -8,9 +8,13 @@ public class EditButton : MonoBehaviour, IDragHandler, IScrollHandler
 {
     private RectTransform rt;
 
+    private Canvas canvas;
+
     void Awake()
     {
         rt = GetComponent<RectTransform>();
+
+        canvas = GetComponentInParent<Canvas>();
     }
 
     /// <summary>
@@ -19,7 +23,7 @@ public class EditButton : MonoBehaviour, IDragHandler, IScrollHandler
     /// <param name="eventData">Pointer event data containing the drag delta.</param>
     public void OnDrag(PointerEventData eventData)
     {
-        rt.anchoredPosition += eventData.delta;
+        rt.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     /// <summary>
@@ -52,23 +56,32 @@ public class EditButton : MonoBehaviour, IDragHandler, IScrollHandler
             Touch t1 = Input.GetTouch(0);
             Touch t2 = Input.GetTouch(1);
 
-            float dist = Vector2.Distance(t1.position, t2.position);
-
-            if (!pinchInProgress)
+            if (RectTransformUtility.RectangleContainsScreenPoint(rt, t1.position, null) &&
+                RectTransformUtility.RectangleContainsScreenPoint(rt, t2.position, null))
             {
-                pinchStartDist = dist;
-                startSize = rt.sizeDelta;
-                pinchInProgress = true;
+                float dist = Vector2.Distance(t1.position, t2.position);
+
+                if (!pinchInProgress)
+                {
+                    pinchStartDist = dist;
+                    startSize = rt.sizeDelta;
+                    pinchInProgress = true;
+                }
+                else
+                {
+                    float scaleFactor = dist / pinchStartDist;
+                    Vector2 newSize = startSize * scaleFactor;
+
+                    newSize = Vector2.Max(newSize, Vector2.one * 50);   // Minimum 50x50
+                    newSize = Vector2.Min(newSize, Vector2.one * 300);  // Maximum 300x300
+
+                    rt.sizeDelta = newSize;
+                }
             }
             else
             {
-                float scaleFactor = dist / pinchStartDist;
-                Vector2 newSize = startSize * scaleFactor;
 
-                newSize = Vector2.Max(newSize, Vector2.one * 50);   // Minimum 50x50
-                newSize = Vector2.Min(newSize, Vector2.one * 300);  // Maximum 300x300
-
-                rt.sizeDelta = newSize;
+                pinchInProgress = false;
             }
         }
         else

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      frogPaw_0: -2890255069069339159
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
