@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      PunchButton-Icon_0: 7239404856438601548
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

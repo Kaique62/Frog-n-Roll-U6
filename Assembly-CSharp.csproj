@@ -59,27 +59,28 @@
     <UnityVersion>6000.0.42f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\997979\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\1009061\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Scenario\breakableObjects.cs" />
     <Compile Include="Assets\Scripts\Level\MusicTimer.cs" />
     <Compile Include="Assets\Packages\EasyTransitions\Scripts\CutoutMaskUI.cs" />
     <Compile Include="Assets\Scripts\Misc\Controls\MobileControls\MobileButton.cs" />
     <Compile Include="Assets\Scripts\Enemies\Base\PositionCalculatorEditor.cs" />
     <Compile Include="Assets\Packages\EasyTransitions\Demo\DemoLoadScene.cs" />
+    <Compile Include="Assets\Scripts\scenario\zipline.cs" />
     <Compile Include="Assets\Scripts\Misc\Controls\MobileControls\MobileInput.cs" />
     <Compile Include="Assets\Packages\EasyTransitions\Scripts\Transition.cs" />
+    <Compile Include="Assets\Scripts\scenario\breakableObjects.cs" />
     <Compile Include="Assets\Scripts\Level\ConfigData.cs" />
     <Compile Include="Assets\Scripts\Menu\FpsLimiter.cs" />
-    <Compile Include="Assets\Scripts\Player\ziplineRider.cs" />
     <Compile Include="Assets\Scripts\Menu\SfxVolumeSlider.cs" />
+    <Compile Include="Assets\Scripts\scenario\boosterPlatform.cs" />
     <Compile Include="Assets\Scripts\Camera\CamFollowController.cs" />
-    <Compile Include="Assets\Scripts\Scenario\zipline.cs" />
     <Compile Include="Assets\Scripts\Menu\LevelPreload.cs" />
+    <Compile Include="Assets\Scripts\scenario\ParallaxLayer.cs" />
     <Compile Include="Assets\Scripts\Menu\FPS.cs" />
     <Compile Include="Assets\Scripts\Misc\Controls\KeyBindListener.cs" />
     <Compile Include="Assets\Scripts\Menu\Config.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Assets\Scripts\Menu\ConfigManager.cs" />
     <Compile Include="Assets\Scripts\Menu\ArrowMenuController.cs" />
     <Compile Include="Assets\Asset1\CodeRedCat\4kVectorLandscape\Demo\Scripts\CameraScroll.cs" />
+    <Compile Include="Assets\Scripts\player\ziplineRider.cs" />
     <Compile Include="Assets\Packages\EasyTransitions\Scripts\TransitionSettings.cs" />
     <Compile Include="Assets\Scripts\Level\LevelController.cs" />
     <Compile Include="Assets\Scripts\Data\GameData.cs" />
@@ -98,22 +100,20 @@
     <Compile Include="Assets\Scripts\UI\PerformanceCounter.cs" />
     <Compile Include="Assets\Packages\EasyTransitions\Scripts\TransitionManager.cs" />
     <Compile Include="Assets\Packages\Auto Letterbox\ForceCameraRatio.cs" />
-    <Compile Include="Assets\Scripts\Scenario\movingPlatform.cs" />
+    <Compile Include="Assets\Scripts\player\playerController.cs" />
     <Compile Include="Assets\Scripts\Misc\Controls\MobileControls\MobileJoystick.cs" />
     <Compile Include="Assets\Scripts\Menu\EditButton.cs" />
     <Compile Include="Assets\Scripts\Level\PauseController.cs" />
-    <Compile Include="Assets\Scripts\Player\playerController.cs" />
     <Compile Include="Assets\Scripts\Data\LevelData.cs" />
-    <Compile Include="Assets\Scripts\Scenario\ParallaxLayer.cs" />
     <Compile Include="Assets\Scripts\Menu\MainMenuManager.cs" />
     <Compile Include="Assets\Scripts\Menu\KeyBinds.cs" />
     <Compile Include="Assets\Scripts\Menu\UIAudioManager.cs" />
     <Compile Include="Assets\Scripts\Camera\CamPointSettings.cs" />
+    <Compile Include="Assets\Scripts\scenario\movingPlatform.cs" />
     <Compile Include="Assets\Asset1\CodeRedCat\4kVectorLandscape\Demo\Scripts\SimpleParallaxScroller.cs" />
     <Compile Include="Assets\Scripts\Misc\Controls\Controls.cs" />
     <Compile Include="Assets\Scripts\Enemies\Base\BaseEnemy.cs" />
     <Compile Include="Assets\Packages\Auto Letterbox\Util.cs" />
-    <Compile Include="Assets\Scripts\Scenario\boosterPlatform.cs" />
     <Compile Include="Assets\Scripts\Level\SmartAutoLoader.cs" />
   </ItemGroup>
   <ItemGroup>

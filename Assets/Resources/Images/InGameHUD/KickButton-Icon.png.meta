@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      KickButton-Icon_0: -8402315330187055244
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
