@@ -13,6 +13,10 @@ public class ContinueManager : MonoBehaviour
     #region Public Fields
 
     [Header("UI References")]
+
+    [Header("UI Menus")]
+    public ContinueManager continueManager;
+
     [Tooltip("The main panel that contains all menu buttons.")]
     public RectTransform menuContainer;
 
