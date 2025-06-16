@@ -23,6 +23,13 @@ public class breakableObject : MonoBehaviour
     {
         if (!isBroken && collision.CompareTag("PlayerAttackHitbox"))
         {
+            var timer = GetComponent<ActionTimer>();
+            if (timer != null)
+            {
+                float currentTime = FindObjectOfType<MusicTimer>().CurrentTime;
+                FindObjectOfType<LevelController>().AddScore(currentTime, GetComponent<ActionTimer>());
+
+            }
             BreakObject();
         }
     }

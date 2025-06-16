@@ -12,6 +12,7 @@ TagManager:
   - FireBorder
   - Zipline
   - Wall
+  - BreakableObj
   layers:
   - Default
   - TransparentFX

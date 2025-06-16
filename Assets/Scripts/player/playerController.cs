@@ -198,7 +198,10 @@ public class PlayerController : MonoBehaviour
             {
                 var timer = other.GetComponent<ActionTimer>();
                 if (timer != null)
-                    FindObjectOfType<LevelController>().AddScore(timer.Delay);
+                {
+                    float currentTime = FindObjectOfType<MusicTimer>().CurrentTime;
+                    FindObjectOfType<LevelController>().AddScore(currentTime, other.gameObject.GetComponent<ActionTimer>());   
+                }
 
                 var enemy = other.GetComponent<EnemyController>();
                 if (enemy != null)
@@ -439,7 +442,11 @@ public class PlayerController : MonoBehaviour
             {
                 var timer = hit.GetComponent<ActionTimer>();
                 if (timer != null)
-                    FindObjectOfType<LevelController>().AddScore(timer.Delay);
+                {
+                    float currentTime = FindObjectOfType<MusicTimer>().CurrentTime;
+                    FindObjectOfType<LevelController>().AddScore(currentTime, hit.gameObject.GetComponent<ActionTimer>());
+
+                }
                 hit.GetComponent<EnemyController>()?.TakeDamage();
             }
         }

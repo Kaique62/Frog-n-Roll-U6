@@ -34,6 +34,12 @@ public class ActionTimer : MonoBehaviour
     /// <summary>Delay measured during collision, in milliseconds.</summary>
     public float Delay => delay;
 
+    public float ColorChangeStartTime => colorChangeStartMusicTime;
+    public float ColorChangeDuration => colorChangeDuration;
+
+    public float elapsedTime;
+
+
     [System.Obsolete]
     private void Start()
     {
@@ -81,7 +87,7 @@ public class ActionTimer : MonoBehaviour
 
             if (isColorChanging)
             {
-                float elapsedTime = Time.time - colorChangeStartTime;
+                elapsedTime = Time.time - colorChangeStartTime;
                 float lerpProgress = Mathf.Clamp01(elapsedTime / colorChangeDuration);
                 spriteRenderer.color = Color.Lerp(initialColor, targetColor, lerpProgress);
 
@@ -90,8 +96,16 @@ public class ActionTimer : MonoBehaviour
                     isColorChanging = false;
                     Debug.Log("[ActionTimer] Color change completed.");
                 }
-            }   
+            }
         }
+    }
+    //This is used for the score calculation
+    public bool IsActive()
+    {
+        float now = musicTimer.CurrentTime;
+        return hasStartedColorChange &&
+            now >= colorChangeStartMusicTime &&
+            now <= colorChangeStartMusicTime + colorChangeDuration;
     }
 
     /// <summary>

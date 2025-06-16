@@ -10,7 +10,8 @@ public class LevelController : MonoBehaviour
     public float score = 0;
     public TMP_Text scoreText;
     public TMP_Text scoreTextMultiplier;
-    public float pointMultiplier;
+    public float pointMultiplier = 1f;
+    public float maxMultiplier = 5f;
 
     [Header("Popup Text")]
     public TMP_Text popupText;
@@ -40,17 +41,16 @@ public class LevelController : MonoBehaviour
     void Start()
     {
         musicTimer = FindObjectOfType<MusicTimer>();
-        
+
         gameStarted = false;
+        ResetScoreSystem();
         UpdateScoreUI();
 
         if (popupText != null)
-        {
             popupText.gameObject.SetActive(false);
-        }
 
-        // Initialize blink system
         remainingBlinkTimes = new List<float>(blinkTimes);
+
         if (blackPanelImage != null)
         {
             blackPanelImage.color = new Color(0, 0, 0, 0);
@@ -78,7 +78,7 @@ public class LevelController : MonoBehaviour
         if (musicAudioSource != null && !musicAudioSource.isPlaying)
         {
             musicAudioSource.volume = LoadSavedVolume();
-            musicAudioSource.pitch = 1f; // CRITICAL FIX: Resets the audio pitch on level start.
+            musicAudioSource.pitch = 1f;
             musicAudioSource.Play();
         }
     }
@@ -88,22 +88,21 @@ public class LevelController : MonoBehaviour
         if (musicTimer == null) return;
 
         float currentTime = musicTimer.GetCurrentTime();
-        
-        List<float> timesToCheck = new List<float>(remainingBlinkTimes);
-        
-        foreach (float blinkTime in timesToCheck)
+
+        for (int i = remainingBlinkTimes.Count - 1; i >= 0; i--)
         {
+            float blinkTime = remainingBlinkTimes[i];
             float timeDiff = currentTime - blinkTime;
-            
+
             if (Mathf.Abs(timeDiff) <= blinkThreshold)
             {
                 isLastBlink = (remainingBlinkTimes.Count == 1 && keepLastBlink);
                 StartCoroutine(BlinkCoroutine());
-                remainingBlinkTimes.Remove(blinkTime);
+                remainingBlinkTimes.RemoveAt(i);
             }
             else if (timeDiff > blinkThreshold)
             {
-                remainingBlinkTimes.Remove(blinkTime);
+                remainingBlinkTimes.RemoveAt(i);
             }
         }
     }
@@ -111,24 +110,24 @@ public class LevelController : MonoBehaviour
     private IEnumerator BlinkCoroutine()
     {
         activeBlinks++;
-        
+
         if (activeBlinks == 1 && blackPanelImage != null)
         {
             if (currentFadeCoroutine != null)
                 StopCoroutine(currentFadeCoroutine);
-            
+
             currentFadeCoroutine = StartCoroutine(FadeImage(0f, 1f, fadeInDuration));
         }
-        
+
         yield return new WaitForSeconds(blinkDuration);
-        
+
         activeBlinks--;
-        
+
         if (activeBlinks == 0 && blackPanelImage != null && !isLastBlink)
         {
             if (currentFadeCoroutine != null)
                 StopCoroutine(currentFadeCoroutine);
-            
+
             currentFadeCoroutine = StartCoroutine(FadeImage(1f, 0f, fadeOutDuration));
         }
     }
@@ -152,16 +151,54 @@ public class LevelController : MonoBehaviour
         blackPanelImage.color = currentColor;
     }
 
-    public void AddScore(float delay)
+    public void AddScore(float currentTime, ActionTimer timer)
     {
+        float transitionDuration = timer.colorChangeDuration;
+        float delay = currentTime - timer.elapsedTime; // raw delay
+        float error = Mathf.Abs(delay);
+
+        Debug.Log($"{transitionDuration} - {timer.elapsedTime} = {error}");
+
         float points = 0;
         string popupStr = "";
         Color popupColor = Color.white;
-        Debug.Log("HitDelay: " + delay);
-        if (delay >= 170) { points = 1000; popupStr = "Perfect"; popupColor = Color.yellow; pointMultiplier += 0.3f; }
-        else if (delay >= 150) { points = 700; popupStr = "Good"; popupColor = Color.green; pointMultiplier += 0.1f; }
-        else if (delay >= 120) { points = 500; popupStr = "Bad"; popupColor = Color.red; pointMultiplier = 1f; }
-        else { points = 300; popupStr = "Miss"; popupColor = Color.gray; pointMultiplier = 1f; }
+
+        // If delay is negative, automatically miss
+        if (delay < -10)
+        {
+            points = 300;
+            popupStr = "Too Late!";
+            popupColor = Color.gray;
+            pointMultiplier = 1f;
+        }
+        else if (error <= 30)
+        {
+            points = 1000; 
+            popupStr = "Perfect"; 
+            popupColor = Color.yellow; 
+            pointMultiplier += 0.3f;
+        }
+        else if (error <= 70)
+        {
+            points = 700; 
+            popupStr = "Good"; 
+            popupColor = Color.green; 
+            pointMultiplier += 0.1f;
+        }
+        else if (error <= 120)
+        {
+            points = 500; 
+            popupStr = "Bad"; 
+            popupColor = Color.red; 
+            pointMultiplier = 1f;
+        }
+        else
+        {
+            points = 300; 
+            popupStr = "Miss"; 
+            popupColor = Color.gray; 
+            pointMultiplier = 1f;
+        }
 
         points *= pointMultiplier;
         score += points;
@@ -169,13 +206,19 @@ public class LevelController : MonoBehaviour
         ShowPopup(popupStr, popupColor);
     }
 
+
+
     private void ShowPopup(string text, Color color)
     {
         if (popupText == null) return;
+
         popupText.text = text;
         popupText.color = new Color(color.r, color.g, color.b, 1f);
         popupText.gameObject.SetActive(true);
-        if (popupCoroutine != null) StopCoroutine(popupCoroutine);
+
+        if (popupCoroutine != null)
+            StopCoroutine(popupCoroutine);
+
         popupCoroutine = StartCoroutine(FadeOutPopup());
     }
 
@@ -183,6 +226,7 @@ public class LevelController : MonoBehaviour
     {
         float elapsed = 0f;
         Color startColor = popupText.color;
+
         while (elapsed < popupDuration)
         {
             elapsed += Time.deltaTime;
@@ -190,13 +234,17 @@ public class LevelController : MonoBehaviour
             popupText.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
             yield return null;
         }
+
         popupText.gameObject.SetActive(false);
     }
 
     private void UpdateScoreUI()
     {
-        if (scoreText != null) scoreText.text = score.ToString("F0");
-        if (scoreTextMultiplier != null) scoreTextMultiplier.text = $"X{pointMultiplier:F1}";
+        if (scoreText != null)
+            scoreText.text = score.ToString("F0");
+
+        if (scoreTextMultiplier != null)
+            scoreTextMultiplier.text = $"X{pointMultiplier:F1}";
     }
 
     private float LoadSavedVolume()
@@ -206,6 +254,13 @@ public class LevelController : MonoBehaviour
             return Mathf.Clamp01(volume);
 
         return 1f;
+    }
+
+    public void ResetScoreSystem()
+    {
+        score = 0;
+        pointMultiplier = 1f;
+        UpdateScoreUI();
     }
 
     public void ResetBlinkSystem()
