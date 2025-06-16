@@ -126,12 +126,12 @@ public class PlayerController : MonoBehaviour
         }
 
         // Track jump input state
-        isJumpHeld = Input.GetKey(Controls.Jump) || MobileInput.GetHeld("Up");
+        isJumpHeld = Input.GetKey(Controls.Jump) || MobileInput.GetHeld("Jump");
         
         // Handle rope detachment separately as it overrides other states
         if (currentState == PlayerState.Swinging)
         {
-            if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Up"))
+            if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Jump"))
             {
                 DetachFromRope();
             }
