@@ -31,14 +31,12 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
 
-        // LINHA REMOVIDA: Esta linha movia o menu para uma posição escondida.
         if (menuContainer != null) menuContainer.anchoredPosition = hiddenPos;
         if (countdownText != null) countdownText.text = "";
         
         if(backgroundImage != null)
         {
             baseBackgroundColor = backgroundImage.color;
-            // LINHA REMOVIDA: Esta linha tornava o fundo transparente ao iniciar.
             backgroundImage.color = new Color(baseBackgroundColor.r, baseBackgroundColor.g, baseBackgroundColor.b, 0f);
         }
     }
@@ -60,6 +58,9 @@ public class PauseManager : MonoBehaviour
 
     public void PauseGame()
     {
+        // DEBUG: Mensagem para quando o jogo é pausado (via tecla Esc)
+        Debug.Log("PauseGame() foi chamado. Pausando o jogo...");
+
         Time.timeScale = 0f;
         isPaused = true;
         AudioListener.pause = true;
@@ -70,6 +71,9 @@ public class PauseManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        // DEBUG: Mensagem para quando o botão de continuar ou a tecla Esc são pressionados
+        Debug.Log("Botão/Tecla 'Resume Game' foi acionado!");
+
         isPaused = false;
         StartCoroutine(AnimateMenu(false));
         StartCoroutine(CountdownToResume());
@@ -95,6 +99,9 @@ public class PauseManager : MonoBehaviour
 
     public void ResetScene()
     {
+        // DEBUG: Mensagem para quando o botão de resetar a cena é clicado
+        Debug.Log("Botão 'Reset Scene' foi clicado!");
+
         isPaused = false;
         Time.timeScale = 1f;
         AudioListener.pause = false;
@@ -103,6 +110,9 @@ public class PauseManager : MonoBehaviour
 
     public void GoToHome()
     {
+        // DEBUG: Mensagem para quando o botão de ir para o menu principal é clicado
+        Debug.Log("Botão 'Go To Home' foi clicado!");
+
         isPaused = false;
         Time.timeScale = 1f;
         AudioListener.pause = false;
