@@ -567,6 +567,8 @@ public class PlayerController : MonoBehaviour
         canAttach = false;
         connectedRopeSegment = ropeSegment;
         
+        animator.SetBool("OnRope", true);
+
         // Transfer player's momentum to the rope
         connectedRopeSegment.linearVelocity = lastVelocity * swingForceMultiplier;
         
@@ -586,9 +588,12 @@ public class PlayerController : MonoBehaviour
         ChangeState(PlayerState.Free);
         ropeHinge.enabled = false;
         canAttach = true;
-        
+
         // Apply velocity from the rope plus a jump boost
         rb.linearVelocity = connectedRopeSegment.linearVelocity;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y + releaseJumpBoost);
+
+        animator.SetBool("OnRope", false); // reset animator state
+        animator.SetTrigger("Jump"); // trigger jump animation
     }
 }
