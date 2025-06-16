@@ -80,6 +80,9 @@ public class PlayerController : MonoBehaviour
     private bool canCancelAttack;
     private float attackCancelTimer;
     private bool isStomping; // Specific flag needed within Stomping state
+    private float airTime = 0f;
+    private bool wasGrounded = true;
+
 
     void Start()
     {
@@ -105,7 +108,23 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (currentState == PlayerState.Dead) return;
-            
+
+        if (!isGrounded)
+        {
+            airTime += Time.deltaTime;
+            if (wasGrounded && airTime >= 0.1f)
+            {
+                animator.SetTrigger("Jump");
+            }
+        }
+        else
+        {
+            animator.SetBool("isStomping", false);
+            isStomping = false;
+            airTime = 0f;
+            wasGrounded = true;
+        }
+
         // Track jump input state
         isJumpHeld = Input.GetKey(Controls.Jump) || MobileInput.GetHeld("Up");
         
@@ -167,6 +186,7 @@ public class PlayerController : MonoBehaviour
         if (col.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            wasGrounded = true;
 
             // End stomp immediately when hitting ground
             if (currentState == PlayerState.Stomping)
@@ -186,6 +206,7 @@ public class PlayerController : MonoBehaviour
         if (col.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
+            wasGrounded = false;
         }
     }
 
@@ -228,8 +249,8 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case PlayerState.Stomping:
-                stompHitbox.SetActive(false);
-                isStomping = false;
+                isStomping = true;
+                animator.SetBool("isStomping", true); // Changed to boolean
                 break;
         }
         
@@ -331,14 +352,19 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             animator.SetTrigger("Jump");
-            
+
             // Initiate variable jump tracking
             isJumping = true;
             jumpStartY = transform.position.y;
             currentJumpHeight = minJumpHeight;
-            
+
             jumpBufferCounter = 0f; // Consume the buffer
             coyoteTimeCounter = 0f; // Consume coyote time
+            
+            if (currentState != PlayerState.Stomping)
+            {
+                animator.SetTrigger("Jump");
+            }
         }
     }
     
@@ -488,8 +514,9 @@ public class PlayerController : MonoBehaviour
         ChangeState(PlayerState.Stomping);
         stompHitbox.SetActive(true);
         
-        // Stomp continues until we hit the ground, which is handled in OnCollisionEnter2D
-        // This coroutine just initiates the state
+        // Immediately show stomp animation
+        animator.SetBool("isStomping", true);
+        
         yield return null;
     }
 

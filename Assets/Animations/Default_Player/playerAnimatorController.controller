@@ -89,6 +89,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: isStomping
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -111,7 +117,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Stomp
+    m_ConditionEvent: isStomping
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110691903}
@@ -440,7 +446,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: bc63d24ed373447499b2ba7e22f44859, type: 2}
+  m_Motion: {fileID: 7400000, guid: e102c65ed3389c54180934000db35032, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -600,7 +606,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 08fe99b51286634418af3ce37280bdc0, type: 2}
+  m_Motion: {fileID: 7400000, guid: bc63d24ed373447499b2ba7e22f44859, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -647,13 +653,13 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 110621903}
-    m_Position: {x: 300, y: 120, z: 0}
+    m_Position: {x: 280, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110631903}
-    m_Position: {x: 300, y: 60, z: 0}
+    m_Position: {x: 280, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110641903}
-    m_Position: {x: 300, y: 180, z: 0}
+    m_Position: {x: 240, y: 320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110651903}
     m_Position: {x: 480, y: 60, z: 0}
@@ -665,10 +671,10 @@ AnimatorStateMachine:
     m_Position: {x: 480, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110681903}
-    m_Position: {x: 660, y: 60, z: 0}
+    m_Position: {x: 680, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110691903}
-    m_Position: {x: 660, y: 120, z: 0}
+    m_Position: {x: 680, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110611903}
     m_Position: {x: 660, y: 180, z: 0}
