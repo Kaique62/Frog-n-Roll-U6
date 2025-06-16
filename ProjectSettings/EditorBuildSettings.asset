@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/PreloadState.unity
     guid: 739453bc5aca4bb49910dda4c3d9c9cc
   - enabled: 1
-    path: Assets/Scenes/Levels/scketchLevel.unity
+    path: Assets/Scenes/Levels/Demo.unity
     guid: 062ba3d11af3ba54fb46446e8601b731
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

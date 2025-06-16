@@ -7,95 +7,106 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Handles preloading of sprites and audio for a level based on a song name.
 /// Works with WebGL by avoiding platform-specific memory checks.
+/// Supports persistence between scenes for cross-scene cache usage.
 /// </summary>
 public class LevelPreload : MonoBehaviour
 {
-    /// <summary>
-    /// The name of the song/level to load.
-    /// The scene and resource folders must match this name.
-    /// </summary>
     [Header("Preload Settings")]
     public string Song = "";
 
-    /// <summary>
-    /// Maximum allowed load time per frame in milliseconds (to avoid frame drops).
-    /// </summary>
     [Header("Performance")]
     [Tooltip("Max load time per frame (ms)")]
     [Range(1f, 33f)] public float maxLoadTimePerFrame = 10f;
 
-    /// <summary>
-    /// Delay between resource loading operations to avoid locking the main thread.
-    /// </summary>
     [Tooltip("Delay between resource loads")]
     [Range(0f, 0.1f)] public float interLoadDelay = 0.01f;
 
-    /// <summary>
-    /// Settings used for the scene transition effect.
-    /// </summary>
     [Header("Transition")]
     public TransitionSettings transition;
 
-    /// <summary>
-    /// Delay before executing the scene load transition (in seconds).
-    /// </summary>
     public float loadDelay;
 
-    /// <summary>
-    /// Cached dictionary of preloaded sprites.
-    /// </summary>
     public static Dictionary<string, Sprite> SpriteCache { get; private set; }
-
-    /// <summary>
-    /// Cached dictionary of preloaded audio clips.
-    /// </summary>
     public static Dictionary<string, AudioClip> AudioCache { get; private set; }
 
     private bool spritesLoaded = false;
     private bool audioLoaded = false;
 
-    /// <summary>
-    /// Initializes the cache and starts the preload coroutine.
-    /// </summary>
+    // Singleton instance para persistir entre cenas
+    private static LevelPreload _instance;
+
+    // Indica se o preload terminou (publico para outros scripts esperarem)
+    public static bool IsReady { get; private set; } = false;
+
+    private void Awake()
+    {
+        // Singleton para garantir uma instância única e persistente
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // Inicializa caches somente se ainda não inicializados
+        if (SpriteCache == null)
+            SpriteCache = new Dictionary<string, Sprite>();
+
+        if (AudioCache == null)
+            AudioCache = new Dictionary<string, AudioClip>();
+    }
+
     private void Start()
     {
-        SpriteCache = new Dictionary<string, Sprite>();
-        AudioCache = new Dictionary<string, AudioClip>();
-
+        IsReady = false;
         StartCoroutine(PreloadFiles());
     }
 
-    /// <summary>
-    /// Preloads sprites and audio, then transitions to the next scene.
-    /// </summary>
-    /// <returns>Coroutine enumerator.</returns>
     IEnumerator PreloadFiles()
     {
         string spritesFolderPath = "Preload/" + Song;
         string musicFolderPath = "Musics/" + Song;
 
-        StartCoroutine(LoadSprites(spritesFolderPath));
-        StartCoroutine(LoadAudio(musicFolderPath));
+        // Start both coroutines, espera os dois terminarem
+        var spritesCoroutine = StartCoroutine(LoadSprites(spritesFolderPath));
+        var audioCoroutine = StartCoroutine(LoadAudio(musicFolderPath));
 
-        yield return new WaitUntil(() => spritesLoaded && audioLoaded);
+        yield return spritesCoroutine;
+        yield return audioCoroutine;
+
+        spritesLoaded = true;
+        audioLoaded = true;
+
+        IsReady = true;
+
         LoadNextScene();
     }
 
-    /// <summary>
-    /// Loads all sprites in the specified path and caches them.
-    /// </summary>
-    /// <param name="path">Resources path where the sprites are located.</param>
-    /// <returns>Coroutine enumerator.</returns>
     IEnumerator LoadSprites(string path)
     {
+        Debug.Log($"[LevelPreload] Carregando sprites de: Resources/{path}");
+
+        Object[] rawObjects = Resources.LoadAll(path);
+        Debug.Log($"[LevelPreload] Objetos brutos encontrados: {rawObjects.Length}");
+        foreach (var obj in rawObjects)
+        {
+            Debug.Log($"[LevelPreload] -> {obj.name} ({obj.GetType().Name})");
+        }
+
         Sprite[] sprites = Resources.LoadAll<Sprite>(path);
+        Debug.Log($"[LevelPreload] Sprites válidos encontrados: {sprites.Length}");
 
         if (sprites == null || sprites.Length == 0)
         {
-            spritesLoaded = true;
+            Debug.LogWarning($"[LevelPreload] Nenhum sprite encontrado em: Resources/{path}");
             yield break;
         }
 
+        float frameStartTime = Time.realtimeSinceStartup;
         foreach (Sprite sprite in sprites)
         {
             if (sprite == null) continue;
@@ -103,49 +114,68 @@ public class LevelPreload : MonoBehaviour
             if (!SpriteCache.ContainsKey(sprite.name))
             {
                 SpriteCache.Add(sprite.name, sprite);
+                Debug.Log($"[LevelPreload] Sprite armazenado no cache: {sprite.name}");
             }
 
             if (interLoadDelay > 0)
                 yield return new WaitForSeconds(interLoadDelay);
+
+            // Limita o tempo de carga por frame para evitar travamento
+            if ((Time.realtimeSinceStartup - frameStartTime) * 1000f >= maxLoadTimePerFrame)
+            {
+                yield return null;
+                frameStartTime = Time.realtimeSinceStartup;
+            }
         }
 
-        spritesLoaded = true;
+        Debug.Log($"[LevelPreload] Concluído: {sprites.Length} sprites carregados.");
     }
 
-    /// <summary>
-    /// Loads all audio clips in the specified path and caches them.
-    /// </summary>
-    /// <param name="path">Resources path where the audio clips are located.</param>
-    /// <returns>Coroutine enumerator.</returns>
     IEnumerator LoadAudio(string path)
     {
-        AudioClip[] audioClips = Resources.LoadAll<AudioClip>(path);
+        Debug.Log($"[LevelPreload] Carregando áudios de: Resources/{path}");
 
-        if (audioClips == null || audioClips.Length == 0)
+        Object[] rawObjects = Resources.LoadAll(path);
+        Debug.Log($"[LevelPreload] Objetos brutos encontrados: {rawObjects.Length}");
+        foreach (var obj in rawObjects)
         {
-            audioLoaded = true;
+            Debug.Log($"[LevelPreload] -> {obj.name} ({obj.GetType().Name})");
+        }
+
+        AudioClip[] clips = Resources.LoadAll<AudioClip>(path);
+        Debug.Log($"[LevelPreload] Áudios válidos encontrados: {clips.Length}");
+
+        if (clips == null || clips.Length == 0)
+        {
+            Debug.LogWarning($"[LevelPreload] Nenhum áudio encontrado em: Resources/{path}");
             yield break;
         }
 
-        foreach (AudioClip clip in audioClips)
+        float frameStartTime = Time.realtimeSinceStartup;
+        foreach (AudioClip clip in clips)
         {
             if (clip == null) continue;
 
             if (!AudioCache.ContainsKey(clip.name))
             {
                 AudioCache.Add(clip.name, clip);
+                Debug.Log($"[LevelPreload] Áudio armazenado no cache: {clip.name}");
             }
 
             if (interLoadDelay > 0)
                 yield return new WaitForSeconds(interLoadDelay);
+
+            // Limita o tempo de carga por frame para evitar travamento
+            if ((Time.realtimeSinceStartup - frameStartTime) * 1000f >= maxLoadTimePerFrame)
+            {
+                yield return null;
+                frameStartTime = Time.realtimeSinceStartup;
+            }
         }
 
-        audioLoaded = true;
+        Debug.Log($"[LevelPreload] Concluído: {clips.Length} áudios carregados.");
     }
 
-    /// <summary>
-    /// Loads the scene with the same name as the song if available.
-    /// </summary>
     private void LoadNextScene()
     {
         string sceneName = Song;
@@ -160,10 +190,6 @@ public class LevelPreload : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Performs a safe scene transition using TransitionManager, if available.
-    /// </summary>
-    /// <param name="sceneName">The scene to load.</param>
     private void SafeTransition(string sceneName)
     {
         if (TransitionManager.Instance() != null)
@@ -176,9 +202,6 @@ public class LevelPreload : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Fallback method to load the main menu if the target scene isn't found.
-    /// </summary>
     private void FallbackToMainMenu()
     {
         const string fallbackScene = "MainMenu";
@@ -193,11 +216,6 @@ public class LevelPreload : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Retrieves a sprite from the cache using its name.
-    /// </summary>
-    /// <param name="key">The name of the sprite.</param>
-    /// <returns>The sprite if found, otherwise null.</returns>
     public static Sprite GetSprite(string key)
     {
         if (SpriteCache != null && SpriteCache.TryGetValue(key, out var sprite))
@@ -207,12 +225,6 @@ public class LevelPreload : MonoBehaviour
         return null;
     }
 
-    /// <summary>
-    /// Tries to get a sprite from the cache.
-    /// </summary>
-    /// <param name="key">The sprite name.</param>
-    /// <param name="sprite">Output parameter for the sprite if found.</param>
-    /// <returns>True if found, otherwise false.</returns>
     public static bool TryGetSprite(string key, out Sprite sprite)
     {
         sprite = null;
@@ -220,11 +232,6 @@ public class LevelPreload : MonoBehaviour
         return SpriteCache.TryGetValue(key, out sprite);
     }
 
-    /// <summary>
-    /// Retrieves an audio clip from the cache using its name.
-    /// </summary>
-    /// <param name="key">The name of the audio clip.</param>
-    /// <returns>The audio clip if found, otherwise null.</returns>
     public static AudioClip GetAudio(string key)
     {
         if (AudioCache != null && AudioCache.TryGetValue(key, out var clip))
@@ -234,12 +241,6 @@ public class LevelPreload : MonoBehaviour
         return null;
     }
 
-    /// <summary>
-    /// Tries to get an audio clip from the cache.
-    /// </summary>
-    /// <param name="key">The audio clip name.</param>
-    /// <param name="clip">Output parameter for the audio clip if found.</param>
-    /// <returns>True if found, otherwise false.</returns>
     public static bool TryGetAudio(string key, out AudioClip clip)
     {
         clip = null;
@@ -247,13 +248,15 @@ public class LevelPreload : MonoBehaviour
         return AudioCache.TryGetValue(key, out clip);
     }
 
-    /// <summary>
-    /// Clears caches and unloads unused assets when this component is destroyed.
-    /// </summary>
     private void OnDestroy()
     {
-        SpriteCache?.Clear();
-        AudioCache?.Clear();
-        Resources.UnloadUnusedAssets();
+        // Só limpa cache se for a instância principal (singleton)
+        if (_instance == this)
+        {
+            SpriteCache?.Clear();
+            AudioCache?.Clear();
+            Resources.UnloadUnusedAssets();
+            IsReady = false;
+        }
     }
 }
