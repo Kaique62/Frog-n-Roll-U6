@@ -1,6 +1,8 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LevelController : MonoBehaviour
 {
@@ -11,17 +13,34 @@ public class LevelController : MonoBehaviour
     public float pointMultiplier;
 
     [Header("Popup Text")]
-    public TMP_Text popupText;                 // World-space TextMeshPro object (assign in inspector)
-    public float popupDuration = 1f;           // How long the popup stays visible
+    public TMP_Text popupText;
+    public float popupDuration = 1f;
     private Coroutine popupCoroutine;
 
     [Header("Music")]
     public AudioSource musicAudioSource;
 
+    [Header("Blink Effect")]
+    public List<float> blinkTimes = new List<float>();
+    public Image blackPanelImage;
+    public float blinkThreshold = 0.05f;
+    public float blinkDuration = 0.1f;
+    public float fadeInDuration = 0.05f;
+    public float fadeOutDuration = 0.1f;
+    public bool keepLastBlink = true;
+
+    private List<float> remainingBlinkTimes;
+    private int activeBlinks = 0;
+    private Coroutine currentFadeCoroutine;
+    private bool isLastBlink = false;
+    private MusicTimer musicTimer;
+
     public static bool gameStarted = false;
 
     void Start()
     {
+        musicTimer = FindObjectOfType<MusicTimer>();
+        
         UpdateScoreUI();
 
         popupText.gameObject.SetActive(false);
@@ -31,6 +50,14 @@ public class LevelController : MonoBehaviour
         {
             popupText.gameObject.SetActive(false);
         }
+
+        // Initialize blink system
+        remainingBlinkTimes = new List<float>(blinkTimes);
+        if (blackPanelImage != null)
+        {
+            blackPanelImage.color = new Color(0, 0, 0, 0);
+            blackPanelImage.gameObject.SetActive(true);
+        }
     }
 
     void Update()
@@ -38,6 +65,11 @@ public class LevelController : MonoBehaviour
         if (!gameStarted && Input.anyKey)
         {
             StartLevel();
+        }
+
+        if (gameStarted)
+        {
+            CheckBlinkTimes();
         }
     }
 
@@ -52,12 +84,81 @@ public class LevelController : MonoBehaviour
         }
     }
 
+    private void CheckBlinkTimes()
+    {
+        if (musicTimer == null) return;
+
+        float currentTime = musicTimer.GetCurrentTime();
+        
+        List<float> timesToCheck = new List<float>(remainingBlinkTimes);
+        
+        foreach (float blinkTime in timesToCheck)
+        {
+            float timeDiff = currentTime - blinkTime;
+            
+            if (Mathf.Abs(timeDiff) <= blinkThreshold)
+            {
+                isLastBlink = (remainingBlinkTimes.Count == 1 && keepLastBlink);
+                StartCoroutine(BlinkCoroutine());
+                remainingBlinkTimes.Remove(blinkTime);
+            }
+            else if (timeDiff > blinkThreshold)
+            {
+                remainingBlinkTimes.Remove(blinkTime);
+            }
+        }
+    }
+
+    private IEnumerator BlinkCoroutine()
+    {
+        activeBlinks++;
+        
+        if (activeBlinks == 1 && blackPanelImage != null)
+        {
+            if (currentFadeCoroutine != null)
+                StopCoroutine(currentFadeCoroutine);
+            
+            currentFadeCoroutine = StartCoroutine(FadeImage(0f, 1f, fadeInDuration));
+        }
+        
+        yield return new WaitForSeconds(blinkDuration);
+        
+        activeBlinks--;
+        
+        if (activeBlinks == 0 && blackPanelImage != null && !isLastBlink)
+        {
+            if (currentFadeCoroutine != null)
+                StopCoroutine(currentFadeCoroutine);
+            
+            currentFadeCoroutine = StartCoroutine(FadeImage(1f, 0f, fadeOutDuration));
+        }
+    }
+
+    private IEnumerator FadeImage(float startAlpha, float targetAlpha, float duration)
+    {
+        float elapsed = 0f;
+        Color currentColor = blackPanelImage.color;
+        currentColor.a = startAlpha;
+        blackPanelImage.color = currentColor;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            currentColor.a = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
+            blackPanelImage.color = currentColor;
+            yield return null;
+        }
+
+        currentColor.a = targetAlpha;
+        blackPanelImage.color = currentColor;
+    }
+
     public void AddScore(float delay)
     {
         float points = 0;
         string popupStr = "";
         Color popupColor = Color.white;
-
+        Debug.Log("HitDelay: " + delay);
         if (delay >= 170)
         {
             points = 1000;
@@ -127,7 +228,7 @@ public class LevelController : MonoBehaviour
     private void UpdateScoreUI()
     {
         if (scoreText != null)
-            scoreText.text = score.ToString();
+            scoreText.text = score.ToString("F0");
 
         if (scoreTextMultiplier != null)
             scoreTextMultiplier.text = $"X{pointMultiplier:F1}";
@@ -140,5 +241,15 @@ public class LevelController : MonoBehaviour
             return Mathf.Clamp01(volume);
 
         return 1f;
+    }
+
+    public void ResetBlinkSystem()
+    {
+        remainingBlinkTimes = new List<float>(blinkTimes);
+        if (blackPanelImage != null)
+        {
+            blackPanelImage.color = new Color(0, 0, 0, 0);
+        }
+        isLastBlink = false;
     }
 }

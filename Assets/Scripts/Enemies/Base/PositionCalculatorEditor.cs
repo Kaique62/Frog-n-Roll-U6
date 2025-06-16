@@ -10,6 +10,7 @@ public class PositionCalculator : EditorWindow
     private float objectSpeed = 10f;  // Speed of moving object (units/sec)
     private float triggerTime = 1f;   // Time when objects should meet (seconds)
     private float xOffset = 2.4f;     // Manual position adjustment
+    private float SyncOffset = 0;
 
     [MenuItem("Tools/Position Calculator")]
     public static void ShowWindow()
@@ -24,6 +25,7 @@ public class PositionCalculator : EditorWindow
         movingObject = (Transform)EditorGUILayout.ObjectField("Moving Object", movingObject, typeof(Transform), true);
         targetObject = (Transform)EditorGUILayout.ObjectField("Target Object", targetObject, typeof(Transform), true);
         objectSpeed = EditorGUILayout.FloatField("Moving Object Speed", objectSpeed);
+        SyncOffset = EditorGUILayout.FloatField("SyncOffset", SyncOffset);
         triggerTime = EditorGUILayout.FloatField("Synchronization Time", triggerTime);
         xOffset = EditorGUILayout.FloatField("X Position Offset", xOffset);
 
@@ -42,7 +44,7 @@ public class PositionCalculator : EditorWindow
         }
 
         // Core calculation: Position = (Current X) + (Speed × Time) + Offset
-        float newX = movingObject.position.x + (objectSpeed * triggerTime) + xOffset;
+        float newX = movingObject.position.x + (objectSpeed * (triggerTime - SyncOffset)) + xOffset;
         
         // Apply position in editor (undo-able)
         Undo.RecordObject(targetObject, "Position Target Object");
