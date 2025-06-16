@@ -68,6 +68,23 @@ In Unity:
 - Choose your desired output directory
 - Unity will compile the build for your selected platform
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="Screenshots/Preload.png" alt="Preload Screen" width="600"><br>
+  <em>Game Preloading Screen</em>
+</p>
+
+<p align="center">
+  <img src="Screenshots/Menu.png" alt="Menu Screen" width="600"><br>
+  <em>Main Menu</em>
+</p>
+
+<p align="center">
+  <img src="Screenshots/Game.png" alt="Gameplay Screen" width="600"><br>
+  <em>In-Game Gameplay</em>
+</p>
+
 ## 🤝 How to Contribute
 
 - Fork the repo
