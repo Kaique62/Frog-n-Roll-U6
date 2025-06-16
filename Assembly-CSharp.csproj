@@ -59,7 +59,7 @@
     <UnityVersion>6000.0.42f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\997979\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\start\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
@@ -75,7 +75,6 @@
     <Compile Include="Assets\Packages\EasyTransitions\Scripts\Transition.cs" />
     <Compile Include="Assets\Scripts\Level\ConfigData.cs" />
     <Compile Include="Assets\Scripts\Menu\FpsLimiter.cs" />
-    <Compile Include="Assets\Scripts\Player\ziplineRider.cs" />
     <Compile Include="Assets\Scripts\Menu\SfxVolumeSlider.cs" />
     <Compile Include="Assets\Scripts\Camera\CamFollowController.cs" />
     <Compile Include="Assets\Scripts\Scenario\zipline.cs" />
@@ -89,6 +88,7 @@
     <Compile Include="Assets\Scripts\Enemies\Base\AutoDestroy.cs" />
     <Compile Include="Assets\Scripts\Menu\ConfigManager.cs" />
     <Compile Include="Assets\Scripts\Menu\ArrowMenuController.cs" />
+    <Compile Include="Assets\Scripts\player\ziplineRider.cs" />
     <Compile Include="Assets\Packages\EasyTransitions\Scripts\TransitionSettings.cs" />
     <Compile Include="Assets\Scripts\Level\LevelController.cs" />
     <Compile Include="Assets\Scripts\Data\GameData.cs" />
@@ -99,10 +99,10 @@
     <Compile Include="Assets\Packages\EasyTransitions\Scripts\TransitionManager.cs" />
     <Compile Include="Assets\Packages\Auto Letterbox\ForceCameraRatio.cs" />
     <Compile Include="Assets\Scripts\Scenario\movingPlatform.cs" />
+    <Compile Include="Assets\Scripts\player\playerController.cs" />
     <Compile Include="Assets\Scripts\Misc\Controls\MobileControls\MobileJoystick.cs" />
     <Compile Include="Assets\Scripts\Menu\EditButton.cs" />
     <Compile Include="Assets\Scripts\Level\PauseController.cs" />
-    <Compile Include="Assets\Scripts\Player\playerController.cs" />
     <Compile Include="Assets\Scripts\Data\LevelData.cs" />
     <Compile Include="Assets\Scripts\Scenario\ParallaxLayer.cs" />
     <Compile Include="Assets\Scripts\Menu\MainMenuManager.cs" />
