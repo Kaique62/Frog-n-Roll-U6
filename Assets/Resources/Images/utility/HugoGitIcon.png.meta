@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      HugoGitIcon_0: 568955489437058467
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
