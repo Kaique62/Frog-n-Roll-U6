@@ -51,6 +51,7 @@ public class MusicTimer : MonoBehaviour
 
     private void Start()
     {
+        UpdateTimer();
         InitializeTimer();
     }
 

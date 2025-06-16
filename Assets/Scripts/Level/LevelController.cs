@@ -30,6 +30,8 @@ public class LevelController : MonoBehaviour
     public float fadeOutDuration = 0.1f;
     public bool keepLastBlink = true;
 
+    [Header("Mobile Controls")]
+    public GameObject mobileControls;
     private List<float> remainingBlinkTimes;
     private int activeBlinks = 0;
     private Coroutine currentFadeCoroutine;
@@ -40,6 +42,14 @@ public class LevelController : MonoBehaviour
 
     void Start()
     {
+        #if UNITY_ANDROID || UNITY_IOS
+            mobileControls.SetActive(true);
+        #else
+            mobileControls.SetActive(false);
+        #endif
+
+        
+
         musicTimer = FindObjectOfType<MusicTimer>();
 
         gameStarted = false;
