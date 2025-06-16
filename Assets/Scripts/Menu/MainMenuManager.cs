@@ -71,7 +71,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void Play()
     {
-        TransitionManager.Instance().Transition("scketchLevel", transition, loadDelay);
+        TransitionManager.Instance().Transition("Preload", transition, loadDelay);
     }
 
     public void OpenOptions()
