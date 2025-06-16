@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5409cb7ec381e1a44af05bc5064c67b2
+guid: 7500a6f25f550c149b7e0d374d6e80c8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2890255069069339159
-    second: frogPaw_0
+      213: 1167292760310976477
+    second: MenuBgImage_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: frogPaw_0
+      name: MenuBgImage_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 2
-        width: 791
-        height: 692
+        x: 0
+        y: 0
+        width: 6060
+        height: 3508
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9e599d1f350c3e7d0800000000000000
-      internalID: -2890255069069339159
+      spriteID: ddf8837b49e033010800000000000000
+      internalID: 1167292760310976477
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      frogPaw_0: -2890255069069339159
+      MenuBgImage_0: 1167292760310976477
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

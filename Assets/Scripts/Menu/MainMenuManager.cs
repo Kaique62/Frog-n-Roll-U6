@@ -71,7 +71,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void Play()
     {
-        TransitionManager.Instance().Transition("Preload", transition, loadDelay);
+        TransitionManager.Instance().Transition("PreloadState", transition, loadDelay);
     }
 
     public void OpenOptions()

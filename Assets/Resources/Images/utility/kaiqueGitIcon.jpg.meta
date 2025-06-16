@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      kaiqueGitIcon_0: 2010428482667265301
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

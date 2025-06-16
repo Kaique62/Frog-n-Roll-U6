@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      andreGitIcon_0: 6542984560336287349
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
