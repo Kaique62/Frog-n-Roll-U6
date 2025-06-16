@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2309987604089306282}
   - component: {fileID: 4750192534279088225}
   - component: {fileID: 7600514629256735584}
-  - component: {fileID: 6675240909652953237}
+  - component: {fileID: 76836018410221500}
   m_Layer: 5
   m_Name: reset
   m_TagString: Untagged
@@ -133,19 +133,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2958626616197134148}
-        m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-        m_MethodName: PlayClickSound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &6675240909652953237
+--- !u!114 &76836018410221500
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,72 +142,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 791724320308144725}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a998b37597d4fb4e947821161a16cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2958626616197134148}
-          m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-          m_MethodName: PlayHoverSound
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!1 &1242580729298050002
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 580491980878600198}
-  - component: {fileID: 2958626616197134148}
-  m_Layer: 0
-  m_Name: PauseController sound
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &580491980878600198
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242580729298050002}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1649.4558, y: 677.14856, z: -5123.533}
-  m_LocalScale: {x: 51.235332, y: 51.235332, z: 51.235332}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 52419868239116488}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2958626616197134148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242580729298050002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38ae680656e3fb347821baf8e1b33fcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSoundClip: {fileID: 8300000, guid: c9e636a6d13794745b14a448ffca474a, type: 3}
-  clickSoundClip: {fileID: 8300000, guid: 1ebe2b0dd09f82a45b3c6797cb6dae5d, type: 3}
 --- !u!1 &1273890324153554907
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +232,7 @@ GameObject:
   - component: {fileID: 4421343272757115021}
   - component: {fileID: 8198761560356208446}
   - component: {fileID: 2319998771040426572}
-  - component: {fileID: 3565235106041316171}
+  - component: {fileID: 1440334657017455586}
   m_Layer: 5
   m_Name: Home
   m_TagString: Untagged
@@ -428,19 +353,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2958626616197134148}
-        m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-        m_MethodName: PlayClickSound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &3565235106041316171
+--- !u!114 &1440334657017455586
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -449,26 +362,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1899126422976972705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a998b37597d4fb4e947821161a16cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2958626616197134148}
-          m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-          m_MethodName: PlayHoverSound
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &2627289910929074468
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,7 +475,6 @@ RectTransform:
   - {fileID: 7063449331392602630}
   - {fileID: 5739095934309277754}
   - {fileID: 6372383007839602350}
-  - {fileID: 580491980878600198}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -662,7 +557,7 @@ GameObject:
   - component: {fileID: 7266362230814646581}
   - component: {fileID: 3872851985457992072}
   - component: {fileID: 5946349314457313886}
-  - component: {fileID: 5444269791449067337}
+  - component: {fileID: 8053335038135283028}
   m_Layer: 5
   m_Name: play
   m_TagString: Untagged
@@ -783,19 +678,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2958626616197134148}
-        m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-        m_MethodName: PlayClickSound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &5444269791449067337
+--- !u!114 &8053335038135283028
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -804,26 +687,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3889857154117990195}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a998b37597d4fb4e947821161a16cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2958626616197134148}
-          m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-          m_MethodName: PlayHoverSound
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &4151496861307431742
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,7 +724,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00008201599, y: -579.7075}
+  m_AnchoredPosition: {x: 0.00008201599, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8020769720777654364
@@ -1121,15 +987,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuContainer: {fileID: 5739095934309277754}
+  backgroundImage: {fileID: 3328896631697753493}
+  countdownText: {fileID: 7040116320758557212}
   animDuration: 0.5
+  fadeDuration: 0.5
   hiddenPos: {x: 0, y: 900}
   shownPos: {x: 0, y: -40}
-  countdownText: {fileID: 7040116320758557212}
   countdownStartPos: {x: 0, y: 100}
   countdownEndPos: {x: 0, y: -50}
   countdownAnimDuration: 0.4
-  backgroundImage: {fileID: 3328896631697753493}
-  fadeDuration: 0.5
 --- !u!1 &8292527623628369022
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,81 +1,89 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Manages UI audio effects such as hover and click sounds using a singleton pattern.
-/// </summary>
 public class UIAudioManager : MonoBehaviour
 {
-    /// <summary>
-    /// Singleton instance of the UIAudioManager.
-    /// </summary>
     public static UIAudioManager instance;
 
     [Header("Audio Clips (SFX)")]
-
-    /// <summary>
-    /// Audio clip to play when UI elements are hovered over.
-    /// </summary>
     public AudioClip hoverSoundClip;
-
-    /// <summary>
-    /// Audio clip to play when UI elements are clicked.
-    /// </summary>
     public AudioClip clickSoundClip;
 
-    // You can add more audio clips here, e.g., saveSoundClip
-
-    /// <summary>
-    /// The single audio source used to play all UI sound effects.
-    /// </summary>
     private AudioSource sfxSource;
 
-    /// <summary>
-    /// Awake is called when the script instance is being loaded.
-    /// Sets up the singleton and ensures the AudioSource component exists.
-    /// </summary>
+    public float CurrentVolume => sfxSource.volume;
+
     void Awake()
     {
-        // Singleton logic: if no instance exists, assign this and persist across scenes
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
-            // Destroy duplicate instances
             Destroy(gameObject);
+            return;
         }
 
-        // Get or add AudioSource component to play sound effects
         sfxSource = GetComponent<AudioSource>();
         if (sfxSource == null)
         {
-            Debug.LogWarning("No AudioSource found on UIAudioManager. Adding one automatically.");
             sfxSource = gameObject.AddComponent<AudioSource>();
             sfxSource.playOnAwake = false;
         }
+        sfxSource.ignoreListenerPause = true;
     }
 
-    /// <summary>
-    /// Plays the hover sound effect once using the audio source.
-    /// </summary>
-    public void PlayHoverSound()
+    void Start()
     {
-        if (hoverSoundClip != null)
+        UpdateSfxVolume();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        UpdateSfxVolume();
+    }
+
+    public void UpdateSfxVolume()
+    {
+        string savedVolume = ConfigManager.Read("volume_SfxVolume");
+        if (float.TryParse(savedVolume, out float volume))
         {
-            sfxSource.PlayOneShot(hoverSoundClip);
+            sfxSource.volume = Mathf.Clamp01(volume);
+        }
+        else
+        {
+            sfxSource.volume = 1f;
         }
     }
 
-    /// <summary>
-    /// Plays the click sound effect once using the audio source.
-    /// </summary>
+    public void SetSfxVolume(float volume)
+    {
+        float clampedVolume = Mathf.Clamp01(volume);
+        sfxSource.volume = clampedVolume;
+
+        // ===== CORREÇÃO APLICADA AQUI =====
+        // Chamando o método 'Save' do seu ConfigManager, em vez de 'Write'.
+        ConfigManager.Save("volume_SfxVolume", clampedVolume.ToString());
+    }
+
+    public void PlayHoverSound()
+    {
+        if (hoverSoundClip != null) sfxSource.PlayOneShot(hoverSoundClip);
+    }
+
     public void PlayClickSound()
     {
-        if (clickSoundClip != null)
+        if (clickSoundClip != null) sfxSource.PlayOneShot(clickSoundClip);
+    }
+
+    void OnDestroy()
+    {
+        if (instance == this)
         {
-            sfxSource.PlayOneShot(clickSoundClip);
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
 }
