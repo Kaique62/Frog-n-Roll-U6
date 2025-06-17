@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UnityEditor.PackageManager.Requests;
 
 public class GameOverManager : MonoBehaviour
 {
