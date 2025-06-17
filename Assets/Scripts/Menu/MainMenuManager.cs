@@ -51,6 +51,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
+        GetComponent<SceneCleaner>().UnloadAllLoadedScenesExceptActive();
         Controls.LoadKeyBinds();
 
         if (bigElement != null)

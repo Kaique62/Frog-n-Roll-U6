@@ -23,6 +23,7 @@ public class ContinueManager : MonoBehaviour
     [Tooltip("The semi-transparent background image.")]
     public Image backgroundImage;
 
+
     [Header("Animation Settings")]
     [Tooltip("How long the fade animation takes in seconds.")]
     public float fadeDuration = 0.5f;

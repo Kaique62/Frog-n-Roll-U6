@@ -44,7 +44,6 @@ public class LevelPreload : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -62,9 +61,15 @@ public class LevelPreload : MonoBehaviour
 
     private void Start()
     {
+        // Força o preload sempre que entrar na cena
         IsReady = false;
+        spritesLoaded = false;
+        audioLoaded = false;
+
+        StopAllCoroutines(); // Garante que nada anterior esteja rodando
         StartCoroutine(PreloadFiles());
     }
+
 
     IEnumerator PreloadFiles()
     {
