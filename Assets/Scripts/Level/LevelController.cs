@@ -30,8 +30,12 @@ public class LevelController : MonoBehaviour
     public float fadeOutDuration = 0.1f;
     public bool keepLastBlink = true;
 
-    [Header("Mobile Controls")]
+    [Header("UI & Controls")]
     public GameObject mobileControls;
+    
+    [Tooltip("Arraste o objeto 'Continue' que está na HIERARQUIA da sua cena para este campo.")]
+    public ContinueManager continueManager; // A referência direta que você vai configurar no Inspector
+
     private List<float> remainingBlinkTimes;
     private int activeBlinks = 0;
     private Coroutine currentFadeCoroutine;
@@ -47,8 +51,6 @@ public class LevelController : MonoBehaviour
         #else
             mobileControls.SetActive(false);
         #endif
-
-        
 
         musicTimer = FindObjectOfType<MusicTimer>();
 
@@ -123,9 +125,7 @@ public class LevelController : MonoBehaviour
 
         if (activeBlinks == 1 && blackPanelImage != null)
         {
-            if (currentFadeCoroutine != null)
-                StopCoroutine(currentFadeCoroutine);
-
+            if (currentFadeCoroutine != null) StopCoroutine(currentFadeCoroutine);
             currentFadeCoroutine = StartCoroutine(FadeImage(0f, 1f, fadeInDuration));
         }
 
@@ -133,15 +133,25 @@ public class LevelController : MonoBehaviour
 
         activeBlinks--;
 
-        if (activeBlinks == 0 && blackPanelImage != null && !isLastBlink)
+        if (isLastBlink)
         {
-            if (currentFadeCoroutine != null)
-                StopCoroutine(currentFadeCoroutine);
-
+            if (continueManager != null)
+            {
+                // Simplesmente chama a função, como você pediu.
+                continueManager.ShowMenu();
+            }
+            else
+            {
+                Debug.LogError("A referência para o ContinueManager não foi atribuída no Inspector do LevelController!");
+            }
+        }
+        else if (activeBlinks == 0 && blackPanelImage != null)
+        {
+            if (currentFadeCoroutine != null) StopCoroutine(currentFadeCoroutine);
             currentFadeCoroutine = StartCoroutine(FadeImage(1f, 0f, fadeOutDuration));
         }
     }
-
+    
     private IEnumerator FadeImage(float startAlpha, float targetAlpha, float duration)
     {
         float elapsed = 0f;
@@ -160,11 +170,12 @@ public class LevelController : MonoBehaviour
         currentColor.a = targetAlpha;
         blackPanelImage.color = currentColor;
     }
-
+    
+    // --- O resto do script (AddScore, ShowPopup, etc.) pode continuar igual, sem mudanças ---
     public void AddScore(float currentTime, ActionTimer timer)
     {
         float transitionDuration = timer.colorChangeDuration;
-        float delay = currentTime - timer.elapsedTime; // raw delay
+        float delay = currentTime - timer.elapsedTime;
         float error = Mathf.Abs(delay);
 
         Debug.Log($"{transitionDuration} - {timer.elapsedTime} = {error}");
@@ -173,7 +184,6 @@ public class LevelController : MonoBehaviour
         string popupStr = "";
         Color popupColor = Color.white;
 
-        // If delay is negative, automatically miss
         if (delay < -10)
         {
             points = 300;
@@ -183,30 +193,30 @@ public class LevelController : MonoBehaviour
         }
         else if (error <= 30)
         {
-            points = 1000; 
-            popupStr = "Perfect"; 
-            popupColor = Color.yellow; 
+            points = 1000;
+            popupStr = "Perfect";
+            popupColor = Color.yellow;
             pointMultiplier += 0.3f;
         }
         else if (error <= 70)
         {
-            points = 700; 
-            popupStr = "Good"; 
-            popupColor = Color.green; 
+            points = 700;
+            popupStr = "Good";
+            popupColor = Color.green;
             pointMultiplier += 0.1f;
         }
         else if (error <= 120)
         {
-            points = 500; 
-            popupStr = "Bad"; 
-            popupColor = Color.red; 
+            points = 500;
+            popupStr = "Bad";
+            popupColor = Color.red;
             pointMultiplier = 1f;
         }
         else
         {
-            points = 300; 
-            popupStr = "Miss"; 
-            popupColor = Color.gray; 
+            points = 300;
+            popupStr = "Miss";
+            popupColor = Color.gray;
             pointMultiplier = 1f;
         }
 
@@ -215,9 +225,6 @@ public class LevelController : MonoBehaviour
         UpdateScoreUI();
         ShowPopup(popupStr, popupColor);
     }
-
-
-
     private void ShowPopup(string text, Color color)
     {
         if (popupText == null) return;
@@ -231,7 +238,6 @@ public class LevelController : MonoBehaviour
 
         popupCoroutine = StartCoroutine(FadeOutPopup());
     }
-
     private IEnumerator FadeOutPopup()
     {
         float elapsed = 0f;
@@ -247,7 +253,6 @@ public class LevelController : MonoBehaviour
 
         popupText.gameObject.SetActive(false);
     }
-
     private void UpdateScoreUI()
     {
         if (scoreText != null)
@@ -256,23 +261,20 @@ public class LevelController : MonoBehaviour
         if (scoreTextMultiplier != null)
             scoreTextMultiplier.text = $"X{pointMultiplier:F1}";
     }
-
     private float LoadSavedVolume()
     {
         string savedVolume = ConfigManager.Read("volume_MusicVolume");
         if (float.TryParse(savedVolume, out float volume))
             return Mathf.Clamp01(volume);
-
+        
         return 1f;
     }
-
     public void ResetScoreSystem()
     {
         score = 0;
         pointMultiplier = 1f;
         UpdateScoreUI();
     }
-
     public void ResetBlinkSystem()
     {
         remainingBlinkTimes = new List<float>(blinkTimes);

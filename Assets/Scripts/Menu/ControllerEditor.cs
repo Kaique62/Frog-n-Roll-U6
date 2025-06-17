@@ -5,7 +5,7 @@ using System.IO;
 
 /// <summary>
 /// Allows editing the position and size of mobile control buttons and saving/loading their configuration.
-/// It now includes a function to create a default layout if no configuration file is found, if it's empty, or invalid.
+/// The joystick background is now also editable.
 /// </summary>
 public class ControllerEditor : MonoBehaviour
 {
@@ -15,8 +15,8 @@ public class ControllerEditor : MonoBehaviour
     public RectTransform button3;
     public RectTransform button4;
 
-    [Header("Joystick (fixed, not user-editable)")]
-    public RectTransform joystick;
+    [Header("Joystick Background")]
+    public RectTransform joystickBackground;
 
     [Header("Canvas containing the buttons (GameCt)")]
     public GameObject controlCanvas;
@@ -32,7 +32,7 @@ public class ControllerEditor : MonoBehaviour
         AddButton(button2);
         AddButton(button3);
         AddButton(button4);
-        AddButton(joystick);
+        AddButton(joystickBackground);
 
         LoadConfigurations();
     }
@@ -42,35 +42,28 @@ public class ControllerEditor : MonoBehaviour
         if (rt != null)
         {
             buttons[rt.name] = rt;
-            if (rt.GetComponent<EditButton>() == null && rt != joystick)
+            if (rt.GetComponent<EditButton>() == null)
             {
                 rt.gameObject.AddComponent<EditButton>();
             }
         }
     }
 
-    /// <summary>
-    /// Loads configurations. If the file doesn't exist, is empty, or contains invalid data,
-    /// it loads a default layout instead.
-    /// </summary>
     public void LoadConfigurations()
     {
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-
-            // NEW CHECK: If the file is empty or just contains whitespace...
+            
             if (string.IsNullOrWhiteSpace(json))
             {
                 Debug.LogWarning("Configuration file is empty. Loading default layout.");
-                LoadDefaultConfiguration(); // Load defaults, which will also overwrite the empty file.
+                LoadDefaultConfiguration();
                 return;
             }
-
-            // Attempt to parse the JSON
+            
             ButtonList data = JsonUtility.FromJson<ButtonList>(json);
 
-            // If parsing fails or results in null/empty data, load defaults
             if (data == null || data.buttons == null || data.buttons.Count == 0)
             {
                  Debug.LogWarning("Configuration file contains invalid data. Loading default layout.");
@@ -78,64 +71,33 @@ public class ControllerEditor : MonoBehaviour
             }
             else
             {
-                // If everything is fine, apply the loaded data
                 ApplyConfigurationData(data);
                 Debug.Log("Button configurations loaded from: " + filePath);
             }
         }
         else
         {
-            // If the file doesn't exist at all, load defaults
             LoadDefaultConfiguration();
         }
     }
 
-    /// <summary>
-    /// Creates the default layout you specified, applies it, and saves it to the file.
-    /// </summary>
     private void LoadDefaultConfiguration()
     {
         Debug.Log("No valid configuration found. Creating and applying default layout.");
 
-        // Your exact preset is defined here
         List<ButtonData> defaultButtons = new List<ButtonData>
         {
-            new ButtonData
-            {
-                name = "JumpButton",
-                position = new SerializableVector2(new Vector2(546.0f, -217.0f)),
-                size = new SerializableVector2(new Vector2(215.0f, 170.0f))
-            },
-            new ButtonData
-            {
-                name = "RollButton",
-                position = new SerializableVector2(new Vector2(794.0f, -386.0f)),
-                size = new SerializableVector2(new Vector2(216.0f, 170.0f))
-            },
-            new ButtonData
-            {
-                name = "KickButton",
-                position = new SerializableVector2(new Vector2(489.0f, -411.0f)),
-                size = new SerializableVector2(new Vector2(180.0f, 110.0f))
-            },
-            new ButtonData
-            {
-                name = "PunchButton",
-                position = new SerializableVector2(new Vector2(814.0f, -145.0f)),
-                size = new SerializableVector2(new Vector2(180.0f, 170.0f))
-            },
-            new ButtonData
-            {
-                name = "JoystickBackground",
-                position = new SerializableVector2(new Vector2(-476.0f, 0.0f)),
-                size = null // We set size to null so it's ignored, as per the JSON
-            }
+            new ButtonData { name = "JumpButton", position = new SerializableVector2(new Vector2(546.0f, -217.0f)), size = new SerializableVector2(new Vector2(215.0f, 170.0f)) },
+            new ButtonData { name = "RollButton", position = new SerializableVector2(new Vector2(794.0f, -386.0f)), size = new SerializableVector2(new Vector2(216.0f, 170.0f)) },
+            new ButtonData { name = "KickButton", position = new SerializableVector2(new Vector2(489.0f, -411.0f)), size = new SerializableVector2(new Vector2(180.0f, 110.0f)) },
+            new ButtonData { name = "PunchButton", position = new SerializableVector2(new Vector2(814.0f, -145.0f)), size = new SerializableVector2(new Vector2(180.0f, 170.0f)) },
+            new ButtonData { name = "JoystickBackground", position = new SerializableVector2(new Vector2(-680.0f, 0.0f)), size = new SerializableVector2(new Vector2(250.0f, 250.0f)) }
         };
 
         ButtonList defaultData = new ButtonList { buttons = defaultButtons };
 
         ApplyConfigurationData(defaultData);
-        SaveConfigurations(); // This creates/overwrites the file with the correct default data
+        SaveConfigurations();
     }
 
     private void ApplyConfigurationData(ButtonList data)
@@ -150,7 +112,7 @@ public class ControllerEditor : MonoBehaviour
                 {
                     rt.anchoredPosition = entry.position.ToVector2();
                 }
-                if (entry.size != null && rt != joystick)
+                if (entry.size != null)
                 {
                     rt.sizeDelta = entry.size.ToVector2();
                 }
@@ -160,7 +122,6 @@ public class ControllerEditor : MonoBehaviour
 
     public void SaveConfigurations()
     {
-        // ... (o resto do seu script continua igual, sem necessidade de alteração)
         List<ButtonData> list = new List<ButtonData>();
         foreach (var item in buttons)
         {
@@ -169,7 +130,7 @@ public class ControllerEditor : MonoBehaviour
             {
                 name = item.Key,
                 position = new SerializableVector2(rt.anchoredPosition),
-                size = (rt == joystick) ? null : new SerializableVector2(rt.sizeDelta)
+                size = new SerializableVector2(rt.sizeDelta)
             });
         }
         string json = JsonUtility.ToJson(new ButtonList { buttons = list }, true);
@@ -192,38 +153,49 @@ public class ControllerEditor : MonoBehaviour
             Debug.LogWarning("Control canvas not assigned.");
         }
     }
+    
+    // --- INÍCIO DAS MUDANÇAS ---
 
     /// <summary>
-    /// Inverts the X axis of all button positions saved in the JSON file.
+    /// CORREÇÃO: Inverte o eixo X das posições ATUAIS dos botões, em vez de ler do arquivo de save.
     /// </summary>
     public void InvertControls()
     {
-        if (!File.Exists(filePath))
+        Debug.Log("Inverting current control positions.");
+        
+        // Itera pelo dicionário de botões que estão na tela.
+        foreach (var buttonPair in buttons)
         {
-            Debug.LogWarning("No file to invert. Loading default layout first might be needed.");
-            return;
+            RectTransform rt = buttonPair.Value;
+            // Pega a posição ATUAL do botão na tela.
+            Vector2 currentPos = rt.anchoredPosition;
+            // Inverte apenas o eixo X.
+            currentPos.x = -currentPos.x;
+            // Aplica a nova posição invertida de volta no botão.
+            rt.anchoredPosition = currentPos;
         }
 
-        string json = File.ReadAllText(filePath);
-        ButtonList data = JsonUtility.FromJson<ButtonList>(json);
-
-        foreach (ButtonData entry in data.buttons)
-        {
-            // Only invert the X axis
-            entry.position.x = -entry.position.x;
-        }
-
-        string newJson = JsonUtility.ToJson(data, true);
-        File.WriteAllText(filePath, newJson);
+        // Depois de inverter todos na tela, salva a nova configuração.
+        SaveConfigurations();
         Debug.Log("X axis of controls inverted and saved.");
-
-        // Apply changes visually
-        ApplyConfigurationData(data);
     }
+
+    /// <summary>
+    /// NOVO: Função pública para restaurar as configurações padrão.
+    /// Pode ser chamada por um botão de UI.
+    /// </summary>
+    public void ResetToDefault()
+    {
+        Debug.Log("Resetting controls to default layout.");
+        // Simplesmente chama a função que já tínhamos para carregar o layout padrão.
+        LoadDefaultConfiguration();
+    }
+
+    // --- FIM DAS MUDANÇAS ---
 }
 
-// --- Data Structures (No changes needed here) ---
 
+// --- As estruturas de dados continuam as mesmas ---
 [System.Serializable]
 public class ButtonData
 {

@@ -7,11 +7,14 @@ using UnityEngine.SceneManagement;
 public class PauseManager : MonoBehaviour
 {
     public static bool isPaused = false;
+    // MUDANÇA: "Trava" global para permitir ou bloquear o pause.
+    public static bool IsPauseAllowed = true;
 
     [Header("UI References")]
     public RectTransform menuContainer;
     public Image backgroundImage;
     public TextMeshProUGUI countdownText;
+    public GameObject mobileControls;
 
     [Header("Animation Settings")]
     public float animDuration = 0.5f;
@@ -25,10 +28,14 @@ public class PauseManager : MonoBehaviour
     public float countdownAnimDuration = 0.4f;
 
     private Color baseBackgroundColor;
+    private bool isCountingDown = false;
 
     void Start()
     {
+        // MUDANÇA: Garante que o pause seja permitido sempre que a cena iniciar.
+        IsPauseAllowed = true;
         isPaused = false;
+        isCountingDown = false;
         Time.timeScale = 1f;
 
         if (menuContainer != null) menuContainer.anchoredPosition = hiddenPos;
@@ -43,7 +50,8 @@ public class PauseManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // MUDANÇA: Adicionamos 'IsPauseAllowed' na condição.
+        if (IsPauseAllowed && Input.GetKeyDown(KeyCode.Escape) && !isCountingDown)
         {
             if (isPaused)
             {
@@ -58,12 +66,21 @@ public class PauseManager : MonoBehaviour
 
     public void PauseGame()
     {
-        // DEBUG: Mensagem para quando o jogo é pausado (via tecla Esc)
+        // MUDANÇA: Adicionamos 'IsPauseAllowed' na condição.
+        if (!IsPauseAllowed || isPaused || isCountingDown) return;
+
         Debug.Log("PauseGame() foi chamado. Pausando o jogo...");
 
         Time.timeScale = 0f;
         isPaused = true;
         AudioListener.pause = true;
+
+        #if UNITY_ANDROID || UNITY_IOS
+        if (mobileControls != null)
+        {
+            mobileControls.SetActive(false);
+        }
+        #endif
 
         StartCoroutine(AnimateMenu(true));
         StartCoroutine(FadeBackground(0f, 190f / 255f));
@@ -71,7 +88,6 @@ public class PauseManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        // DEBUG: Mensagem para quando o botão de continuar ou a tecla Esc são pressionados
         Debug.Log("Botão/Tecla 'Resume Game' foi acionado!");
 
         isPaused = false;
@@ -81,8 +97,18 @@ public class PauseManager : MonoBehaviour
 
     private IEnumerator CountdownToResume()
     {
+        isCountingDown = true;
+
+        #if UNITY_ANDROID || UNITY_IOS
+        if (mobileControls != null)
+        {
+            mobileControls.SetActive(true);
+        }
+        #endif
+
         string[] steps = { "3", "2", "1", "GO!!" };
         if (countdownText != null) countdownText.text = "";
+        
         foreach (string step in steps)
         {
             if (countdownText != null)
@@ -91,15 +117,17 @@ public class PauseManager : MonoBehaviour
                 yield return new WaitForSecondsRealtime(0.7f);
             }
         }
+        
         if (countdownText != null) countdownText.text = "";
         StartCoroutine(FadeBackground(backgroundImage.color.a, 0f));
         Time.timeScale = 1f;
         AudioListener.pause = false;
+
+        isCountingDown = false;
     }
 
     public void ResetScene()
     {
-        // DEBUG: Mensagem para quando o botão de resetar a cena é clicado
         Debug.Log("Botão 'Reset Scene' foi clicado!");
 
         isPaused = false;
@@ -110,7 +138,6 @@ public class PauseManager : MonoBehaviour
 
     public void GoToHome()
     {
-        // DEBUG: Mensagem para quando o botão de ir para o menu principal é clicado
         Debug.Log("Botão 'Go To Home' foi clicado!");
 
         isPaused = false;
@@ -124,6 +151,7 @@ public class PauseManager : MonoBehaviour
         float elapsed = 0f;
         Vector2 start = show ? hiddenPos : shownPos;
         Vector2 end = show ? shownPos : hiddenPos;
+        
         while (elapsed < animDuration)
         {
             elapsed += Time.unscaledDeltaTime;
@@ -131,20 +159,25 @@ public class PauseManager : MonoBehaviour
             menuContainer.anchoredPosition = Vector2.Lerp(start, end, t);
             yield return null;
         }
+        
         menuContainer.anchoredPosition = end;
     }
 
     private IEnumerator FadeBackground(float fromAlpha, float toAlpha)
     {
+        if (backgroundImage == null) yield break;
+
         float elapsed = 0f;
         Color startColor = new Color(baseBackgroundColor.r, baseBackgroundColor.g, baseBackgroundColor.b, fromAlpha);
         Color endColor = new Color(baseBackgroundColor.r, baseBackgroundColor.g, baseBackgroundColor.b, toAlpha);
+        
         while (elapsed < fadeDuration)
         {
             elapsed += Time.unscaledDeltaTime;
             backgroundImage.color = Color.Lerp(startColor, endColor, elapsed / fadeDuration);
             yield return null;
         }
+        
         backgroundImage.color = endColor;
     }
 }

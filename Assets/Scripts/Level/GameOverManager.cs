@@ -5,9 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
+    public static bool shouldReenableControls = false;
+
     [Header("UI References")]
     public RectTransform menuContainer;
     public Image backgroundImage;
+    public GameObject mobileControls;
 
     [Header("Animation Settings")]
     public float animDuration = 0.5f;
@@ -22,21 +25,36 @@ public class GameOverManager : MonoBehaviour
 
     void Awake()
     {
-        // LINHA REMOVIDA: Esta linha movia o menu para uma posição escondida.
+        if (shouldReenableControls)
+        {
+            if (mobileControls != null)
+            {
+                mobileControls.SetActive(true);
+            }
+            shouldReenableControls = false;
+        }
+
         if (menuContainer != null)
              menuContainer.anchoredPosition = hiddenPos;
 
         if (backgroundImage != null)
         {
             baseBackgroundColor = backgroundImage.color;
-            // LINHA REMOVIDA: Esta linha tornava o fundo transparente ao iniciar.
             backgroundImage.color = new Color(baseBackgroundColor.r, baseBackgroundColor.g, baseBackgroundColor.b, 0f);
         }
     }
 
     public void ShowGameOver()
     {
+        // MUDANÇA: Bloqueia a função de pause.
+        PauseManager.IsPauseAllowed = false;
+
         Time.timeScale = 0f;
+
+        if (mobileControls != null)
+        {
+            mobileControls.SetActive(false);
+        }
 
         LevelController levelController = FindObjectOfType<LevelController>();
         if (levelController != null && levelController.musicAudioSource != null)
@@ -72,6 +90,10 @@ public class GameOverManager : MonoBehaviour
 
     public void ResetScene()
     {
+        // MUDANÇA: Libera a trava do pause antes de sair da cena.
+        PauseManager.IsPauseAllowed = true;
+        
+        shouldReenableControls = true;
         Time.timeScale = 1f;
         AudioListener.pause = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -79,6 +101,9 @@ public class GameOverManager : MonoBehaviour
 
     public void GoToHome()
     {
+        // MUDANÇA: Libera a trava do pause antes de sair da cena.
+        PauseManager.IsPauseAllowed = true;
+
         Time.timeScale = 1f;
         AudioListener.pause = false;
         SceneManager.LoadScene("MainMenu");
@@ -101,6 +126,8 @@ public class GameOverManager : MonoBehaviour
 
     private IEnumerator FadeBackground(float fromAlpha, float toAlpha)
     {
+        if (backgroundImage == null) yield break;
+
         float elapsed = 0f;
         Color startColor = backgroundImage.color;
         Color endColor = new Color(baseBackgroundColor.r, baseBackgroundColor.g, baseBackgroundColor.b, toAlpha);

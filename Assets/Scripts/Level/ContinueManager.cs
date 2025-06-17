@@ -14,9 +14,6 @@ public class ContinueManager : MonoBehaviour
 
     [Header("UI References")]
 
-    [Header("UI Menus")]
-    public ContinueManager continueManager;
-
     [Tooltip("The main panel that contains all menu buttons.")]
     public RectTransform menuContainer;
 
@@ -72,24 +69,7 @@ public class ContinueManager : MonoBehaviour
             menuContainer.gameObject.SetActive(false);
         }
     }
-
-    void Update()
-    {
-        // Listen for the '1' key to toggle the menu.
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            // Toggle the menu's visibility.
-            if (isMenuShown)
-            {
-                HideMenu();
-            }
-            else
-            {
-                ShowMenu();
-            }
-        }
-    }
-
+    
     #endregion
 
     // --- Public Methods (for UI Buttons) ---
@@ -100,19 +80,32 @@ public class ContinueManager : MonoBehaviour
     /// </summary>
     public void ShowMenu()
     {
-        if (isMenuShown) return; // Prevent running the animation again if already shown.
+        // --- INÍCIO DA MODIFICAÇÃO ---
+        Debug.Log("ContinueManager: A função ShowMenu() foi chamada!");
+        // --- FIM DA MODIFICAÇÃO ---
+
+        if (isMenuShown)
+        {
+            Debug.Log("ContinueManager: O menu já estava sendo exibido, a animação não será executada novamente.");
+            return; // Prevent running the animation again if already shown.
+        }
 
         isMenuShown = true;
 
         // IMPORTANT: First, activate the menu GameObject so it can be animated.
         if (menuContainer != null)
         {
+            Debug.Log("ContinueManager: Ativando o menuContainer.");
             menuContainer.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("ContinueManager: A referência para 'menuContainer' está nula!");
         }
 
         // Start the fade-in animations for the menu and the background.
         StartCoroutine(FadeMenu(true));
-        StartCoroutine(FadeBackground(0f, 190f / 255f));
+        StartCoroutine(FadeBackground(0f, 1f)); // Ajustado para 1f (preto sólido) como discutimos.
     }
 
     /// <summary>
@@ -158,9 +151,12 @@ public class ContinueManager : MonoBehaviour
     /// <param name="show">True to fade in, false to fade out.</param>
     private IEnumerator FadeMenu(bool show)
     {
-        if (menuCanvasGroup == null) yield break;
+        if (menuCanvasGroup == null)
+        {
+            Debug.LogWarning("ContinueManager: A referência para 'menuCanvasGroup' está nula! A animação do menu não vai funcionar.");
+            yield break;
+        }
 
-        // If showing, make the UI interactive at the beginning of the fade.
         if (show)
         {
             menuCanvasGroup.interactable = true;
@@ -171,22 +167,18 @@ public class ContinueManager : MonoBehaviour
         float fromAlpha = show ? 0f : 1f;
         float toAlpha = show ? 1f : 0f;
 
-        // Animate the alpha value over the specified duration.
         while (elapsed < fadeDuration)
         {
-            elapsed += Time.unscaledDeltaTime; // Use unscaledDeltaTime for UI that should work even if the game is paused.
+            elapsed += Time.unscaledDeltaTime;
             menuCanvasGroup.alpha = Mathf.Lerp(fromAlpha, toAlpha, elapsed / fadeDuration);
             yield return null;
         }
-
-        // Ensure the final alpha value is set correctly.
+        
         menuCanvasGroup.alpha = toAlpha;
-
-        // If hiding, make the UI non-interactive and deactivate the GameObject at the end of the fade.
+        
         if (!show)
         {
             menuCanvasGroup.interactable = false;
-            // THIS IS THE CORRECTED LINE:
             menuCanvasGroup.blocksRaycasts = false;
             if (menuContainer != null)
             {
@@ -200,7 +192,11 @@ public class ContinueManager : MonoBehaviour
     /// </summary>
     private IEnumerator FadeBackground(float fromAlpha, float toAlpha)
     {
-        if (backgroundImage == null) yield break;
+        if (backgroundImage == null)
+        {
+            Debug.LogWarning("ContinueManager: A referência para 'backgroundImage' está nula! A animação de fundo não vai funcionar.");
+            yield break;
+        }
 
         float elapsed = 0f;
         Color startColor = new Color(baseBackgroundColor.r, baseBackgroundColor.g, baseBackgroundColor.b, fromAlpha);
