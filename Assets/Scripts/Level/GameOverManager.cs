@@ -46,9 +46,7 @@ public class GameOverManager : MonoBehaviour
 
     public void ShowGameOver()
     {
-        // MUDANÇA: Bloqueia a função de pause.
         PauseManager.IsPauseAllowed = false;
-
         Time.timeScale = 0f;
 
         if (mobileControls != null)
@@ -90,9 +88,10 @@ public class GameOverManager : MonoBehaviour
 
     public void ResetScene()
     {
-        // MUDANÇA: Libera a trava do pause antes de sair da cena.
+        // MUDANÇA: Reseta todos os inputs antes de qualquer outra coisa.
+        MobileInput.ResetAllInput();
+
         PauseManager.IsPauseAllowed = true;
-        
         shouldReenableControls = true;
         Time.timeScale = 1f;
         AudioListener.pause = false;
@@ -101,9 +100,10 @@ public class GameOverManager : MonoBehaviour
 
     public void GoToHome()
     {
-        // MUDANÇA: Libera a trava do pause antes de sair da cena.
-        PauseManager.IsPauseAllowed = true;
+        // MUDANÇA: Reseta todos os inputs aqui também, por segurança.
+        MobileInput.ResetAllInput();
 
+        PauseManager.IsPauseAllowed = true;
         Time.timeScale = 1f;
         AudioListener.pause = false;
         SceneManager.LoadScene("MainMenu");

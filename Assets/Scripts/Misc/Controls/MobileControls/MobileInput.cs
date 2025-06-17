@@ -100,4 +100,16 @@ public class MobileInput : MonoBehaviour
     /// Returns true if the specified input key was released this frame.
     /// </summary>
     public static bool GetReleased(string key) => Released.ContainsKey(key) && Released[key];
+
+    public static void ResetAllInput()
+    {
+        Debug.Log("Resetting all mobile input states.");
+        var keys = new List<string>(Held.Keys);
+        foreach (var key in keys)
+        {
+            Held[key] = false;
+            Pressed[key] = false;
+            Released[key] = false;
+        }
+    }
 }
