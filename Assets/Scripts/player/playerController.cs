@@ -390,21 +390,32 @@ public class PlayerController : MonoBehaviour
 
 private void HandleAttack()
 {
-    // ATUALIZADO: Lê os inputs diretamente dos componentes de botão e joystick
+    // Lê os inputs de ataque dos botões (continua igual)
     bool punchIsDown = Input.GetKeyDown(Controls.Punch) || (punchButton != null && punchButton.IsDown);
     bool kickIsDown = Input.GetKeyDown(Controls.Kick) || (kickButton != null && kickButton.IsDown);
     
+    // --- LÓGICA CORRIGIDA PARA OS MODIFICADORES CIMA/BAIXO ---
+
+    // 1. Pega a direção vertical do joystick
     float joystickVertical = (movementJoystick != null) ? movementJoystick.GetInputDirection().y : 0;
-    bool joystickIsUp = joystickVertical > 0.5f;
-    bool joystickIsDown = joystickVertical < -0.5f;
+
+    // 2. O modificador "Cima" é verdadeiro se a tecla 'W' (Controls.Up) OU o joystick estiverem para cima
+    bool modifierIsUp = Input.GetKey(Controls.Up) || (joystickVertical > 0.5f);
+
+    // 3. O modificador "Baixo" é verdadeiro se a tecla 'S' (Controls.Down) OU o joystick estiverem para baixo
+    bool modifierIsDown = Input.GetKey(Controls.Down) || (joystickVertical < -0.5f);
+
+    // --- FIM DA CORREÇÃO ---
     
     // Uppercut (Soco + Cima)
-    if (punchIsDown && joystickIsUp)
+    // Agora usa a nova variável 'modifierIsUp'
+    if (punchIsDown && modifierIsUp)
     {
         activeActionRoutine = StartCoroutine(PerformAttack(uppercutHitbox, "Uppercut"));
     }
     // Stomp (Chute + Baixo, no ar)
-    else if (!isGrounded && kickIsDown && joystickIsDown)
+    // Agora usa a nova variável 'modifierIsDown'
+    else if (!isGrounded && kickIsDown && modifierIsDown)
     {
         activeActionRoutine = StartCoroutine(PerformStomp());
     }
