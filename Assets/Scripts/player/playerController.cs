@@ -55,7 +55,8 @@ public class PlayerController : MonoBehaviour
     public MobileButton jumpButton; 
     public MobileButton punchButton;      
     public MobileButton kickButton;       
-    public MobileButton rollButton; 
+    public MobileButton rollButton;
+    public MobileButton grabButton;
 
     // Components
     private Rigidbody2D rb;
@@ -148,7 +149,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Handle rope attachment
-        if ((Input.GetKeyDown(Controls.Grab) || MobileInput.GetHeld("Grab")) && canAttach)
+        if ((Input.GetKeyDown(Controls.Grab) || (grabButton != null && grabButton.IsDown)) && canAttach)
         {
             TryAttachToRope();
         }

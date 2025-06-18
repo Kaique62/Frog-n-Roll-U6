@@ -2537,6 +2537,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7164327056698290814, guid: fba4ba1a5126daa48ba1fa8374d7a26c, type: 3}
   m_PrefabInstance: {fileID: 428071323}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &451595424 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6572519824552022828, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a092fad60f67b45ba503874dc034af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &458042366
 GameObject:
   m_ObjectHideFlags: 0
@@ -4331,22 +4342,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2491166745548585987, guid: a9f0f8bffacdc2140b7311a0ec45224b, type: 3}
   m_PrefabInstance: {fileID: 702246306}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &705831904 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8184346240899126174, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
-  m_PrefabInstance: {fileID: 2061712295}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &705831905 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1480694102520311357, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
-  m_PrefabInstance: {fileID: 2061712295}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89a092fad60f67b45ba503874dc034af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &705893636
 GameObject:
   m_ObjectHideFlags: 0
@@ -13485,6 +13480,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1588400826}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2021679052 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1480694102520311357, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a092fad60f67b45ba503874dc034af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2039965489
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13498,13 +13504,17 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+      propertyPath: grabButton
+      value: 
+      objectReference: {fileID: 451595424}
+    - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
       propertyPath: jumpButton
       value: 
       objectReference: {fileID: 1149194644}
     - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
       propertyPath: kickButton
       value: 
-      objectReference: {fileID: 705831905}
+      objectReference: {fileID: 2021679052}
     - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
       propertyPath: musicTimer
       value: 
@@ -14096,7 +14106,7 @@ MonoBehaviour:
   button1: {fileID: 465946473}
   button2: {fileID: 1605210846}
   button3: {fileID: 1271478129}
-  button4: {fileID: 705831904}
+  button4: {fileID: 0}
   joystickBackground: {fileID: 1725231866}
   controlCanvas: {fileID: 2061712296}
 --- !u!224 &2061712305 stripped
