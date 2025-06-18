@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     public Transform canvasTransform;
 
     [Header("Player Movement")]
+
+    public bool allowJoystickUpToJump = false;
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     public float rollDistance = 3f;
@@ -47,6 +49,13 @@ public class PlayerController : MonoBehaviour
     public GameObject kickHitbox;
     public GameObject uppercutHitbox;
     public GameObject stompHitbox;
+
+    [Header("Mobile Controls Setup")]
+    public MobileJoystick movementJoystick;
+    public MobileButton jumpButton; 
+    public MobileButton punchButton;      
+    public MobileButton kickButton;       
+    public MobileButton rollButton; 
 
     // Components
     private Rigidbody2D rb;
@@ -328,12 +337,21 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        float moveInput = (Input.GetKey(Controls.Right) || MobileInput.GetHeld("Right")) ? 1f :
-                          (Input.GetKey(Controls.Left) || MobileInput.GetHeld("Left")) ? -1f : 0f;
+        float moveInput = 0f;
+
+        // Pega o input do teclado OU do joystick que você arrastou no Inspector
+        if (Input.GetKey(Controls.Right)) moveInput = 1f;
+        else if (Input.GetKey(Controls.Left)) moveInput = -1f;
+        else if (movementJoystick != null)
+        {
+            // USA A REFERÊNCIA DIRETA DO JOYSTICK PARA MOVIMENTAR
+            float horizontal = movementJoystick.GetInputDirection().x;
+            if (horizontal > 0.2f) moveInput = 1f;
+            else if (horizontal < -0.2f) moveInput = -1f;
+        }
                           
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
         
-        // Update animator parameters
         animator.SetBool("isRunning", moveInput != 0 && isGrounded);
         animator.SetBool("isGrounded", isGrounded);
         
@@ -341,59 +359,65 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = new Vector3(Mathf.Sign(moveInput), 1, 1);
         }
-        
-        lastVelocity = rb.linearVelocity;
     }
 
     private void HandleJump()
     {
-        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
+        // USA A REFERÊNCIA DIRETA DO BOTÃO DE PULO
+        bool jumpIsPressed = Input.GetKeyDown(Controls.Jump) || (jumpButton != null && jumpButton.IsPressed);
+
+        // A CONDIÇÃO DE PULO AGORA SÓ OBEDECE AO BOTÃO DE PULO
+        if (jumpIsPressed && coyoteTimeCounter > 0f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             animator.SetTrigger("Jump");
-
-            // Initiate variable jump tracking
-            isJumping = true;
-            jumpStartY = transform.position.y;
-            currentJumpHeight = minJumpHeight;
-
-            jumpBufferCounter = 0f; // Consume the buffer
-            coyoteTimeCounter = 0f; // Consume coyote time
             
-            if (currentState != PlayerState.Stomping)
-            {
-                animator.SetTrigger("Jump");
-            }
+            coyoteTimeCounter = 0f; // Impede pulo duplo
         }
     }
     
     private void HandleRoll()
     {
-        if (isGrounded && (Input.GetKeyDown(Controls.Roll) || MobileInput.GetHeld("Roll")))
+        
+        bool rollInput = Input.GetKeyDown(Controls.Roll) || (rollButton != null && rollButton.IsDown);
+
+        if (isGrounded && rollInput)
         {
             activeActionRoutine = StartCoroutine(PerformRoll());
         }
     }
 
-    private void HandleAttack()
+private void HandleAttack()
+{
+    // ATUALIZADO: Lê os inputs diretamente dos componentes de botão e joystick
+    bool punchIsDown = Input.GetKeyDown(Controls.Punch) || (punchButton != null && punchButton.IsDown);
+    bool kickIsDown = Input.GetKeyDown(Controls.Kick) || (kickButton != null && kickButton.IsDown);
+    
+    float joystickVertical = (movementJoystick != null) ? movementJoystick.GetInputDirection().y : 0;
+    bool joystickIsUp = joystickVertical > 0.5f;
+    bool joystickIsDown = joystickVertical < -0.5f;
+    
+    // Uppercut (Soco + Cima)
+    if (punchIsDown && joystickIsUp)
     {
-        if ((Input.GetKeyDown(Controls.Punch) || MobileInput.GetHeld("Punch")) && (Input.GetKey(Controls.Up) || MobileInput.GetHeld("Up")))
-        {
-            activeActionRoutine = StartCoroutine(PerformAttack(uppercutHitbox, "Uppercut"));
-        }
-        else if (!isGrounded && (Input.GetKeyDown(Controls.Kick) || MobileInput.GetHeld("Kick")) && (Input.GetKey(Controls.Down) || MobileInput.GetHeld("Down")))
-        {
-            activeActionRoutine = StartCoroutine(PerformStomp());
-        }
-        else if (Input.GetKeyDown(Controls.Punch) || MobileInput.GetHeld("Punch"))
-        {
-            activeActionRoutine = StartCoroutine(PerformAttack(punchHitbox, "Punch"));
-        }
-        else if (Input.GetKeyDown(Controls.Kick) || MobileInput.GetHeld("Kick"))
-        {
-            activeActionRoutine = StartCoroutine(PerformAttack(kickHitbox, "Kick"));
-        }
+        activeActionRoutine = StartCoroutine(PerformAttack(uppercutHitbox, "Uppercut"));
     }
+    // Stomp (Chute + Baixo, no ar)
+    else if (!isGrounded && kickIsDown && joystickIsDown)
+    {
+        activeActionRoutine = StartCoroutine(PerformStomp());
+    }
+    // Soco Normal
+    else if (punchIsDown)
+    {
+        activeActionRoutine = StartCoroutine(PerformAttack(punchHitbox, "Punch"));
+    }
+    // Chute Normal
+    else if (kickIsDown)
+    {
+        activeActionRoutine = StartCoroutine(PerformAttack(kickHitbox, "Kick"));
+    }
+}
 
     private void HandleAttackCancellation()
     {
@@ -419,38 +443,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-private void HandleTimers()
-{
-    // Coyote time (continua igual)
-    if (isGrounded)
+    private void HandleTimers()
     {
-        coyoteTimeCounter = coyoteTime;
-    }
-    else
-    {
-        coyoteTimeCounter -= Time.deltaTime;
-    }
-
-    // Jump buffer (AGORA SÓ OBEDECE AO BOTÃO DE PULO DEDICADO)
-    if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Jump"))
-    {
-        jumpBufferCounter = jumpBufferTime;
-    }
-    else
-    {
-        jumpBufferCounter -= Time.deltaTime;
-    }
-
-    // Attack cancel timer (continua igual)
-    if (canCancelAttack)
-    {
-        attackCancelTimer -= Time.deltaTime;
-        if (attackCancelTimer <= 0)
+        if (isGrounded)
         {
-            canCancelAttack = false;
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
         }
     }
-}
 
     IEnumerator PerformAttack(GameObject hitbox, string triggerName)
     {

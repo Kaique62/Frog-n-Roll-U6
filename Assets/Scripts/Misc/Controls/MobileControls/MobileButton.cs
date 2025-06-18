@@ -1,34 +1,30 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-/// <summary>
-/// Handles mobile button input by detecting pointer down and up events,
-/// updating the MobileInput system accordingly.
-/// </summary>
 public class MobileButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    /// <summary>
-    /// The name/key of the input this button represents.
-    /// </summary>
-    public string inputName;
+    // Fica 'true' enquanto o botão está pressionado
+    public bool IsPressed { get; private set; }
 
-    /// <summary>
-    /// Called when the pointer (touch) is pressed down on this button.
-    /// Sets the corresponding input in MobileInput as held (true).
-    /// </summary>
-    /// <param name="eventData">Pointer event data.</param>
+    // Fica 'true' APENAS no primeiro quadro em que o botão é pressionado
+    public bool IsDown { get; private set; }
+
+    private bool wasPressedLastFrame;
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        MobileInput.Held[inputName] = true;
+        IsPressed = true;
     }
 
-    /// <summary>
-    /// Called when the pointer (touch) is released from this button.
-    /// Sets the corresponding input in MobileInput as not held (false).
-    /// </summary>
-    /// <param name="eventData">Pointer event data.</param>
     public void OnPointerUp(PointerEventData eventData)
     {
-        MobileInput.Held[inputName] = false;
+        IsPressed = false;
+    }
+
+    // LateUpdate roda depois do Update normal, ideal para calcular inputs de um quadro
+    private void LateUpdate()
+    {
+        IsDown = IsPressed && !wasPressedLastFrame;
+        wasPressedLastFrame = IsPressed;
     }
 }

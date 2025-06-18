@@ -342,7 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89a092fad60f67b45ba503874dc034af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputName: Up
+  inputName: jump
 --- !u!1 &2290205229159255484
 GameObject:
   m_ObjectHideFlags: 0

@@ -186,6 +186,7 @@ public class ControllerEditor : MonoBehaviour
             new ButtonData { name = "RollButton", position = new SerializableVector2(new Vector2(565.0f, -388.0f)), size = new SerializableVector2(new Vector2(200.0f, 200.0f)) },
             new ButtonData { name = "KickButton", position = new SerializableVector2(new Vector2(614.0f, -173.0f)), size = new SerializableVector2(new Vector2(200.0f, 200.0f)) },
             new ButtonData { name = "PunchButton", position = new SerializableVector2(new Vector2(838.0f, -126.0f)), size = new SerializableVector2(new Vector2(200.0f, 200.0f)) },
+            new ButtonData { name = "GraphButton", position = new SerializableVector2(new Vector2(838.0f, -126.0f)), size = new SerializableVector2(new Vector2(200.0f, 200.0f)) },
             new ButtonData { name = "JoystickBackground", position = new SerializableVector2(new Vector2(-671.0f, -325.0f)), size = new SerializableVector2(new Vector2(110.0f, 100.0f)) }
         };
         return new ButtonList { buttons = defaultButtons };

@@ -4336,6 +4336,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8184346240899126174, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
   m_PrefabInstance: {fileID: 2061712295}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &705831905 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1480694102520311357, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a092fad60f67b45ba503874dc034af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705893636
 GameObject:
   m_ObjectHideFlags: 0
@@ -7706,6 +7717,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132332305}
   m_CullTransparentMesh: 1
+--- !u!114 &1149194644 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2070758412977797602, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a092fad60f67b45ba503874dc034af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1187489894
 GameObject:
   m_ObjectHideFlags: 0
@@ -10167,6 +10189,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7628578081381765933, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
   m_PrefabInstance: {fileID: 2061712295}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1605210847 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4664305881744983163, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a092fad60f67b45ba503874dc034af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1613149521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11143,6 +11176,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4798628681730385163, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
   m_PrefabInstance: {fileID: 2061712295}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1725231867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1432130061421211543, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 267dcd7b2c80b034fa060b83a9d59b19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1754108104
 GameObject:
   m_ObjectHideFlags: 0
@@ -13454,9 +13498,25 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+      propertyPath: jumpButton
+      value: 
+      objectReference: {fileID: 1149194644}
+    - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+      propertyPath: kickButton
+      value: 
+      objectReference: {fileID: 705831905}
+    - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
       propertyPath: musicTimer
       value: 
       objectReference: {fileID: 983997646}
+    - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+      propertyPath: rollButton
+      value: 
+      objectReference: {fileID: 1605210847}
+    - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+      propertyPath: punchButton
+      value: 
+      objectReference: {fileID: 2042401817}
     - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
       propertyPath: maxJumpHeight
       value: 6
@@ -13490,6 +13550,10 @@ PrefabInstance:
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+      propertyPath: movementJoystick
+      value: 
+      objectReference: {fileID: 1725231867}
+    - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
       propertyPath: jumpApexThreshold
       value: 0.01
       objectReference: {fileID: 0}
@@ -13499,6 +13563,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
       propertyPath: jumpHoldGravityScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204103335130042214, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+      propertyPath: allowJoystickUpToJump
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3034078178533537358, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
@@ -13577,6 +13645,17 @@ PrefabInstance:
       addedObject: {fileID: 2138550167}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+--- !u!114 &2042401817 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5657635667057436487, guid: d1dfcf7798ee37d4a907c633e6272147, type: 3}
+  m_PrefabInstance: {fileID: 2061712295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a092fad60f67b45ba503874dc034af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2052838398
 GameObject:
   m_ObjectHideFlags: 0
