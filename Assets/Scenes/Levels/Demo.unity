@@ -8990,6 +8990,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: light
       objectReference: {fileID: 0}
+    - target: {fileID: 1711198334903098, guid: 95ee83bd7d308d3409d7ce76f0f254cd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4225101714995872, guid: 95ee83bd7d308d3409d7ce76f0f254cd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -41.202618
@@ -12687,6 +12691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1948556498}
+  - component: {fileID: 1948556499}
   m_Layer: 5
   m_Name: Performance
   m_TagString: Untagged
@@ -12714,6 +12719,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1948556499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948556497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e19be8d1bbe1124384a70c43d4f9879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fpsText: {fileID: 1132332307}
+  updateInterval: 0.5
 --- !u!1 &1951242914
 GameObject:
   m_ObjectHideFlags: 0

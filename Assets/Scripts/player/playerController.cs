@@ -419,38 +419,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void HandleTimers()
+private void HandleTimers()
+{
+    // Coyote time (continua igual)
+    if (isGrounded)
     {
-        // Coyote time
-        if (isGrounded)
+        coyoteTimeCounter = coyoteTime;
+    }
+    else
+    {
+        coyoteTimeCounter -= Time.deltaTime;
+    }
+
+    // Jump buffer (AGORA SÓ OBEDECE AO BOTÃO DE PULO DEDICADO)
+    if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Jump"))
+    {
+        jumpBufferCounter = jumpBufferTime;
+    }
+    else
+    {
+        jumpBufferCounter -= Time.deltaTime;
+    }
+
+    // Attack cancel timer (continua igual)
+    if (canCancelAttack)
+    {
+        attackCancelTimer -= Time.deltaTime;
+        if (attackCancelTimer <= 0)
         {
-            coyoteTimeCounter = coyoteTime;
-        }
-        else
-        {
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-            
-        // Jump buffer
-        if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Up"))
-        {
-            jumpBufferCounter = jumpBufferTime;
-        }
-        else
-        {
-            jumpBufferCounter -= Time.deltaTime;
-        }
-            
-        // Attack cancel timer
-        if (canCancelAttack)
-        {
-            attackCancelTimer -= Time.deltaTime;
-            if (attackCancelTimer <= 0)
-            {
-                canCancelAttack = false;
-            }
+            canCancelAttack = false;
         }
     }
+}
 
     IEnumerator PerformAttack(GameObject hitbox, string triggerName)
     {

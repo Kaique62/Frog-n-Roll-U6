@@ -711,6 +711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuContainer: {fileID: 282469206705153975}
   backgroundImage: {fileID: 1755752892725544866}
+  mobileControls: {fileID: 0}
   animDuration: 0.5
   fadeDuration: 0.5
   hiddenPos: {x: 0, y: 800}
@@ -816,7 +817,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 0, g: 0, b: 0, a: 1}
     m_HighlightedColor: {r: 0.5176471, g: 0.5176471, b: 0.5176471, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 0.34509805, g: 0.34509805, b: 0.34509805, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
