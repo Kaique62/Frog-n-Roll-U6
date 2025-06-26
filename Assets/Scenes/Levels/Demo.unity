@@ -13591,6 +13591,10 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4660907045904002063, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
+      propertyPath: jumpButton
+      value: 
+      objectReference: {fileID: 1149194644}
     - target: {fileID: 5621135663019350283, guid: 59913b3bc3b486d40a5aba7a79a9a116, type: 3}
       propertyPath: m_LocalPosition.x
       value: -53.16
@@ -14107,6 +14111,7 @@ MonoBehaviour:
   button2: {fileID: 1605210846}
   button3: {fileID: 1271478129}
   button4: {fileID: 0}
+  button5: {fileID: 0}
   joystickBackground: {fileID: 1725231866}
   controlCanvas: {fileID: 2061712296}
 --- !u!224 &2061712305 stripped

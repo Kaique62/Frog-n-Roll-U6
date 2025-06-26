@@ -136,12 +136,12 @@ public class PlayerController : MonoBehaviour
         }
 
         // Track jump input state
-        isJumpHeld = Input.GetKey(Controls.Jump) || MobileInput.GetHeld("Jump");
+        isJumpHeld = Input.GetKey(Controls.Jump) || (jumpButton != null && jumpButton.IsPressed);
         
         // Handle rope detachment separately as it overrides other states
         if (currentState == PlayerState.Swinging)
         {
-            if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Jump"))
+            if (Input.GetKeyDown(Controls.Jump) || (jumpButton != null && jumpButton.IsPressed))
             {
                 DetachFromRope();
             }
@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, -stompFallSpeed); // Apply downward velocity
                 
                 // Check for jump cancellation
-                if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Up"))
+                if (Input.GetKeyDown(Controls.Jump) || (jumpButton != null && jumpButton.IsPressed))
                 {
                     CancelCurrentAction();
                     HandleJump();
@@ -442,7 +442,7 @@ private void HandleAttack()
             activeActionRoutine = StartCoroutine(PerformRoll());
         }
         // Cancel into a Jump
-        else if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Up"))
+        else if (Input.GetKeyDown(Controls.Jump) || (jumpButton != null && jumpButton.IsPressed))
         {
             CancelCurrentAction();
             HandleJump();

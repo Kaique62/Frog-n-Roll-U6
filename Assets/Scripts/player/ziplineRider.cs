@@ -15,6 +15,7 @@ public class PlayerZiplineController : MonoBehaviour
     /// Reference to the child collider used to detect grabbing the zipline.
     /// </summary>
     public Transform ropeGrabCollider;
+    public MobileButton jumpButton;
 
     private Animator animator;
     private Rigidbody2D rb;
@@ -46,7 +47,7 @@ public class PlayerZiplineController : MonoBehaviour
             MoveOnZipline();
 
             // Jump off the zipline when pressing jump key or mobile up input
-            if (Input.GetKeyDown(Controls.Jump) || MobileInput.GetHeld("Up"))
+            if (Input.GetKeyDown(Controls.Jump)  || (jumpButton != null && jumpButton.IsPressed))
             {
                 ExitZipline();
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, 10f); // Apply jump velocity upwards
